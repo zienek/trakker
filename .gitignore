@@ -1,0 +1,8 @@
+# ignorujemy .o
+*.o
+#ignorujemy plik builda
+trakker
+
+*.moc*
+*.*~*
+
