@@ -54,6 +54,6 @@ void trakkercontroller::connectMua() {  // here connect all neccesary items
     QObject::connect( m_pWindow, SIGNAL(sigConnection()), m_pModel , SLOT(setConnection()));
     QObject::connect( m_pWindow, SIGNAL(sigDisconnect()), m_pModel , SLOT(setDisconnection()));
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->radioButton_1, SIGNAL(toggled(bool)),m_pModel, SLOT(setContinousCapturing(bool)));
-
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton, SIGNAL(pressed()) ,m_pModel, SLOT(runWindowing()));
 
 }

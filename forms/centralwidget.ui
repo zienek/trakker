@@ -42,13 +42,13 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>512</width>
+           <width>520</width>
            <height>128</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>512</width>
+           <width>520</width>
            <height>128</height>
           </size>
          </property>
@@ -75,13 +75,13 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>512</width>
+           <width>520</width>
            <height>128</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>512</width>
+           <width>520</width>
            <height>128</height>
           </size>
          </property>
@@ -108,13 +108,13 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>512</width>
+           <width>520</width>
            <height>128</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>512</width>
+           <width>520</width>
            <height>128</height>
           </size>
          </property>
@@ -141,13 +141,13 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>512</width>
+           <width>520</width>
            <height>128</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>512</width>
+           <width>520</width>
            <height>128</height>
           </size>
          </property>
@@ -253,7 +253,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="Input">
         <attribute name="title">
@@ -560,6 +560,19 @@
            <width>260</width>
            <height>128</height>
           </size>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>160</y>
+           <width>123</width>
+           <height>29</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Windowing</string>
          </property>
         </widget>
        </widget>

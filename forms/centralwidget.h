@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'centralwidget.ui'
 **
-** Created: Tue Oct 27 14:47:48 2009
+** Created: Wed Oct 28 02:32:14 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -19,6 +19,7 @@
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
+#include <QtGui/QPushButton>
 #include <QtGui/QRadioButton>
 #include <QtGui/QSlider>
 #include <QtGui/QSpacerItem>
@@ -70,6 +71,7 @@ public:
     QGraphicsView *graphicsView_6;
     QGraphicsView *graphicsView_7;
     QGraphicsView *graphicsView_8;
+    QPushButton *pushButton;
     QWidget *Correlation;
     QComboBox *comboBox_3;
     QGraphicsView *graphicsView_9;
@@ -104,8 +106,8 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(graphicsView_1->sizePolicy().hasHeightForWidth());
         graphicsView_1->setSizePolicy(sizePolicy);
-        graphicsView_1->setMinimumSize(QSize(512, 128));
-        graphicsView_1->setMaximumSize(QSize(512, 128));
+        graphicsView_1->setMinimumSize(QSize(520, 128));
+        graphicsView_1->setMaximumSize(QSize(520, 128));
 
         verticalLayout->addWidget(graphicsView_1);
 
@@ -123,8 +125,8 @@ public:
         graphicsView_2->setObjectName(QString::fromUtf8("graphicsView_2"));
         sizePolicy.setHeightForWidth(graphicsView_2->sizePolicy().hasHeightForWidth());
         graphicsView_2->setSizePolicy(sizePolicy);
-        graphicsView_2->setMinimumSize(QSize(512, 128));
-        graphicsView_2->setMaximumSize(QSize(512, 128));
+        graphicsView_2->setMinimumSize(QSize(520, 128));
+        graphicsView_2->setMaximumSize(QSize(520, 128));
 
         verticalLayout->addWidget(graphicsView_2);
 
@@ -142,8 +144,8 @@ public:
         graphicsView_3->setObjectName(QString::fromUtf8("graphicsView_3"));
         sizePolicy.setHeightForWidth(graphicsView_3->sizePolicy().hasHeightForWidth());
         graphicsView_3->setSizePolicy(sizePolicy);
-        graphicsView_3->setMinimumSize(QSize(512, 128));
-        graphicsView_3->setMaximumSize(QSize(512, 128));
+        graphicsView_3->setMinimumSize(QSize(520, 128));
+        graphicsView_3->setMaximumSize(QSize(520, 128));
 
         verticalLayout->addWidget(graphicsView_3);
 
@@ -161,8 +163,8 @@ public:
         graphicsView_4->setObjectName(QString::fromUtf8("graphicsView_4"));
         sizePolicy.setHeightForWidth(graphicsView_4->sizePolicy().hasHeightForWidth());
         graphicsView_4->setSizePolicy(sizePolicy);
-        graphicsView_4->setMinimumSize(QSize(512, 128));
-        graphicsView_4->setMaximumSize(QSize(512, 128));
+        graphicsView_4->setMinimumSize(QSize(520, 128));
+        graphicsView_4->setMaximumSize(QSize(520, 128));
 
         verticalLayout->addWidget(graphicsView_4);
 
@@ -268,6 +270,9 @@ public:
         graphicsView_8->setGeometry(QRect(280, 440, 260, 128));
         graphicsView_8->setMinimumSize(QSize(260, 128));
         graphicsView_8->setMaximumSize(QSize(260, 128));
+        pushButton = new QPushButton(Windowing);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        pushButton->setGeometry(QRect(50, 160, 123, 29));
         tabWidget->addTab(Windowing, QString());
         Correlation = new QWidget();
         Correlation->setObjectName(QString::fromUtf8("Correlation"));
@@ -299,7 +304,7 @@ public:
 
         retranslateUi(centralWidget);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(centralWidget);
@@ -345,6 +350,7 @@ public:
          << QApplication::translate("centralWidget", "Blackman-Nuttall", 0, QApplication::UnicodeUTF8)
         );
         label_5->setText(QApplication::translate("centralWidget", "Signals after windowing", 0, QApplication::UnicodeUTF8));
+        pushButton->setText(QApplication::translate("centralWidget", "Windowing", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(Windowing), QApplication::translate("centralWidget", "Windowing", 0, QApplication::UnicodeUTF8));
         comboBox_3->clear();
         comboBox_3->insertItems(0, QStringList()
