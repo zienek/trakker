@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'centralwidget.ui'
 **
-** Created: Fri Oct 23 01:26:58 2009
+** Created: Tue Oct 27 14:47:48 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -18,9 +18,7 @@
 #include <QtGui/QGraphicsView>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
-#include <QtGui/QLCDNumber>
 #include <QtGui/QLabel>
-#include <QtGui/QPushButton>
 #include <QtGui/QRadioButton>
 #include <QtGui/QSlider>
 #include <QtGui/QSpacerItem>
@@ -62,8 +60,6 @@ public:
     QLabel *label_6;
     QRadioButton *radioButton_1;
     QRadioButton *radioButton_2;
-    QLCDNumber *lcdNumber;
-    QPushButton *pushButton;
     QLabel *label_7;
     QWidget *Windowing;
     QLabel *label;
@@ -84,7 +80,7 @@ public:
     {
         if (centralWidget->objectName().isEmpty())
             centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        centralWidget->resize(911, 728);
+        centralWidget->resize(1123, 728);
         horizontalLayout_2 = new QHBoxLayout(centralWidget);
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         horizontalLayout = new QHBoxLayout();
@@ -108,8 +104,8 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(graphicsView_1->sizePolicy().hasHeightForWidth());
         graphicsView_1->setSizePolicy(sizePolicy);
-        graphicsView_1->setMinimumSize(QSize(300, 150));
-        graphicsView_1->setMaximumSize(QSize(300, 150));
+        graphicsView_1->setMinimumSize(QSize(512, 128));
+        graphicsView_1->setMaximumSize(QSize(512, 128));
 
         verticalLayout->addWidget(graphicsView_1);
 
@@ -127,8 +123,8 @@ public:
         graphicsView_2->setObjectName(QString::fromUtf8("graphicsView_2"));
         sizePolicy.setHeightForWidth(graphicsView_2->sizePolicy().hasHeightForWidth());
         graphicsView_2->setSizePolicy(sizePolicy);
-        graphicsView_2->setMinimumSize(QSize(300, 150));
-        graphicsView_2->setMaximumSize(QSize(300, 150));
+        graphicsView_2->setMinimumSize(QSize(512, 128));
+        graphicsView_2->setMaximumSize(QSize(512, 128));
 
         verticalLayout->addWidget(graphicsView_2);
 
@@ -146,8 +142,8 @@ public:
         graphicsView_3->setObjectName(QString::fromUtf8("graphicsView_3"));
         sizePolicy.setHeightForWidth(graphicsView_3->sizePolicy().hasHeightForWidth());
         graphicsView_3->setSizePolicy(sizePolicy);
-        graphicsView_3->setMinimumSize(QSize(300, 150));
-        graphicsView_3->setMaximumSize(QSize(300, 150));
+        graphicsView_3->setMinimumSize(QSize(512, 128));
+        graphicsView_3->setMaximumSize(QSize(512, 128));
 
         verticalLayout->addWidget(graphicsView_3);
 
@@ -165,8 +161,8 @@ public:
         graphicsView_4->setObjectName(QString::fromUtf8("graphicsView_4"));
         sizePolicy.setHeightForWidth(graphicsView_4->sizePolicy().hasHeightForWidth());
         graphicsView_4->setSizePolicy(sizePolicy);
-        graphicsView_4->setMinimumSize(QSize(300, 150));
-        graphicsView_4->setMaximumSize(QSize(300, 150));
+        graphicsView_4->setMinimumSize(QSize(512, 128));
+        graphicsView_4->setMaximumSize(QSize(512, 128));
 
         verticalLayout->addWidget(graphicsView_4);
 
@@ -223,18 +219,15 @@ public:
         radioButton_1->setObjectName(QString::fromUtf8("radioButton_1"));
         radioButton_1->setEnabled(true);
         radioButton_1->setGeometry(QRect(20, 30, 271, 23));
+        radioButton_1->setChecked(true);
+        radioButton_1->setAutoExclusive(true);
         radioButton_2 = new QRadioButton(Input);
         radioButton_2->setObjectName(QString::fromUtf8("radioButton_2"));
         radioButton_2->setGeometry(QRect(20, 60, 271, 23));
-        lcdNumber = new QLCDNumber(Input);
-        lcdNumber->setObjectName(QString::fromUtf8("lcdNumber"));
-        lcdNumber->setGeometry(QRect(220, 220, 64, 23));
-        pushButton = new QPushButton(Input);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-        pushButton->setGeometry(QRect(50, 220, 105, 25));
+        radioButton_2->setAutoExclusive(true);
         label_7 = new QLabel(Input);
         label_7->setObjectName(QString::fromUtf8("label_7"));
-        label_7->setGeometry(QRect(150, 370, 251, 71));
+        label_7->setGeometry(QRect(20, 180, 251, 71));
         tabWidget->addTab(Input, QString());
         Windowing = new QWidget();
         Windowing->setObjectName(QString::fromUtf8("Windowing"));
@@ -257,24 +250,24 @@ public:
         label_5->setGeometry(QRect(160, 260, 201, 18));
         graphicsView_5 = new QGraphicsView(Windowing);
         graphicsView_5->setObjectName(QString::fromUtf8("graphicsView_5"));
-        graphicsView_5->setGeometry(QRect(10, 290, 260, 100));
-        graphicsView_5->setMinimumSize(QSize(260, 100));
-        graphicsView_5->setMaximumSize(QSize(260, 100));
+        graphicsView_5->setGeometry(QRect(10, 290, 260, 128));
+        graphicsView_5->setMinimumSize(QSize(260, 128));
+        graphicsView_5->setMaximumSize(QSize(260, 128));
         graphicsView_6 = new QGraphicsView(Windowing);
         graphicsView_6->setObjectName(QString::fromUtf8("graphicsView_6"));
-        graphicsView_6->setGeometry(QRect(280, 290, 260, 100));
-        graphicsView_6->setMinimumSize(QSize(260, 100));
-        graphicsView_6->setMaximumSize(QSize(260, 100));
+        graphicsView_6->setGeometry(QRect(280, 290, 260, 128));
+        graphicsView_6->setMinimumSize(QSize(260, 128));
+        graphicsView_6->setMaximumSize(QSize(260, 128));
         graphicsView_7 = new QGraphicsView(Windowing);
         graphicsView_7->setObjectName(QString::fromUtf8("graphicsView_7"));
-        graphicsView_7->setGeometry(QRect(10, 410, 260, 100));
-        graphicsView_7->setMinimumSize(QSize(260, 100));
-        graphicsView_7->setMaximumSize(QSize(260, 100));
+        graphicsView_7->setGeometry(QRect(10, 440, 260, 128));
+        graphicsView_7->setMinimumSize(QSize(260, 128));
+        graphicsView_7->setMaximumSize(QSize(260, 128));
         graphicsView_8 = new QGraphicsView(Windowing);
         graphicsView_8->setObjectName(QString::fromUtf8("graphicsView_8"));
-        graphicsView_8->setGeometry(QRect(280, 410, 260, 100));
-        graphicsView_8->setMinimumSize(QSize(260, 100));
-        graphicsView_8->setMaximumSize(QSize(260, 100));
+        graphicsView_8->setGeometry(QRect(280, 440, 260, 128));
+        graphicsView_8->setMinimumSize(QSize(260, 128));
+        graphicsView_8->setMaximumSize(QSize(260, 128));
         tabWidget->addTab(Windowing, QString());
         Correlation = new QWidget();
         Correlation->setObjectName(QString::fromUtf8("Correlation"));
@@ -306,7 +299,7 @@ public:
 
         retranslateUi(centralWidget);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(centralWidget);
@@ -333,7 +326,6 @@ public:
         label_6->setText(QApplication::translate("centralWidget", "Sampling rate", 0, QApplication::UnicodeUTF8));
         radioButton_1->setText(QApplication::translate("centralWidget", "Single event processing", 0, QApplication::UnicodeUTF8));
         radioButton_2->setText(QApplication::translate("centralWidget", "Continuous signal processing", 0, QApplication::UnicodeUTF8));
-        pushButton->setText(QApplication::translate("centralWidget", "Latch", 0, QApplication::UnicodeUTF8));
         label_7->setText(QApplication::translate("centralWidget", "TODO: Save triggered signals\n"
 " and load saved signals", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(Input), QApplication::translate("centralWidget", "Input", 0, QApplication::UnicodeUTF8));

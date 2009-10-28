@@ -59,9 +59,8 @@ protected:
 
 private slots:
     void about()        ;
-    //void increment()  ;
-    void start()        ;
-    void stop()         ;
+    void startTransfer();
+    void stopTransfer() ;
     void windowSlot()   ;
     void correlation()  ;
     void connection()   ;
@@ -101,9 +100,8 @@ private:
     int counter1; // to text signal/slot behaviour
 
 signals:
-    //void sigTrigger(int counter1);
-    void sigStart();
-    void sigStop();
+    void sigStartTransfer();
+    void sigStopTransfer();
     void sigWindow();
     void sigCorrelation();
     void sigConnection();
@@ -112,18 +110,3 @@ signals:
 };
 
 #endif
-
-
-/*
-#ifndef TRAKKER_H
-#define TRAKKER_H
-
-class trakker
-{
-public:
-    trakker();
-};
-
-#endif // TRAKKER_H
-*/
-

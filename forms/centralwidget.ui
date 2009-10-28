@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>911</width>
+    <width>1123</width>
     <height>728</height>
    </rect>
   </property>
@@ -42,14 +42,14 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>300</width>
-           <height>150</height>
+           <width>512</width>
+           <height>128</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>300</width>
-           <height>150</height>
+           <width>512</width>
+           <height>128</height>
           </size>
          </property>
         </widget>
@@ -75,14 +75,14 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>300</width>
-           <height>150</height>
+           <width>512</width>
+           <height>128</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>300</width>
-           <height>150</height>
+           <width>512</width>
+           <height>128</height>
           </size>
          </property>
         </widget>
@@ -108,14 +108,14 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>300</width>
-           <height>150</height>
+           <width>512</width>
+           <height>128</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>300</width>
-           <height>150</height>
+           <width>512</width>
+           <height>128</height>
           </size>
          </property>
         </widget>
@@ -141,14 +141,14 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>300</width>
-           <height>150</height>
+           <width>512</width>
+           <height>128</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>300</width>
-           <height>150</height>
+           <width>512</width>
+           <height>128</height>
           </size>
          </property>
         </widget>
@@ -253,7 +253,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="Input">
         <attribute name="title">
@@ -322,6 +322,12 @@
          <property name="text">
           <string>Single event processing</string>
          </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+         <property name="autoExclusive">
+          <bool>true</bool>
+         </property>
         </widget>
         <widget class="QRadioButton" name="radioButton_2">
          <property name="geometry">
@@ -335,35 +341,15 @@
          <property name="text">
           <string>Continuous signal processing</string>
          </property>
-        </widget>
-        <widget class="QLCDNumber" name="lcdNumber">
-         <property name="geometry">
-          <rect>
-           <x>220</x>
-           <y>220</y>
-           <width>64</width>
-           <height>23</height>
-          </rect>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton">
-         <property name="geometry">
-          <rect>
-           <x>50</x>
-           <y>220</y>
-           <width>105</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Latch</string>
+         <property name="autoExclusive">
+          <bool>true</bool>
          </property>
         </widget>
         <widget class="QLabel" name="label_7">
          <property name="geometry">
           <rect>
-           <x>150</x>
-           <y>370</y>
+           <x>20</x>
+           <y>180</y>
            <width>251</width>
            <height>71</height>
           </rect>
@@ -494,19 +480,19 @@
            <x>10</x>
            <y>290</y>
            <width>260</width>
-           <height>100</height>
+           <height>128</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
            <width>260</width>
-           <height>100</height>
+           <height>128</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>260</width>
-           <height>100</height>
+           <height>128</height>
           </size>
          </property>
         </widget>
@@ -516,19 +502,19 @@
            <x>280</x>
            <y>290</y>
            <width>260</width>
-           <height>100</height>
+           <height>128</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
            <width>260</width>
-           <height>100</height>
+           <height>128</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>260</width>
-           <height>100</height>
+           <height>128</height>
           </size>
          </property>
         </widget>
@@ -536,21 +522,21 @@
          <property name="geometry">
           <rect>
            <x>10</x>
-           <y>410</y>
+           <y>440</y>
            <width>260</width>
-           <height>100</height>
+           <height>128</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
            <width>260</width>
-           <height>100</height>
+           <height>128</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>260</width>
-           <height>100</height>
+           <height>128</height>
           </size>
          </property>
         </widget>
@@ -558,21 +544,21 @@
          <property name="geometry">
           <rect>
            <x>280</x>
-           <y>410</y>
+           <y>440</y>
            <width>260</width>
-           <height>100</height>
+           <height>128</height>
           </rect>
          </property>
          <property name="minimumSize">
           <size>
            <width>260</width>
-           <height>100</height>
+           <height>128</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>260</width>
-           <height>100</height>
+           <height>128</height>
           </size>
          </property>
         </widget>

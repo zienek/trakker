@@ -41,12 +41,11 @@ trakkercontroller * trakkercontroller::instance() {
 
 void trakkercontroller::connectMua() {  // here connect all neccesary items
     assert ( m_pWindow && m_pModel ) ;
-   // QObject::connect( m_pWindow, SIGNAL(sigTrigger(int)), m_pModel, SLOT(triggerSignal())) ;
     QObject::connect( m_pModel ,  SIGNAL(sigDrawLine(int, int, int, int, int)), m_pWindow, SLOT(drawLine(int, int, int, int, int))) ;
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->comboBox, SIGNAL(highlighted(int)), m_pModel, SLOT(setWindowing(int))) ;
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->comboBox, SIGNAL(currentIndexChanged(int)), m_pModel, SLOT(setWindowing(int))) ;
-    QObject::connect( m_pWindow, SIGNAL(sigStart()), m_pModel, SLOT(start()));
-    QObject::connect( m_pWindow, SIGNAL(sigStop()), m_pModel, SLOT(stop()));
+    QObject::connect( m_pWindow, SIGNAL(sigStartTransfer()), m_pModel, SLOT(startTransfer()));
+    QObject::connect( m_pWindow, SIGNAL(sigStopTransfer()), m_pModel, SLOT(stopTransfer()));
     QObject::connect( m_pWindow, SIGNAL(sigWindow()) , m_pModel, SLOT(runWindowing()));
     QObject::connect( m_pWindow, SIGNAL(sigCorrelation()) , m_pModel, SLOT(runCorrelation()));
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->comboBox_3, SIGNAL(highlighted(int)), m_pModel, SLOT(setCorrelation(int)));
@@ -54,26 +53,7 @@ void trakkercontroller::connectMua() {  // here connect all neccesary items
     QObject::connect( m_pModel , SIGNAL(sigSetStatus(QString, int)) , m_pWindow , SLOT(setStatus(QString, int)));
     QObject::connect( m_pWindow, SIGNAL(sigConnection()), m_pModel , SLOT(setConnection()));
     QObject::connect( m_pWindow, SIGNAL(sigDisconnect()), m_pModel , SLOT(setDisconnection()));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->radioButton_1, SIGNAL(toggled(bool)),m_pModel, SLOT(setContinousCapturing(bool)));
 
-    //QObject::connect( m_pModel , SIGNAL(sigClearGraphicsView(int)), m_pWindow, SLOT(clear()))
 
 }
-
-
-
-/*
-
-#include "trakkercontroller.h"
-#include "ui_centralwidget.h"
-
-trakkercontroller::trakkercontroller(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::trakkercontroller)
-{
-    ui->setupUi(this);
-}
-
-trakkercontroller::~trakkercontroller()
-{
-    delete ui;
-}
-*/

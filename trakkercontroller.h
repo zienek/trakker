@@ -48,32 +48,3 @@ private:
 };
 
 #endif
-
-
-
-
-/*#ifndef TRAKKERCONTROLLER_H
-#define TRAKKERCONTROLLER_H
-
-#include <QtGui/QMainWindow>
-
-namespace Ui
-{
-    class trakkercontroller;
-}
-
-class trakkercontroller : public QMainWindow
-{
-    Q_OBJECT
-
-public:
-    trakkercontroller(QWidget *parent = 0);
-    ~trakkercontroller();
-
-private:
-    Ui::trakkercontroller *ui;
-};
-
-#endif // TRAKKERCONTROLLER_H
-*/
-

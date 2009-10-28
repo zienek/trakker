@@ -26,13 +26,13 @@
 #include <QString>
 #include <QByteArray>
 #include <QDebug>
+#include <QTime>
 
-static QTcpSocket * q_pSocket = new QTcpSocket();
-
-static const int windowPlotWidth   = 128;
+static const int windowPlotWidth      = 128;
 static const int correlationPlotWidth = 512 ;
-static const int windowedPlotWidth = 220;
-static const int bufferSize        = 512;
+static const int windowedPlotWidth    = 220;
+static const int inputPlotWidth       = 512;
+static const int bufferSize           = 512;
 
 static const float rectangularWindow [512] = {
 0.000001, 0.000001, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000,
@@ -562,9 +562,6 @@ static const float blackmanHarrisWindow [512] = {
 0.000581, 0.000509, 0.000444, 0.000384, 0.000330, 0.000282, 0.000238, 0.000200,
 0.000167, 0.000138, 0.000114, 0.000094, 0.000079, 0.000069, 0.000062, 0.000060};
 
-float sinusik [bufferSize][5]; // temporary input
-
-
 
 QByteArray czop(const QByteArray & str){  // this function chop all characters from QByteArray which are not Digits
     QByteArray ret;
@@ -577,150 +574,55 @@ QByteArray czop(const QByteArray & str){  // this function chop all characters f
 }
 
 trakkermodel::trakkermodel(){
-    windowType       = 0            ;
-    correlationType  = 0            ;
-    stateOfHandling  = 0            ;
-    tcpServerAddress = "192.168.1.5"; //deprecated conversion
-    tcpPort          = 40000        ;
-    connectionState  = 0            ;
-//    inputData        = new QByteArray [512*4];
+    connectionState     = 0            ;
+    continousCapturing  = FALSE        ;
+    continousCaptureReq = FALSE        ;
+    correlationType     = 0            ;
+    stateOfHandling     = 0            ;
+    tcpServerAddress    = "192.168.1.5";
+    tcpPort             = 40000        ;
+    windowType          = 0            ;
 
-    //int * inputData  = new int( 5*sizeof(int) );
+    inputData.resize(4*2*bufferSize)  ;
 
+    q_pSocket = new QTcpSocket(this);
+
+    connect ( q_pSocket, SIGNAL(readyRead()), this,SLOT(readTcp()));
 }
 
 trakkermodel::~trakkermodel(){
+    q_pSocket->abort();
 }
 
-void trakkermodel::handleInputData( int flag ){ // TODO = handle data from ethernet
+void trakkermodel::clearDisplay(){
+    emit sigDrawLine(0,0,0,0,0);
+    emit sigDrawLine(1,0,0,0,0);
+    emit sigDrawLine(2,0,0,0,0);
+    emit sigDrawLine(3,0,0,0,0);
+}
+
+void trakkermodel::displayInput(){
+    for (int i = 0 ; i< inputPlotWidth -1 ; i++){
+        emit sigDrawLine(0, i, m_triggeredData[i]/8, i+1,  m_triggeredData[i+1]/8 );
+        emit sigDrawLine(1, i, m_triggeredData[bufferSize+i]/8, i+1,  m_triggeredData[bufferSize+i+1]/8 );
+        emit sigDrawLine(2, i, m_triggeredData[bufferSize+bufferSize+i]/8, i+1,  m_triggeredData[bufferSize+bufferSize+i+1]/8 );
+        emit sigDrawLine(3, i, (int)m_triggeredData[bufferSize+bufferSize+bufferSize+i]/8, i+1,  (int)m_triggeredData[bufferSize+bufferSize+bufferSize+i+1]/8 );
+
+    }
+}
+
+void trakkermodel::handleInputData( ){ // handle data from ethernet
 
     if ( connectionState < 1 ){ // not connected or failed
         emit sigSetStatus("Connect to server via Ethernet before capturing data",4000);
 
     }else{
         if(connectionState == 1){ // is connected
-            emit sigSetStatus("Connected and capturing data",4000);
-
             QByteArray command("",4);
-            quint64 sizeOfBuffer;
-
-            sizeOfBuffer = q_pSocket->bytesAvailable();
-
             if ( -1 == q_pSocket->write(command))
                 qDebug() << "error " ;
-
-            if (1 == q_pSocket->waitForReadyRead(300)){
-                inputData = q_pSocket->read(sizeOfBuffer);
-            }
-
-        }
-
-        char tmp1, tmp2 ;
-        int  value ;
-        for (int i = 0 ; i< 289 ; ++i){
-            sinusik[i][0] = i;
-            tmp1 = inputData.at(i);    //toInt(ok,10);
-            tmp2 = inputData.at(i + 1);
-            value = 256* atoi(&tmp1) + atoi(&tmp2);
-
-            sinusik[i][1] = value ;
-
-        }
-
-        for (int i = 0 ; i< 289 ; ++i) // plotting sinusik function
-        {
-            emit sigDrawLine(0, sinusik[i][0],  sinusik[i][1], sinusik[i+1][0],  sinusik[i+1][1] );
-            emit sigDrawLine(1, sinusik[i][0],  sinusik[i][2], sinusik[i+1][0],  sinusik[i+1][2] );
-            emit sigDrawLine(2, sinusik[i][0],  sinusik[i][3], sinusik[i+1][0],  sinusik[i+1][3] );
-            emit sigDrawLine(3, sinusik[i][0],  sinusik[i][4], sinusik[i+1][0],  sinusik[i+1][4] );
         }
     }
-
-
-//    if(flag==1){
-//        if (stateOfHandling!=1){
-//            stateOfHandling = 1;
-////            for (int i = 0 ; i < 512 ; ++i)  // calculating sinus function - as fake data
-////            {
-////                sinusik[i][0] = i;
-////                sinusik[i][1] = 50  * sin(i*M_PI/45);
-////                sinusik[i][2] = 50  * sin(i*M_PI/60);
-////                sinusik[i][3] = -50 * sin(i*M_PI/45);
-////                sinusik[i][4] = -50 * sin(i*M_PI/60);
-////            }
-//
-//
-//
-//            for (int i = 0 ; i< 289 ; ++i) // plotting sinusik function
-//            {
-//                emit sigDrawLine(0, sinusik[i][0],  sinusik[i][1], sinusik[i+1][0],  sinusik[i+1][1] );
-//                emit sigDrawLine(1, sinusik[i][0],  sinusik[i][2], sinusik[i+1][0],  sinusik[i+1][2] );
-//                emit sigDrawLine(2, sinusik[i][0],  sinusik[i][3], sinusik[i+1][0],  sinusik[i+1][3] );
-//                emit sigDrawLine(3, sinusik[i][0],  sinusik[i][4], sinusik[i+1][0],  sinusik[i+1][4] );
-//            }
-//        }
-//    }
-//    else if(flag==2){ // do nothing, clean scope 1-4
-//
-//        emit sigDrawLine(0, 0,0,0,0);
-//        emit sigDrawLine(1, 0,0,0,0);
-//        emit sigDrawLine(2, 0,0,0,0);
-//        emit sigDrawLine(3, 0,0,0,0);
-//
-//    }
-//    else if(flag==3){
-//        if (stateOfHandling !=3){
-//
-//            stateOfHandling = 3;
-//
-//            QFile file1("x.txt");
-//            QFile file2("y.txt");
-//            if ( !file1.open(QIODevice::ReadOnly | QIODevice::Text) || !file2.open(QIODevice::ReadOnly | QIODevice::Text))
-//                qDebug("Nie otwarto pliku, tu jest pies pogrzebion.");
-//            else{
-//                QByteArray dane1;
-//                QByteArray dane2;
-//                int  i = 0;
-//                float tmp1, tmp2 ;
-//                bool ok;
-//                dane1.resize(600); //bigger than needs to ease next few steps
-//                dane2.resize(600);
-//                dane1 = file1.readLine();
-//                dane2 = file2.readLine();
-//                dane1 = czop(dane1);
-//                dane2 = czop(dane2);
-//
-//                tmp1 = dane1.toFloat(&ok);
-//
-//                tmp2 = dane2.toFloat(&ok);
-//
-//                printf("WIelkosc z x.txt %f \n",tmp1); //dane1.toInt());
-//                printf("WIelkosc z y.txt %f \n",tmp2);
-//
-//                //qDebug("Before file read");
-//                while(!file1.atEnd() && i<bufferSize){
-//                    dane1 = czop(file1.readLine());
-//                    dane2 = czop(file2.readLine());
-//
-//                    sinusik[i][0] = i;
-//                    sinusik[i][1] = dane1.toFloat(&ok) / 10000;
-//                    sinusik[i][2] = dane2.toFloat(&ok) / 10000;
-//                    ++i;
-//                }
-//                //qDebug("After file read");
-//                file1.close();
-//                file2.close();
-//
-////                for (int i = 0 ; i< 289 ; ++i) // plotting sinusik function
-////                {
-////                        emit sigDrawLine(0, sinusik[i][0],  sinusik[i][1], sinusik[i+1][0],  sinusik[i+1][1] );
-////                        emit sigDrawLine(1, sinusik[i][0],  sinusik[i][2], sinusik[i+1][0],  sinusik[i+1][2] );
-////                        emit sigDrawLine(2, sinusik[i][0],  sinusik[i][3], sinusik[i+1][0],  sinusik[i+1][3] );
-////                        emit sigDrawLine(3, sinusik[i][0],  sinusik[i][4], sinusik[i+1][0],  sinusik[i+1][4] );
-////                }
-//            }
-//        }
-
 }
 
 void trakkermodel::setWindowing(int window){   // type i.e. 0 rectangular; 1 triangular; 2 blackman; 3 hamming; 4 gauss; 5 nuttall; 6 blackman-hamming; 7 blackman-nuttall
@@ -809,13 +711,15 @@ void trakkermodel::setCorrelation(int type){
     this->correlationType = type ;
 }
 
-void trakkermodel::start(){ // this function should initialize Ethernet, and all other stuff
+void trakkermodel::startTransfer(){ // this function should transfer data trough ethernet
+    continousCapturing = continousCaptureReq ;
     setWindowing(windowType);
-    handleInputData(3);
+    handleInputData();
 }
 
-void trakkermodel::stop(){
-    handleInputData(2);
+void trakkermodel::stopTransfer(){ // this function should stop capturing data
+    continousCapturing = 0 ;
+    handleInputData();
 }
 
 void trakkermodel::runCorrelation(){  // if all signals have to be processed ? or better (int int) choose 3 signals to process CrossCorrelation?
@@ -899,73 +803,73 @@ void trakkermodel::runWindowing(){
     {
         case 7:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = blackmanHarrisWindow[i] * sinusik[i][1];  //TODO -> zmienić nazwę buforów początkowych
-                this->windowedSignals[i][1] = blackmanHarrisWindow[i] * sinusik[i][2];
-                this->windowedSignals[i][2] = blackmanHarrisWindow[i] * sinusik[i][3];
-                this->windowedSignals[i][3] = blackmanHarrisWindow[i] * sinusik[i][4];
+                this->windowedSignals[i][0] = blackmanHarrisWindow[i] * m_triggeredData[i               ];
+                this->windowedSignals[i][1] = blackmanHarrisWindow[i] * m_triggeredData[i + bufferSize  ];
+                this->windowedSignals[i][2] = blackmanHarrisWindow[i] * m_triggeredData[i + bufferSize*2];
+                this->windowedSignals[i][3] = blackmanHarrisWindow[i] * m_triggeredData[i + bufferSize*3];
             }
             break;
 
         case 6:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = blackmanNuttallWindow[i] * sinusik[i][1];  //TODO -> zmienić nazwę buforów początkowych
-                this->windowedSignals[i][1] = blackmanNuttallWindow[i] * sinusik[i][2];
-                this->windowedSignals[i][2] = blackmanNuttallWindow[i] * sinusik[i][1];
-                this->windowedSignals[i][3] = blackmanNuttallWindow[i] * sinusik[i][1];
+                this->windowedSignals[i][0] = blackmanNuttallWindow[i] * m_triggeredData[i               ];
+                this->windowedSignals[i][1] = blackmanNuttallWindow[i] * m_triggeredData[i + bufferSize  ];
+                this->windowedSignals[i][2] = blackmanNuttallWindow[i] * m_triggeredData[i + bufferSize*2];
+                this->windowedSignals[i][3] = blackmanNuttallWindow[i] * m_triggeredData[i + bufferSize*3];
             }
             break;
 
         case 5:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = nuttallWindow[i] * sinusik[i][1];  //TODO -> zmienić nazwę buforów początkowych
-                this->windowedSignals[i][1] = nuttallWindow[i] * sinusik[i][2];
-                this->windowedSignals[i][2] = nuttallWindow[i] * sinusik[i][3];
-                this->windowedSignals[i][3] = nuttallWindow[i] * sinusik[i][4];
+                this->windowedSignals[i][0] = nuttallWindow[i] * m_triggeredData[i               ];
+                this->windowedSignals[i][1] = nuttallWindow[i] * m_triggeredData[i + bufferSize  ];
+                this->windowedSignals[i][2] = nuttallWindow[i] * m_triggeredData[i + bufferSize*2];
+                this->windowedSignals[i][3] = nuttallWindow[i] * m_triggeredData[i + bufferSize*3];
             }
             break;
 
         case 4:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = gaussWindow[i] * sinusik[i][1];  //TODO -> zmienić nazwę buforów początkowych
-                this->windowedSignals[i][1] = gaussWindow[i] * sinusik[i][2];
-                this->windowedSignals[i][2] = gaussWindow[i] * sinusik[i][3];
-                this->windowedSignals[i][3] = gaussWindow[i] * sinusik[i][4];
+                this->windowedSignals[i][0] = gaussWindow[i] * m_triggeredData[i                ];
+                this->windowedSignals[i][1] = gaussWindow[i] * m_triggeredData[i + bufferSize   ];
+                this->windowedSignals[i][2] = gaussWindow[i] * m_triggeredData[i + bufferSize*2 ];
+                this->windowedSignals[i][3] = gaussWindow[i] * m_triggeredData[i + bufferSize*3 ];
             }
             break;
 
         case 3:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = hammingWindow[i] * sinusik[i][1];  //TODO -> zmienić nazwę buforów początkowych
-                this->windowedSignals[i][1] = hammingWindow[i] * sinusik[i][2];
-                this->windowedSignals[i][2] = hammingWindow[i] * sinusik[i][3];
-                this->windowedSignals[i][3] = hammingWindow[i] * sinusik[i][4];
+                this->windowedSignals[i][0] = hammingWindow[i] * m_triggeredData[i                ];
+                this->windowedSignals[i][1] = hammingWindow[i] * m_triggeredData[i + bufferSize   ];
+                this->windowedSignals[i][2] = hammingWindow[i] * m_triggeredData[i + bufferSize*2 ];
+                this->windowedSignals[i][3] = hammingWindow[i] * m_triggeredData[i + bufferSize*3 ];
             }
             break;
 
         case 2:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = blackmanWindow[i] * sinusik[i][1];  //TODO -> zmienić nazwę buforów początkowych
-                this->windowedSignals[i][1] = blackmanWindow[i] * sinusik[i][2];
-                this->windowedSignals[i][2] = blackmanWindow[i] * sinusik[i][3];
-                this->windowedSignals[i][3] = blackmanWindow[i] * sinusik[i][4];
+                this->windowedSignals[i][0] = blackmanWindow[i] * m_triggeredData[i                ];
+                this->windowedSignals[i][1] = blackmanWindow[i] * m_triggeredData[i + bufferSize   ];
+                this->windowedSignals[i][2] = blackmanWindow[i] * m_triggeredData[i + bufferSize*2 ];
+                this->windowedSignals[i][3] = blackmanWindow[i] * m_triggeredData[i + bufferSize*3 ];
             }
             break;
 
         case 1:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = triangularWindow[i] * sinusik[i][1];  //TODO -> zmienić nazwę buforów początkowych
-                this->windowedSignals[i][1] = triangularWindow[i] * sinusik[i][2];
-                this->windowedSignals[i][2] = triangularWindow[i] * sinusik[i][3];
-                this->windowedSignals[i][3] = triangularWindow[i] * sinusik[i][4];
+                this->windowedSignals[i][0] = triangularWindow[i] * m_triggeredData[i                ];
+                this->windowedSignals[i][1] = triangularWindow[i] * m_triggeredData[i + bufferSize   ];
+                this->windowedSignals[i][2] = triangularWindow[i] * m_triggeredData[i + bufferSize*2 ];
+                this->windowedSignals[i][3] = triangularWindow[i] * m_triggeredData[i + bufferSize*3 ];
             }
             break;
 
         case 0:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = rectangularWindow[i] * sinusik[i][1];  //TODO -> zmienić nazwę buforów początkowych
-                this->windowedSignals[i][1] = rectangularWindow[i] * sinusik[i][2];
-                this->windowedSignals[i][2] = rectangularWindow[i] * sinusik[i][3];
-                this->windowedSignals[i][3] = rectangularWindow[i] * sinusik[i][4];
+                this->windowedSignals[i][0] = rectangularWindow[i] * m_triggeredData[i                ];
+                this->windowedSignals[i][1] = rectangularWindow[i] * m_triggeredData[i + bufferSize   ];
+                this->windowedSignals[i][2] = rectangularWindow[i] * m_triggeredData[i + bufferSize*2 ];
+                this->windowedSignals[i][3] = rectangularWindow[i] * m_triggeredData[i + bufferSize*3 ];
             }
             break;
 
@@ -1025,3 +929,36 @@ void trakkermodel::setDisconnection(){
 void trakkermodel::tcpError( QAbstractSocket::SocketError socketError ) {
     qDebug() << socketError ;
 }
+
+void trakkermodel::setContinousCapturing(bool flag){
+    this->continousCaptureReq  = flag;
+}
+
+void trakkermodel::readTcp(){
+  //  QTime start, stop ;
+  //  start =  QTime::currentTime();
+    QByteArray a = q_pSocket->read(q_pSocket->bytesAvailable());
+    if (a.size() % 2 == 0 ) {
+        for ( int i = 0 ; i < a.size() - 1 ; i+=2 ) {
+            char one =a.at(i);
+            char two = a.at(i+1) ;
+            m_parsedData.push_back( (short)((int)two)*256 + (int)one );
+        }
+        if (2048 == m_parsedData.size() ){
+            //q_pSocket->abort();             // flush all wastes TODO: clear all next data
+            if (continousCapturing )     // after each full data set ask kindly for next one
+                handleInputData();
+            m_triggeredData = m_parsedData;
+            m_parsedData.clear();
+            clearDisplay();
+            displayInput();
+        }
+    }
+  //  stop =  QTime::currentTime();
+  //  QTime asd = stop-start;
+  //  qDebug() << stop.msec() ;
+  //  qDebug() << start.msec() ;
+  //  qDebug() << stop.msec() - start.msec() ;
+  //  qDebug() <<m_parsedData;
+}
+

@@ -90,17 +90,15 @@ void trakker::createActions() // contains actions: About; About QT; Correlation;
     exitAct->setStatusTip(tr("Exit the application"));
     connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
 
-    startAct = new QAction(tr("Start&"),this);                          // start receiving data from ethernet connection
+    startAct = new QAction(tr("Start"),this);                          // start receiving data from ethernet connection
     startAct->setStatusTip(tr("Start Gathering Input Data"));
-    //startAct->setShortcut(tr("s"));
-    startAct->setShortcut(tr("S"));
-    connect(startAct,SIGNAL(triggered()),this,SLOT(start()));
+    startAct->setShortcut(tr("s"));
+    connect(startAct,SIGNAL(triggered()),this,SLOT(startTransfer()));
 
-    stopAct = new QAction(tr("Stop&"),this);                            // stops receiving data from ethernet
+    stopAct = new QAction(tr("Stop"),this);                            // stops receiving data from ethernet
     stopAct->setStatusTip(tr("Start Gathering Input Data"));
-    stopAct->setShortcut(tr("Shift+s"));
-    stopAct->setShortcut(tr("Shift+S"));
-    connect(stopAct,SIGNAL(triggered()),this,SLOT(stop()));
+    stopAct->setShortcut(tr("Ctrl+s"));
+    connect(stopAct,SIGNAL(triggered()),this,SLOT(stopTransfer()));
 
     windowAct = new QAction(tr("&Windowing"),this);                     // runs windowing algorithm
     windowAct->setShortcut(tr("w"));
@@ -128,8 +126,12 @@ void trakker::createMenus()
 void trakker::createToolBars()
 {
     firstToolBar = addToolBar(tr("General"));
+    firstToolBar->addAction(connectionAct);
+    firstToolBar->addAction(disconnectionAct);
     firstToolBar->addAction(startAct);
     firstToolBar->addAction(stopAct);
+    firstToolBar->addAction(windowAct);
+    firstToolBar->addAction(correlationAct);
     firstToolBar->addAction(exitAct);
 }
 
@@ -191,14 +193,12 @@ void trakker::setStatus(QString text, int sec){
     statusBar()->showMessage(text, sec);
 }
 
-void trakker::start(){
-    emit sigStart();
-    statusBar()->showMessage(tr("Gathering input samples started."));
+void trakker::startTransfer(){
+    emit sigStartTransfer();
 }
 
-void trakker::stop(){
-    emit sigStop();
-    statusBar()->showMessage(tr("Gathering input samples stopped."));
+void trakker::stopTransfer(){
+    emit sigStopTransfer();
 }
 
 void trakker::windowSlot(){
