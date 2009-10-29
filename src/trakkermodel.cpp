@@ -30,7 +30,7 @@
 
 static const int windowPlotWidth      = 128;
 static const int correlationPlotWidth = 512 ;
-static const int windowedPlotWidth    = 220;
+static const int windowedPlotWidth    = 252;
 static const int inputPlotWidth       = 512;
 static const int bufferSize           = 512;
 
@@ -602,12 +602,12 @@ void trakkermodel::clearDisplay(){
 }
 
 void trakkermodel::displayInput(){
+    qDebug() << "displaying";
     for (int i = 0 ; i< inputPlotWidth -1 ; i++){
-        emit sigDrawLine(0, i, m_triggeredData[i]/8, i+1,  m_triggeredData[i+1]/8 );
-        emit sigDrawLine(1, i, m_triggeredData[bufferSize+i]/8, i+1,  m_triggeredData[bufferSize+i+1]/8 );
-        emit sigDrawLine(2, i, m_triggeredData[bufferSize+bufferSize+i]/8, i+1,  m_triggeredData[bufferSize+bufferSize+i+1]/8 );
-        emit sigDrawLine(3, i, (int)m_triggeredData[bufferSize+bufferSize+bufferSize+i]/8, i+1,  (int)m_triggeredData[bufferSize+bufferSize+bufferSize+i+1]/8 );
-
+        emit sigDrawLine(0, i, m_triggeredData[i]/8, i+1,                                  m_triggeredData[i+1]/8 );
+        emit sigDrawLine(1, i, m_triggeredData[bufferSize+i]/8, i+1,                       m_triggeredData[bufferSize+i+1]/8 );
+        emit sigDrawLine(2, i, m_triggeredData[bufferSize+bufferSize+i]/8, i+1,            m_triggeredData[bufferSize+bufferSize+i+1]/8 );
+        emit sigDrawLine(3, i, m_triggeredData[bufferSize+bufferSize+bufferSize+i]/8, i+1, m_triggeredData[bufferSize+bufferSize+bufferSize+i+1]/8 );
     }
 }
 
@@ -773,7 +773,7 @@ void trakkermodel::runCorrelation(){  // if all signals have to be processed ? o
                     correlatedSignals[j] += (windowedSignals[j][0] - meanA)* (windowedSignals[i][1] - meanB);
                 }
                 //correlatedSignals[j] /= divider ;
-                qDebug("%d. %f", j, 100*correlatedSignals[j]);
+                //qDebug("%d. %f", j, 100*correlatedSignals[j]);
             }
             qDebug("\nswitch (this->correlationType) case 0");
             break;
@@ -884,10 +884,10 @@ void trakkermodel::runWindowing(){
     emit sigDrawLine(8,0,0,0,0); //clear windowedSignal plot area ;
 
     for(int i = 0 ; i < windowedPlotWidth -1 ; i++){
-        emit sigDrawLine(5,i  ,50- this->windowedSignals[2*i][0] , i+1 ,50- windowedSignals[2*i + 2][0]);
-        emit sigDrawLine(6,i  ,50- this->windowedSignals[2*i][1] , i+1 ,50- windowedSignals[2*i + 2][1]);
-        emit sigDrawLine(7,i  ,50- this->windowedSignals[2*i][2] , i+1 ,50- windowedSignals[2*i + 2][2]);
-        emit sigDrawLine(8,i  ,50- this->windowedSignals[2*i][3] , i+1 ,50- windowedSignals[2*i + 2][3]);
+        emit sigDrawLine(5,i  ,127- this->windowedSignals[2*i][0]/8 , i+1 ,127- windowedSignals[2*i + 2][0]/8);
+        emit sigDrawLine(6,i  ,127- this->windowedSignals[2*i][1]/8 , i+1 ,127- windowedSignals[2*i + 2][1]/8);
+        emit sigDrawLine(7,i  ,127- this->windowedSignals[2*i][2]/8 , i+1 ,127- windowedSignals[2*i + 2][2]/8);
+        emit sigDrawLine(8,i  ,127- this->windowedSignals[2*i][3]/8 , i+1 ,127- windowedSignals[2*i + 2][3]/8);
     }
 }
 
@@ -930,29 +930,44 @@ void trakkermodel::tcpError( QAbstractSocket::SocketError socketError ) {
     qDebug() << socketError ;
 }
 
-void trakkermodel::setContinousCapturing(bool flag){
+void trakkermodel::setContinousCapturing(bool flag){   //TODO continous capturing
     this->continousCaptureReq  = flag;
 }
 
 void trakkermodel::readTcp(){
   //  QTime start, stop ;
   //  start =  QTime::currentTime();
-    QByteArray a = q_pSocket->read(q_pSocket->bytesAvailable());
-    if (a.size() % 2 == 0 ) {
-        for ( int i = 0 ; i < a.size() - 1 ; i+=2 ) {
-            char one =a.at(i);
-            char two = a.at(i+1) ;
+    QByteArray m_tcpBuffer = q_pSocket->read(q_pSocket->bytesAvailable());
+    if (m_tcpBuffer.size() % 2 == 0 ) { // if 'a' has even elements
+        for ( int i = 0 ; i < m_tcpBuffer.size() - 1 ; i+=2 ) {
+            char one =m_tcpBuffer.at(i);
+            char two = m_tcpBuffer.at(i+1) ;
             m_parsedData.push_back( (short)((int)two)*256 + (int)one );
         }
-        if (2048 == m_parsedData.size() ){
-            //q_pSocket->abort();             // flush all wastes TODO: clear all next data
-            if (continousCapturing )     // after each full data set ask kindly for next one
-                handleInputData();
-            m_triggeredData = m_parsedData;
-            m_parsedData.clear();
-            clearDisplay();
-            displayInput();
+    }else{ //if 'a' has odd elements
+        for ( int i = 0 ; i < m_tcpBuffer.size() - 1 ; i+=2 ) {
+            char one =m_tcpBuffer.at(i);
+            char two = m_tcpBuffer.at(i+1) ;
+            m_parsedData.push_back( (short)((int)two)*256 + (int)one );
         }
+
+    }
+
+    if ( (4*bufferSize) < m_parsedData.size() ){ // if there is enough elements to fill the m_triggeredData data set - Just do it.
+
+
+
+        m_triggeredData = m_parsedData;
+
+        m_triggeredData.remove(2048 , m_parsedData.size()  - 2048 ) ;-
+        m_parsedData.remove(0, 2048);// erase elements rewritten to m_triggeredData
+
+
+
+        clearDisplay();
+        displayInput();
+        if (TRUE==continousCapturing)     // after each full data set ask kindly for next one
+            handleInputData();
     }
   //  stop =  QTime::currentTime();
   //  QTime asd = stop-start;
