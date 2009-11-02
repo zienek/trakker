@@ -20,7 +20,10 @@
 #include "trakkermodel.h"
 #include "math.h"
 
+#include <complex.h>
 #include <fftw3.h>
+#include <math.h>
+
 
 #include <QFile>
 #include <QString>
@@ -582,6 +585,7 @@ trakkermodel::trakkermodel(){
     tcpServerAddress    = "192.168.1.5";
     tcpPort             = 40000        ;
     windowType          = 0            ;
+    samplingFreq        = 44000        ;
 
     inputData.resize(4*2*bufferSize)  ;
 
@@ -725,76 +729,34 @@ void trakkermodel::stopTransfer(){ // this function should stop capturing data
 void trakkermodel::runCorrelation(){  // if all signals have to be processed ? or better (int int) choose 3 signals to process CrossCorrelation?
 
 
-    emit sigDrawLine(9,0  ,0,0,0); //TODO
-
-    double meanA=0, meanB=0;
-    double divider=0;
-    double sigA, sigB;
+    emit sigDrawLine(9,0,0,0,0); // clear screen
 
     fftw_complex *ff1, *ff2;  // made regarding to fftw3.pdf p.9
     fftw_plan fftplan;
+    double normFactor = 1.0/bufferSize ;
+    int i = 0;
 
-    ff1     = (fftw_complex*) fftw_malloc(sizeof(fftw_complex)*bufferSize) ;
-    ff2     = (fftw_complex*) fftw_malloc(sizeof(fftw_complex)*bufferSize) ;
+
+    ff1     = (fftw_complex *) fftw_malloc(sizeof(fftw_complex)*bufferSize) ;
+    ff2     = (fftw_complex *) fftw_malloc(sizeof(fftw_complex)*bufferSize) ;
+
+    for (i = 0 ; i < bufferSize; ++i){
+        ff1[i] = (double) windowedSignals[i][0];
+    }
+
     fftplan = fftw_plan_dft_1d(bufferSize, ff1, ff2, FFTW_FORWARD, FFTW_ESTIMATE);
 
+    fftw_execute(fftplan);
 
+    fftw_destroy_plan(fftplan);
 
-    for(int i=0 ; i<bufferSize ; ++i){  //calculate mean of two series of data
-        meanA += windowedSignals[i][0];
-        meanB += windowedSignals[i][1];
-    }
-    meanA /= bufferSize;
-    meanB /= bufferSize;  // mean value of signal
-
-    qDebug("meanA %f, meanB %f \n" , meanA, meanB);
-    sigA = 0;
-    sigB = 0;
-
-
-    for(int i=0 ; i<bufferSize ; ++i){  //calculate denominator
-        sigA  += (windowedSignals[i][0] -meanA)*(windowedSignals[i][0] -meanA);
-        sigB  += (windowedSignals[i][1] -meanB)*(windowedSignals[i][1] -meanB);
-    }
-    divider = sqrt(sigA*sigB);
-    qDebug("divider %f",divider);
-
-    for (int i = 0 ; i < bufferSize ; ++i){   // preparing vector
-        correlatedSignals[i] = 0;
-    }
-
-    switch (this->correlationType)
-    {
-
-        case 0 :
-        {
-            for (int j = 0 ; j<bufferSize ; j++){
-                for (int i = 0 ; i < bufferSize ; ++i){   // calculation of plain Correlation
-                    correlatedSignals[j] += (windowedSignals[j][0] - meanA)* (windowedSignals[i][1] - meanB);
-                }
-                //correlatedSignals[j] /= divider ;
-                //qDebug("%d. %f", j, 100*correlatedSignals[j]);
-            }
-            qDebug("\nswitch (this->correlationType) case 0");
-            break;
-        }
-
-        case 1 :
-        {
+    for (i = 0 ; i < bufferSize ; i++)
+        ff2[i] *= normFactor ;
 
 
 
-            break;
-        }
-
-        default:
-        {
-            qDebug("\nDefault value in runCorrelation method.");
-        }
-    }
-
-    for(int i = 0 ; i < correlationPlotWidth -5 ; i++){ // draw result
-        emit sigDrawLine(9,i  ,100*correlatedSignals[i] , i+1, 100*correlatedSignals[i+1]);
+    for(int i = 0 ; i < correlationPlotWidth/2  ; i++){ // draw result
+        emit sigDrawLine(9,2*i  ,creal(ff2[2*i]) , 2*i+1, creal( ff2[2*i+1]));
     }
 }
 
@@ -935,8 +897,6 @@ void trakkermodel::setContinousCapturing(bool flag){   //TODO continous capturin
 }
 
 void trakkermodel::readTcp(){
-  //  QTime start, stop ;
-  //  start =  QTime::currentTime();
     QByteArray m_tcpBuffer = q_pSocket->read(q_pSocket->bytesAvailable());
     if (m_tcpBuffer.size() % 2 == 0 ) { // if 'a' has even elements
         for ( int i = 0 ; i < m_tcpBuffer.size() - 1 ; i+=2 ) {
@@ -955,13 +915,9 @@ void trakkermodel::readTcp(){
 
     if ( (4*bufferSize) < m_parsedData.size() ){ // if there is enough elements to fill the m_triggeredData data set - Just do it.
 
-
-
         m_triggeredData = m_parsedData;
-
-        m_triggeredData.remove(2048 , m_parsedData.size()  - 2048 ) ;-
+        m_triggeredData.remove(2048 , m_parsedData.size()-2048  ) ;
         m_parsedData.remove(0, 2048);// erase elements rewritten to m_triggeredData
-
 
 
         clearDisplay();
@@ -969,11 +925,6 @@ void trakkermodel::readTcp(){
         if (TRUE==continousCapturing)     // after each full data set ask kindly for next one
             handleInputData();
     }
-  //  stop =  QTime::currentTime();
-  //  QTime asd = stop-start;
-  //  qDebug() << stop.msec() ;
-  //  qDebug() << start.msec() ;
-  //  qDebug() << stop.msec() - start.msec() ;
-  //  qDebug() <<m_parsedData;
+
 }
 

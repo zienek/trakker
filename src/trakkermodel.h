@@ -66,6 +66,7 @@ private:
     int    stateOfHandling           ;  // 0 - initial; 1 - started ; 2 - stopped ?
     float  windowedSignals   [512][4];
     float  correlatedSignals [512]   ;
+    int    samplingFreq              ; // initial 44000
 
     QByteArray   inputData           ;
     QString      tcpServerAddress    ;   // initially 192.168.1.5 set inside constructor

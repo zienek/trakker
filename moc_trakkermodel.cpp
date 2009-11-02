@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'trakkermodel.h'
 **
-** Created: Sun Oct 25 18:33:10 2009
+** Created: Mon Nov 2 17:07:39 2009
 **      by: The Qt Meta Object Compiler version 61 (Qt 4.5.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_trakkermodel[] = {
        2,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   12, // methods
+      14,   12, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -36,13 +36,15 @@ static const uint qt_meta_data_trakkermodel[] = {
      109,   13,   13,   13, 0x0a,
      127,   13,   13,   13, 0x0a,
      147,   13,   13,   13, 0x0a,
-     155,   13,   13,   13, 0x0a,
-     162,   13,   13,   13, 0x0a,
-     177,   13,   13,   13, 0x0a,
-     194,   13,   13,   13, 0x0a,
-     210,   13,   13,   13, 0x0a,
-     231,  229,   13,   13, 0x0a,
-     266,  254,   13,   13, 0x0a,
+     175,   13,   13,   13, 0x0a,
+     191,   13,   13,   13, 0x0a,
+     206,   13,   13,   13, 0x0a,
+     221,   13,   13,   13, 0x0a,
+     238,   13,   13,   13, 0x0a,
+     254,   13,   13,   13, 0x0a,
+     275,  273,   13,   13, 0x0a,
+     310,  298,   13,   13, 0x0a,
+     349,   13,   13,   13, 0x0a,
 
        0        // eod
 };
@@ -52,10 +54,12 @@ static const char qt_meta_stringdata_trakkermodel[] = {
     "sigDrawLine(int,int,int,int,int)\0"
     "text,sec\0sigSetStatus(QString,int)\0"
     "setWindowing(int)\0setCorrelation(int)\0"
-    "start()\0stop()\0runWindowing()\0"
+    "setContinousCapturing(bool)\0startTransfer()\0"
+    "stopTransfer()\0runWindowing()\0"
     "runCorrelation()\0setConnection()\0"
     "setDisconnection()\0,\0setStatus(QString,int)\0"
     "socketError\0tcpError(QAbstractSocket::SocketError)\0"
+    "readTcp()\0"
 };
 
 const QMetaObject trakkermodel::staticMetaObject = {
@@ -87,17 +91,19 @@ int trakkermodel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 1: sigSetStatus((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 2: setWindowing((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 3: setCorrelation((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 4: start(); break;
-        case 5: stop(); break;
-        case 6: runWindowing(); break;
-        case 7: runCorrelation(); break;
-        case 8: setConnection(); break;
-        case 9: setDisconnection(); break;
-        case 10: setStatus((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 11: tcpError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
+        case 4: setContinousCapturing((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 5: startTransfer(); break;
+        case 6: stopTransfer(); break;
+        case 7: runWindowing(); break;
+        case 8: runCorrelation(); break;
+        case 9: setConnection(); break;
+        case 10: setDisconnection(); break;
+        case 11: setStatus((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 12: tcpError((*reinterpret_cast< QAbstractSocket::SocketError(*)>(_a[1]))); break;
+        case 13: readTcp(); break;
         default: ;
         }
-        _id -= 12;
+        _id -= 14;
     }
     return _id;
 }

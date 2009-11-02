@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'trakker.h'
 **
-** Created: Sat Oct 24 13:45:59 2009
+** Created: Wed Oct 28 02:32:38 2009
 **      by: The Qt Meta Object Compiler version 61 (Qt 4.5.2)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -30,34 +30,36 @@ static const uint qt_meta_data_trakker[] = {
 
  // signals: signature, parameters, type, tag, flags
        9,    8,    8,    8, 0x05,
-      20,    8,    8,    8, 0x05,
-      30,    8,    8,    8, 0x05,
-      42,    8,    8,    8, 0x05,
-      59,    8,    8,    8, 0x05,
+      28,    8,    8,    8, 0x05,
+      46,    8,    8,    8, 0x05,
+      58,    8,    8,    8, 0x05,
       75,    8,    8,    8, 0x05,
+      91,    8,    8,    8, 0x05,
 
  // slots: signature, parameters, type, tag, flags
-     101,   91,    8,    8, 0x0a,
-     140,  131,    8,    8, 0x0a,
-     163,    8,    8,    8, 0x08,
-     171,    8,    8,    8, 0x08,
+     117,  107,    8,    8, 0x0a,
+     156,  147,    8,    8, 0x0a,
      179,    8,    8,    8, 0x08,
-     186,    8,    8,    8, 0x08,
-     199,    8,    8,    8, 0x08,
-     213,    8,    8,    8, 0x08,
-     226,    8,    8,    8, 0x08,
+     187,    8,    8,    8, 0x08,
+     203,    8,    8,    8, 0x08,
+     218,    8,    8,    8, 0x08,
+     231,    8,    8,    8, 0x08,
+     245,    8,    8,    8, 0x08,
+     258,    8,    8,    8, 0x08,
 
        0        // eod
 };
 
 static const char qt_meta_stringdata_trakker[] = {
-    "trakker\0\0sigStart()\0sigStop()\0sigWindow()\0"
+    "trakker\0\0sigStartTransfer()\0"
+    "sigStopTransfer()\0sigWindow()\0"
     "sigCorrelation()\0sigConnection()\0"
     "sigDisconnect()\0which,,,,\0"
     "drawLine(int,int,int,int,int)\0text,sec\0"
-    "setStatus(QString,int)\0about()\0start()\0"
-    "stop()\0windowSlot()\0correlation()\0"
-    "connection()\0disconnection()\0"
+    "setStatus(QString,int)\0about()\0"
+    "startTransfer()\0stopTransfer()\0"
+    "windowSlot()\0correlation()\0connection()\0"
+    "disconnection()\0"
 };
 
 const QMetaObject trakker::staticMetaObject = {
@@ -85,8 +87,8 @@ int trakker::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
-        case 0: sigStart(); break;
-        case 1: sigStop(); break;
+        case 0: sigStartTransfer(); break;
+        case 1: sigStopTransfer(); break;
         case 2: sigWindow(); break;
         case 3: sigCorrelation(); break;
         case 4: sigConnection(); break;
@@ -94,8 +96,8 @@ int trakker::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 6: drawLine((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4])),(*reinterpret_cast< int(*)>(_a[5]))); break;
         case 7: setStatus((*reinterpret_cast< QString(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 8: about(); break;
-        case 9: start(); break;
-        case 10: stop(); break;
+        case 9: startTransfer(); break;
+        case 10: stopTransfer(); break;
         case 11: windowSlot(); break;
         case 12: correlation(); break;
         case 13: connection(); break;
@@ -108,13 +110,13 @@ int trakker::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void trakker::sigStart()
+void trakker::sigStartTransfer()
 {
     QMetaObject::activate(this, &staticMetaObject, 0, 0);
 }
 
 // SIGNAL 1
-void trakker::sigStop()
+void trakker::sigStopTransfer()
 {
     QMetaObject::activate(this, &staticMetaObject, 1, 0);
 }

@@ -13,6 +13,18 @@
   <value type="QString" >trakker</value>
  </data>
  <data>
+  <variable>RunConfiguration0-UseDyldImageSuffix</variable>
+  <value type="bool" >false</value>
+ </data>
+ <data>
+  <variable>RunConfiguration0-UseTerminal</variable>
+  <value type="bool" >false</value>
+ </data>
+ <data>
+  <variable>RunConfiguration0-UserEnvironmentChanges</variable>
+  <valuelist type="QVariantList" />
+ </data>
+ <data>
   <variable>RunConfiguration0-UserSetName</variable>
   <value type="bool" >false</value>
  </data>
@@ -31,6 +43,22 @@
  <data>
   <variable>RunConfiguration1-RunConfiguration.name</variable>
   <value type="QString" >Run /home/zienek/trakker/trakker</value>
+ </data>
+ <data>
+  <variable>RunConfiguration1-UseTerminal</variable>
+  <value type="bool" >false</value>
+ </data>
+ <data>
+  <variable>RunConfiguration1-UserEnvironmentChanges</variable>
+  <valuelist type="QVariantList" />
+ </data>
+ <data>
+  <variable>RunConfiguration1-UserName</variable>
+  <value type="QString" ></value>
+ </data>
+ <data>
+  <variable>RunConfiguration1-UserSetName</variable>
+  <value type="bool" >false</value>
  </data>
  <data>
   <variable>RunConfiguration1-WorkingDirectory</variable>
@@ -71,12 +99,12 @@
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList" >
-    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-8GylltQIbr,guid=e4e645d4b85093d2327b9d5e4ae412b6</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-Xlagq6hYvk,guid=1efce5c4995552a443e767ca4aeee3f7</value>
     <value type="QString" >DESKTOP_SESSION=kde</value>
     <value type="QString" >DESKTOP_STARTUP_ID=</value>
     <value type="QString" >DISPLAY=:0.0</value>
     <value type="QString" >DM_CONTROL=/var/run/xdmctl</value>
-    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-8g911D/S.gpg-agent:3387:1</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-cs7C0q/S.gpg-agent:3336:1</value>
     <value type="QString" >GS_LIB=/home/zienek/.fonts</value>
     <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/zienek/.gtkrc-2.0:/home/zienek/.gtkrc-2.0-kde4:/home/zienek/.kde/share/config/gtkrc-2.0</value>
     <value type="QString" >GTK_MODULES=canberra-gtk-module</value>
@@ -87,22 +115,22 @@
     <value type="QString" >KDE_SESSION_UID=1000</value>
     <value type="QString" >KDE_SESSION_VERSION=4</value>
     <value type="QString" >LANG=en_US.UTF-8</value>
-    <value type="QString" >LANGUAGE=</value>
+    <value type="QString" >LD_LIBRARY_PATH=/opt/qtcreator-1.2.1/lib/qtcreator:</value>
     <value type="QString" >LOGNAME=zienek</value>
     <value type="QString" >PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
-    <value type="QString" >PWD=/home/zienek</value>
+    <value type="QString" >PWD=/home/zienek/Documents</value>
     <value type="QString" >QTDIR=/usr</value>
     <value type="QString" >QT_PLUGIN_PATH=/home/zienek/.kde/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
-    <value type="QString" >SESSION_MANAGER=local/sl500:/tmp/.ICE-unix/3495</value>
+    <value type="QString" >SESSION_MANAGER=local/sl500:/tmp/.ICE-unix/3434</value>
     <value type="QString" >SHELL=/bin/bash</value>
     <value type="QString" >SHLVL=0</value>
-    <value type="QString" >SSH_AGENT_PID=3386</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-PbhAYM3330/agent.3330</value>
+    <value type="QString" >SSH_AGENT_PID=3335</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-MIOSMX3279/agent.3279</value>
     <value type="QString" >USER=zienek</value>
     <value type="QString" >WINDOWPATH=7</value>
     <value type="QString" >XCURSOR_THEME=oxy-white</value>
     <value type="QString" >XDG_DATA_DIRS=/usr/share:/usr/share:/usr/local/share</value>
-    <value type="QString" >XDG_SESSION_COOKIE=26b9f5ec04b8b1478f812fc04aa7b9d4-1256460981.184499-922551671</value>
+    <value type="QString" >XDG_SESSION_COOKIE=26b9f5ec04b8b1478f812fc04aa7b9d4-1257169910.99732-438528009</value>
     <value type="QString" >XDM_MANAGED=method=classic</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList" >
@@ -123,12 +151,12 @@
   <valuemap type="QVariantMap" >
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString" >Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList" >
-    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-8GylltQIbr,guid=e4e645d4b85093d2327b9d5e4ae412b6</value>
+    <value type="QString" >DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-Xlagq6hYvk,guid=1efce5c4995552a443e767ca4aeee3f7</value>
     <value type="QString" >DESKTOP_SESSION=kde</value>
     <value type="QString" >DESKTOP_STARTUP_ID=</value>
     <value type="QString" >DISPLAY=:0.0</value>
     <value type="QString" >DM_CONTROL=/var/run/xdmctl</value>
-    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-8g911D/S.gpg-agent:3387:1</value>
+    <value type="QString" >GPG_AGENT_INFO=/tmp/gpg-cs7C0q/S.gpg-agent:3336:1</value>
     <value type="QString" >GS_LIB=/home/zienek/.fonts</value>
     <value type="QString" >GTK2_RC_FILES=/etc/gtk-2.0/gtkrc:/home/zienek/.gtkrc-2.0:/home/zienek/.gtkrc-2.0-kde4:/home/zienek/.kde/share/config/gtkrc-2.0</value>
     <value type="QString" >GTK_MODULES=canberra-gtk-module</value>
@@ -139,22 +167,22 @@
     <value type="QString" >KDE_SESSION_UID=1000</value>
     <value type="QString" >KDE_SESSION_VERSION=4</value>
     <value type="QString" >LANG=en_US.UTF-8</value>
-    <value type="QString" >LANGUAGE=</value>
+    <value type="QString" >LD_LIBRARY_PATH=/opt/qtcreator-1.2.1/lib/qtcreator:</value>
     <value type="QString" >LOGNAME=zienek</value>
     <value type="QString" >PATH=/usr/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games</value>
-    <value type="QString" >PWD=/home/zienek</value>
+    <value type="QString" >PWD=/home/zienek/Documents</value>
     <value type="QString" >QTDIR=/usr</value>
     <value type="QString" >QT_PLUGIN_PATH=/home/zienek/.kde/lib/kde4/plugins/:/usr/lib/kde4/plugins/</value>
-    <value type="QString" >SESSION_MANAGER=local/sl500:/tmp/.ICE-unix/3495</value>
+    <value type="QString" >SESSION_MANAGER=local/sl500:/tmp/.ICE-unix/3434</value>
     <value type="QString" >SHELL=/bin/bash</value>
     <value type="QString" >SHLVL=0</value>
-    <value type="QString" >SSH_AGENT_PID=3386</value>
-    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-PbhAYM3330/agent.3330</value>
+    <value type="QString" >SSH_AGENT_PID=3335</value>
+    <value type="QString" >SSH_AUTH_SOCK=/tmp/ssh-MIOSMX3279/agent.3279</value>
     <value type="QString" >USER=zienek</value>
     <value type="QString" >WINDOWPATH=7</value>
     <value type="QString" >XCURSOR_THEME=oxy-white</value>
     <value type="QString" >XDG_DATA_DIRS=/usr/share:/usr/share:/usr/local/share</value>
-    <value type="QString" >XDG_SESSION_COOKIE=26b9f5ec04b8b1478f812fc04aa7b9d4-1256460981.184499-922551671</value>
+    <value type="QString" >XDG_SESSION_COOKIE=26b9f5ec04b8b1478f812fc04aa7b9d4-1257169910.99732-438528009</value>
     <value type="QString" >XDM_MANAGED=method=classic</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList" >
@@ -163,6 +191,7 @@
    <value key="abstractProcess.command" type="QString" >/usr/bin/make</value>
    <value key="abstractProcess.enabled" type="bool" >true</value>
    <value key="abstractProcess.workingDirectory" type="QString" >/home/zienek/trakker</value>
+   <valuelist key="makeargs" type="QVariantList" />
   </valuemap>
  </data>
  <data>
