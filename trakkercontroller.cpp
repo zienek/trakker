@@ -43,9 +43,26 @@ void trakkercontroller::connectMua() {  // here connect all neccesary items
     assert ( m_pWindow && m_pModel ) ;
 
     //drawing
-    QObject::connect( m_pModel , SIGNAL(sigDrawLine(int, int, int, int, int)), m_pWindow, SLOT(drawLine(int, int, int, int, int))) ;
+    QObject::connect( m_pModel , SIGNAL(sigDrawLine(int, int, int, int, int, char)), m_pWindow, SLOT(drawLine(int, int, int, int, int, char))) ;
     QObject::connect( m_pModel , SIGNAL(sigSetStatus(QString, int)) , m_pWindow , SLOT(setStatus(QString, int)));
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->tabWidget_2, SIGNAL(currentChanged(int)), m_pModel, SLOT(setSignals(int)));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_6, SIGNAL(pressed()), m_pModel, SLOT(displayCorrelation()));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_7, SIGNAL(pressed()), m_pModel, SLOT(displayCorrelation()));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_8, SIGNAL(pressed()), m_pModel, SLOT(displayCorrelation()));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_9, SIGNAL(pressed()), m_pModel, SLOT(displayCorrelation()));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_10, SIGNAL(pressed()), m_pModel, SLOT(displayCorrelation()));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_11, SIGNAL(pressed()), m_pModel, SLOT(displayCorrelation()));
+
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_3, SIGNAL(pressed()), m_pModel, SLOT(clearCorrView()));
+
+    //choosing correlations' colors
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->comboBox_4, SIGNAL(currentIndexChanged(int)), m_pModel, SLOT(appendCorrToView(int)));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->comboBox_5, SIGNAL(currentIndexChanged(int)), m_pModel, SLOT(appendCorrToView(int)));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->comboBox_6, SIGNAL(currentIndexChanged(int)), m_pModel, SLOT(appendCorrToView(int)));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->comboBox_7, SIGNAL(currentIndexChanged(int)), m_pModel, SLOT(appendCorrToView(int)));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->comboBox_8, SIGNAL(currentIndexChanged(int)), m_pModel, SLOT(appendCorrToView(int)));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->comboBox_9, SIGNAL(currentIndexChanged(int)), m_pModel, SLOT(appendCorrToView(int)));
+
 
     //windowing
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->comboBox, SIGNAL(highlighted(int)), m_pModel, SLOT(setWindowing(int))) ;

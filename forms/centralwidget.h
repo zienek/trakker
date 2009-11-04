@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'centralwidget.ui'
 **
-** Created: Wed Nov 4 02:27:51 2009
+** Created: Wed Nov 4 14:13:37 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -55,6 +55,7 @@ public:
     QSpacerItem *verticalSpacer_2;
     QSpacerItem *verticalSpacer_5;
     QSpacerItem *verticalSpacer;
+    QVBoxLayout *verticalLayout_3;
     QTabWidget *tabWidget;
     QWidget *Input;
     QComboBox *comboBox_2;
@@ -78,14 +79,29 @@ public:
     QPushButton *pushButton_2;
     QTabWidget *tabWidget_2;
     QWidget *tab;
+    QComboBox *comboBox_4;
+    QPushButton *pushButton_11;
     QWidget *tab_3;
+    QComboBox *comboBox_5;
+    QPushButton *pushButton_10;
     QWidget *tab_4;
+    QComboBox *comboBox_6;
+    QPushButton *pushButton_9;
     QWidget *tab_5;
+    QComboBox *comboBox_7;
+    QPushButton *pushButton_8;
     QWidget *tab_6;
+    QComboBox *comboBox_8;
+    QPushButton *pushButton_7;
     QWidget *tab_7;
+    QComboBox *comboBox_9;
+    QPushButton *pushButton_6;
     QLabel *label_8;
+    QPushButton *pushButton_3;
+    QPushButton *pushButton_4;
+    QPushButton *pushButton_5;
+    QLabel *label_9;
     QWidget *tab_2;
-    QVBoxLayout *verticalLayout_3;
 
     void setupUi(QWidget *centralWidget)
     {
@@ -215,6 +231,8 @@ public:
 
         horizontalLayout->addLayout(verticalLayout_2);
 
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
         tabWidget = new QTabWidget(centralWidget);
         tabWidget->setObjectName(QString::fromUtf8("tabWidget"));
         tabWidget->setMinimumSize(QSize(560, 0));
@@ -292,7 +310,7 @@ public:
         comboBox_3->setMaximumSize(QSize(400, 16777215));
         graphicsView_9 = new QGraphicsView(Correlation);
         graphicsView_9->setObjectName(QString::fromUtf8("graphicsView_9"));
-        graphicsView_9->setGeometry(QRect(20, 280, 512, 300));
+        graphicsView_9->setGeometry(QRect(20, 230, 512, 300));
         graphicsView_9->setMinimumSize(QSize(512, 300));
         graphicsView_9->setMaximumSize(QSize(512, 300));
         pushButton_2 = new QPushButton(Correlation);
@@ -300,37 +318,84 @@ public:
         pushButton_2->setGeometry(QRect(80, 80, 181, 27));
         tabWidget_2 = new QTabWidget(Correlation);
         tabWidget_2->setObjectName(QString::fromUtf8("tabWidget_2"));
-        tabWidget_2->setGeometry(QRect(90, 150, 321, 41));
+        tabWidget_2->setGeometry(QRect(30, 120, 321, 81));
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
+        comboBox_4 = new QComboBox(tab);
+        comboBox_4->setObjectName(QString::fromUtf8("comboBox_4"));
+        comboBox_4->setGeometry(QRect(10, 10, 101, 27));
+        pushButton_11 = new QPushButton(tab);
+        pushButton_11->setObjectName(QString::fromUtf8("pushButton_11"));
+        pushButton_11->setGeometry(QRect(190, 10, 112, 27));
         tabWidget_2->addTab(tab, QString());
         tab_3 = new QWidget();
         tab_3->setObjectName(QString::fromUtf8("tab_3"));
+        comboBox_5 = new QComboBox(tab_3);
+        comboBox_5->setObjectName(QString::fromUtf8("comboBox_5"));
+        comboBox_5->setGeometry(QRect(10, 10, 101, 27));
+        pushButton_10 = new QPushButton(tab_3);
+        pushButton_10->setObjectName(QString::fromUtf8("pushButton_10"));
+        pushButton_10->setGeometry(QRect(190, 10, 112, 27));
         tabWidget_2->addTab(tab_3, QString());
         tab_4 = new QWidget();
         tab_4->setObjectName(QString::fromUtf8("tab_4"));
+        comboBox_6 = new QComboBox(tab_4);
+        comboBox_6->setObjectName(QString::fromUtf8("comboBox_6"));
+        comboBox_6->setGeometry(QRect(10, 10, 101, 27));
+        pushButton_9 = new QPushButton(tab_4);
+        pushButton_9->setObjectName(QString::fromUtf8("pushButton_9"));
+        pushButton_9->setGeometry(QRect(190, 10, 112, 27));
         tabWidget_2->addTab(tab_4, QString());
         tab_5 = new QWidget();
         tab_5->setObjectName(QString::fromUtf8("tab_5"));
+        comboBox_7 = new QComboBox(tab_5);
+        comboBox_7->setObjectName(QString::fromUtf8("comboBox_7"));
+        comboBox_7->setGeometry(QRect(10, 10, 101, 27));
+        pushButton_8 = new QPushButton(tab_5);
+        pushButton_8->setObjectName(QString::fromUtf8("pushButton_8"));
+        pushButton_8->setGeometry(QRect(190, 10, 112, 27));
         tabWidget_2->addTab(tab_5, QString());
         tab_6 = new QWidget();
         tab_6->setObjectName(QString::fromUtf8("tab_6"));
+        comboBox_8 = new QComboBox(tab_6);
+        comboBox_8->setObjectName(QString::fromUtf8("comboBox_8"));
+        comboBox_8->setGeometry(QRect(10, 10, 101, 27));
+        pushButton_7 = new QPushButton(tab_6);
+        pushButton_7->setObjectName(QString::fromUtf8("pushButton_7"));
+        pushButton_7->setGeometry(QRect(190, 10, 112, 27));
         tabWidget_2->addTab(tab_6, QString());
         tab_7 = new QWidget();
         tab_7->setObjectName(QString::fromUtf8("tab_7"));
+        comboBox_9 = new QComboBox(tab_7);
+        comboBox_9->setObjectName(QString::fromUtf8("comboBox_9"));
+        comboBox_9->setGeometry(QRect(10, 10, 101, 27));
+        pushButton_6 = new QPushButton(tab_7);
+        pushButton_6->setObjectName(QString::fromUtf8("pushButton_6"));
+        pushButton_6->setGeometry(QRect(190, 10, 112, 27));
         tabWidget_2->addTab(tab_7, QString());
         label_8 = new QLabel(Correlation);
         label_8->setObjectName(QString::fromUtf8("label_8"));
-        label_8->setGeometry(QRect(200, 250, 171, 18));
+        label_8->setGeometry(QRect(180, 210, 171, 18));
+        pushButton_3 = new QPushButton(Correlation);
+        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
+        pushButton_3->setGeometry(QRect(390, 150, 112, 27));
+        pushButton_4 = new QPushButton(Correlation);
+        pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
+        pushButton_4->setGeometry(QRect(40, 550, 191, 27));
+        pushButton_5 = new QPushButton(Correlation);
+        pushButton_5->setObjectName(QString::fromUtf8("pushButton_5"));
+        pushButton_5->setGeometry(QRect(310, 550, 191, 27));
+        label_9 = new QLabel(Correlation);
+        label_9->setObjectName(QString::fromUtf8("label_9"));
+        label_9->setGeometry(QRect(200, 530, 151, 18));
+        label_9->setFrameShape(QFrame::NoFrame);
         tabWidget->addTab(Correlation, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
         tabWidget->addTab(tab_2, QString());
 
-        horizontalLayout->addWidget(tabWidget);
+        verticalLayout_3->addWidget(tabWidget);
 
-        verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
 
         horizontalLayout->addLayout(verticalLayout_3);
 
@@ -340,7 +405,7 @@ public:
 
         retranslateUi(centralWidget);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(2);
         tabWidget_2->setCurrentIndex(0);
 
 
@@ -396,13 +461,77 @@ public:
          << QApplication::translate("centralWidget", "PHAT weighting function", 0, QApplication::UnicodeUTF8)
         );
         pushButton_2->setText(QApplication::translate("centralWidget", "Run &Cross-Correlation", 0, QApplication::UnicodeUTF8));
+        comboBox_4->clear();
+        comboBox_4->insertItems(0, QStringList()
+         << QApplication::translate("centralWidget", "Blue", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Red", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Green", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Black", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Cyan", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Magenta", 0, QApplication::UnicodeUTF8)
+        );
+        pushButton_11->setText(QApplication::translate("centralWidget", "Add", 0, QApplication::UnicodeUTF8));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab), QApplication::translate("centralWidget", "1 - 2", 0, QApplication::UnicodeUTF8));
+        comboBox_5->clear();
+        comboBox_5->insertItems(0, QStringList()
+         << QApplication::translate("centralWidget", "Blue", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Red", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Green", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Black", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Cyan", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Magenta", 0, QApplication::UnicodeUTF8)
+        );
+        pushButton_10->setText(QApplication::translate("centralWidget", "Add", 0, QApplication::UnicodeUTF8));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_3), QApplication::translate("centralWidget", "1 - 3", 0, QApplication::UnicodeUTF8));
+        comboBox_6->clear();
+        comboBox_6->insertItems(0, QStringList()
+         << QApplication::translate("centralWidget", "Blue", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Red", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Green", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Black", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Cyan", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Magenta", 0, QApplication::UnicodeUTF8)
+        );
+        pushButton_9->setText(QApplication::translate("centralWidget", "Add", 0, QApplication::UnicodeUTF8));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_4), QApplication::translate("centralWidget", "1 - 4", 0, QApplication::UnicodeUTF8));
+        comboBox_7->clear();
+        comboBox_7->insertItems(0, QStringList()
+         << QApplication::translate("centralWidget", "Blue", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Red", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Green", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Black", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Cyan", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Magenta", 0, QApplication::UnicodeUTF8)
+        );
+        pushButton_8->setText(QApplication::translate("centralWidget", "Add", 0, QApplication::UnicodeUTF8));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_5), QApplication::translate("centralWidget", "2 - 3", 0, QApplication::UnicodeUTF8));
+        comboBox_8->clear();
+        comboBox_8->insertItems(0, QStringList()
+         << QApplication::translate("centralWidget", "Blue", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Red", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Green", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Black", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Cyan", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Magenta", 0, QApplication::UnicodeUTF8)
+        );
+        pushButton_7->setText(QApplication::translate("centralWidget", "Add", 0, QApplication::UnicodeUTF8));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_6), QApplication::translate("centralWidget", "2 - 4", 0, QApplication::UnicodeUTF8));
+        comboBox_9->clear();
+        comboBox_9->insertItems(0, QStringList()
+         << QApplication::translate("centralWidget", "Blue", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Red", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Green", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Black", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Cyan", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "Magenta", 0, QApplication::UnicodeUTF8)
+        );
+        pushButton_6->setText(QApplication::translate("centralWidget", "Add", 0, QApplication::UnicodeUTF8));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_7), QApplication::translate("centralWidget", "3 - 4", 0, QApplication::UnicodeUTF8));
-        label_8->setText(QApplication::translate("centralWidget", "Cross-Correlation View", 0, QApplication::UnicodeUTF8));
+        label_8->setText(QApplication::translate("centralWidget", "Cross-Correlation view", 0, QApplication::UnicodeUTF8));
+        pushButton_3->setText(QApplication::translate("centralWidget", "Clear all", 0, QApplication::UnicodeUTF8));
+        pushButton_4->setText(QApplication::translate("centralWidget", "Save view as graphic", 0, QApplication::UnicodeUTF8));
+        pushButton_5->setText(QApplication::translate("centralWidget", "Save as text coefficient", 0, QApplication::UnicodeUTF8));
+        label_9->setText(QApplication::translate("centralWidget", "TODO: save results", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(Correlation), QApplication::translate("centralWidget", "Correlation", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("centralWidget", "TDOA", 0, QApplication::UnicodeUTF8));
         Q_UNUSED(centralWidget);

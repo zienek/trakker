@@ -633,6 +633,12 @@ trakkermodel::trakkermodel(){
     tcpPort             = 40000        ;
     windowType          = 0            ;
     samplingFreq        = 44000        ;
+    b_correlationDone   = FALSE        ;
+
+    corrColor.resize(6);
+    corrColor.fill('b');
+    corrVisible.resize(6);
+    corrVisible.fill(FALSE);
 
     inputData.resize(4*2*bufferSize)   ;
     m_windowShape.resize(bufferSize)   ;
@@ -646,6 +652,67 @@ trakkermodel::~trakkermodel(){
     q_pSocket->abort();
 }
 
+
+void trakkermodel::appendCorrToView(int posOfColor){
+    char character;
+    switch(posOfColor){
+        case 0:
+                character = 'b'; // blues
+                break;
+        case 1:
+                character = 'r'; // red
+                break;
+        case 2:
+                character = 'g'; //green
+                break;
+        case 3:
+                character = 'k'; //blacK
+                break;
+        case 4:
+                character = 'c'; // cyan
+                break;
+        case 5:
+                character = 'm'; //magenta
+                break;
+        default:
+                character = 'b'; // default blue
+                break;
+    }
+
+    switch(chosenSignals){
+        case 0:
+                corrColor[0]   = character;
+                corrVisible[0] = TRUE     ;
+                break;
+        case 1:
+                corrColor[1]   = character;
+                corrVisible[1] = TRUE     ;
+                break;
+        case 2:
+                corrColor[2]   = character;
+                corrVisible[2] = TRUE     ;
+                break;
+        case 3:
+                corrColor[3]   = character;
+                corrVisible[3] = TRUE     ;
+                break;
+        case 4:
+                corrColor[4]   = character;
+                corrVisible[4] = TRUE     ;
+                break;
+
+        case 5:
+                corrColor[5]   = character;
+                corrVisible[5] = TRUE     ;
+                break;
+
+        default:
+                qDebug() << "Chosen signal ma wartosci spoza 0-5";
+                break;
+    }
+
+}
+
 void trakkermodel::clearDisplay(){
     emit sigDrawLine(0,0,0,0,0);
     emit sigDrawLine(1,0,0,0,0);
@@ -653,8 +720,13 @@ void trakkermodel::clearDisplay(){
     emit sigDrawLine(3,0,0,0,0);
 }
 
+void trakkermodel::clearCorrView(){
+     emit sigDrawLine (9,0,0,0,0);
+     corrVisible.fill(FALSE,6);
+}
+
 void trakkermodel::displayInput(){
-    qDebug() << "displaying";
+
     for (int i = 0 ; i< inputPlotWidth -1 ; i++){
         emit sigDrawLine(0, i, m_triggeredData[i]/8, i+1,                                  m_triggeredData[i+1]/8 );
         emit sigDrawLine(1, i, m_triggeredData[bufferSize+i]/8, i+1,                       m_triggeredData[bufferSize+i+1]/8 );
@@ -664,25 +736,49 @@ void trakkermodel::displayInput(){
 }
 
 void trakkermodel::displayCorrelation(){
-    switch(this->chosenSignals){
-        qDebug() << chosenSignals ;
+    if (TRUE==b_correlationDone){
+    switch(chosenSignals){
+        //qDebug() << chosenSignals ;
         case(0):
                 for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
-                    emit sigDrawLine(9, i , 512*corr12.at(i) , i+1 , 512*corr12.at(i+1) );
+                    emit sigDrawLine(9, i , 512*corr12.at(i) , i+1 , 512*corr12.at(i+1) ,corrColor.at(0) );
                 }
                 break;
 
         case(1):
+                for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
+                    emit sigDrawLine(9, i , 512*corr13.at(i) , i+1 , 512*corr13.at(i+1) ,corrColor.at(1) );
+                }
                 break;
 
+        case(2):
+                for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
+                    emit sigDrawLine(9, i , 512*corr14.at(i) , i+1 , 512*corr14.at(i+1) ,corrColor.at(2) );
+                }
+                break;
+        case(3):
+                for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
+                    emit sigDrawLine(9, i , 512*corr23.at(i) , i+1 , 512*corr23.at(i+1) ,corrColor.at(3) );
+                }
+                break;
+
+        case(4):
+                for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
+                    emit sigDrawLine(9, i , 512*corr24.at(i) , i+1 , 512*corr24.at(i+1) ,corrColor.at(4) );
+                }
+                break;
+
+        case(5):
+                for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
+                    emit sigDrawLine(9, i , 512*corr34.at(i) , i+1 , 512*corr34.at(i+1) ,corrColor.at(5) );
+                }
+                break;
 
          default:
                 break;
-
-
     }
-
-
+    }else
+        setStatus("Calculate CrossCorrelation first",4000);
 }
 
 void trakkermodel::handleInputData( ){ // handle data from ethernet
@@ -695,6 +791,9 @@ void trakkermodel::handleInputData( ){ // handle data from ethernet
             QByteArray command("",4);
             if ( -1 == q_pSocket->write(command))
                 qDebug() << "error " ;
+
+            if(continousCaptureReq == 1)
+                continousCapturing = 0;
         }
     }
 }
@@ -800,14 +899,15 @@ void trakkermodel::runCorrelation(){  // if all signals have to be processed ? o
 
     emit sigDrawLine(9,0,0,0,0); // clear screen
     int i = 0;
-    //QVector<double> corrOut ;
-
-//    for( i=0 ; i<bufferSize ; i++){
-//        windowedSignals[i][0] = sin(i/8     );
-//        windowedSignals[i][0] = sin(i/8 + 1 );
-//    }
 
     corr12 = correlation(&windowedSignals[0][0], &windowedSignals[0][1], 512);
+    corr13 = correlation(&windowedSignals[0][0], &windowedSignals[0][2], 512);
+    corr14 = correlation(&windowedSignals[0][0], &windowedSignals[0][3], 512);
+    corr23 = correlation(&windowedSignals[0][1], &windowedSignals[0][2], 512);
+    corr24 = correlation(&windowedSignals[0][1], &windowedSignals[0][3], 512);
+    corr34 = correlation(&windowedSignals[0][2], &windowedSignals[0][3], 512);
+
+    b_correlationDone = TRUE ;
 
     fftw_complex *ff1, *ff2;  // made regarding to fftw3.pdf p.9
     fftw_plan fftplan;
@@ -825,7 +925,7 @@ void trakkermodel::runCorrelation(){  // if all signals have to be processed ? o
 
     fftw_destroy_plan(fftplan);
 
-    displayCorrelation();
+   // displayCorrelation();
 
     //for (i = 0 ; i < bufferSize ; i++)
         //ff2[i] *= normFactor ;
@@ -935,7 +1035,7 @@ void trakkermodel::runWindowing(){
 
 void trakkermodel::setSignals(int whichSig){
     this->chosenSignals = whichSig ;
-    displayCorrelation();
+    //displayCorrelation();
 }
 
 void trakkermodel::setStatus(QString text, int sec){

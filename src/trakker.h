@@ -51,7 +51,7 @@ public:
     void addText(QString);
 
 public slots:
-    void drawLine(int which, int, int, int, int);
+    void drawLine(int which, int, int, int, int, char);
     void setStatus(QString text, int sec);
 
 protected:

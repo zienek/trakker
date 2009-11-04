@@ -38,6 +38,8 @@ public:
     ~trakkermodel();
 
 public slots:
+
+    void displayCorrelation() ;
     void setWindowing(int);
     void setCorrelation(int);
     void setContinousCapturing(bool);
@@ -51,6 +53,8 @@ public slots:
     void tcpError( QAbstractSocket::SocketError socketError ) ;
     void readTcp();   
     void setSignals(int);
+    void appendCorrToView(int);
+    void clearCorrView();
 
 
 //    void load() {
@@ -71,7 +75,6 @@ public slots:
 private:
     void   handleInputData()    ;        // from Ethernet
     void   displayInput()       ;
-    void   displayCorrelation() ;
     void   clearDisplay()       ;
 
 
@@ -81,6 +84,7 @@ private:
     int    correlationType           ;
     int    chosenSignals             ;  // to draw proper correlation in drawCorrelationPlot(int)
     int    connectionState           ;
+    bool   b_correlationDone         ;
     int    stateOfHandling           ;  // 0 - initial; 1 - started ; 2 - stopped ?
     double windowedSignals   [512][4];
     float  correlatedSignals [512]   ;
@@ -89,19 +93,25 @@ private:
     QByteArray   inputData           ;
     QString      tcpServerAddress    ;   // initially 192.168.1.5 set inside constructor
     int          tcpPort             ;   // initially 40000 set inside constructor
-    //unsigned short input_short[512*4];
     QTcpSocket   *q_pSocket          ;
     QList<QByteArray> m_data         ;
     QVector<short> m_parsedData      ;
     QVector<short> m_triggeredData   ;
     QVector<double> m_windowShape    ;
 
-    QVector<double> corr12            ;  // jak rozłożyć sobie dane z korelacji
-    //QVector<short> corr12            ;
+    QVector<double> corr12           ;  // jak rozłożyć sobie dane z korelacji
+    QVector<double> corr13           ;  // todo czy da się to zrobić w bardziej naturalny sposób?
+    QVector<double> corr14           ;
+    QVector<double> corr23           ;
+    QVector<double> corr24           ;
+    QVector<double> corr34           ;
+
+    QVector<bool> corrVisible        ;  // to be sure, what is visible on corr view; (0)1-2 ; (1)1-3; (2)1-4; (3)2-3; (4)2-4; (5)3-4
+    QVector<char> corrColor          ;  // color for each correlation plot
 
 
 signals:
-    void sigDrawLine(int selectedWindow, int x1, int y1, int x2, int y2);
+    void sigDrawLine(int selectedWindow, int x1, int y1, int x2, int y2, char color = 'b');
     void sigSetStatus(QString text, int sec);
 
 };

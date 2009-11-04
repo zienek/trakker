@@ -179,13 +179,37 @@ void trakker::disconnection(){
     statusBar()->showMessage(tr("Disconnecting"));
 }
 
-void trakker::drawLine(int which, int x1, int y1, int x2, int y2)
+void trakker::drawLine(int which, int x1, int y1, int x2, int y2, char color)
 {
     if ( (x1==0) and (x2==0) and (y1==0) and(y2==0) ) {  // command to add line [0,0][0,0] clears display
         emit vector[which]->clear();
     }else{
+        switch(color){
+            case 'b':
+                    vector[which]->addLine(x1,y1,x2,y2,QPen(Qt::blue)); // any normal line will be displayed
+                    break;
+            case 'r':
+                    vector[which]->addLine(x1,y1,x2,y2,QPen(Qt::red));
+                    break;
 
-        vector[which]->addLine(x1,y1,x2,y2,QPen(Qt::blue)); // any normal line will be displayed
+            case 'g':
+                    vector[which]->addLine(x1,y1,x2,y2,QPen(Qt::green));
+                    break;
+
+            case 'k':
+                    vector[which]->addLine(x1,y1,x2,y2,QPen(Qt::black));
+                    break;
+
+            case 'c':
+                    vector[which]->addLine(x1,y1,x2,y2,QPen(Qt::cyan));
+                    break;
+
+            case 'm':
+                    vector[which]->addLine(x1,y1,x2,y2,QPen(Qt::magenta));
+                    break;
+
+        }
+
     }
 }
 

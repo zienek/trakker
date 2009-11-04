@@ -245,479 +245,892 @@
       </layout>
      </item>
      <item>
-      <widget class="QTabWidget" name="tabWidget">
-       <property name="minimumSize">
-        <size>
-         <width>560</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="currentIndex">
-        <number>2</number>
-       </property>
-       <widget class="QWidget" name="Input">
-        <attribute name="title">
-         <string>Input</string>
-        </attribute>
-        <widget class="QComboBox" name="comboBox_2">
-         <property name="geometry">
-          <rect>
-           <x>160</x>
-           <y>130</y>
-           <width>121</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <item>
-          <property name="text">
-           <string>48 ksps</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>24 ksps</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>12 ksps</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>6 ksps</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>3 ksps</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="QLabel" name="label_6">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>140</y>
-           <width>121</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Sampling rate</string>
-         </property>
-        </widget>
-        <widget class="QRadioButton" name="radioButton_1">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>30</y>
-           <width>271</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Single event processing</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QRadioButton" name="radioButton_2">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>60</y>
-           <width>271</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Continuous signal processing</string>
-         </property>
-         <property name="autoExclusive">
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_7">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>180</y>
-           <width>251</width>
-           <height>71</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>TODO: Save triggered signals
- and load saved signals</string>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="Windowing">
-        <property name="toolTip">
-         <string>Windowing</string>
-        </property>
-        <attribute name="title">
-         <string>Windowing</string>
-        </attribute>
-        <widget class="QLabel" name="label">
-         <property name="geometry">
-          <rect>
-           <x>60</x>
-           <y>70</y>
-           <width>111</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Window type</string>
-         </property>
-        </widget>
-        <widget class="QComboBox" name="comboBox">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>110</y>
-           <width>201</width>
-           <height>25</height>
-          </rect>
-         </property>
-         <property name="maxVisibleItems">
-          <number>10</number>
-         </property>
-         <item>
-          <property name="text">
-           <string>Rectangular</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Triangular</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Blackman</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Hamming</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Gauss</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Nuttall</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Blackman-Harris</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Blackman-Nuttall</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="QGraphicsView" name="graphicsViewWindow">
-         <property name="geometry">
-          <rect>
-           <x>260</x>
-           <y>70</y>
-           <width>150</width>
-           <height>128</height>
-          </rect>
-         </property>
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QTabWidget" name="tabWidget">
          <property name="minimumSize">
           <size>
-           <width>150</width>
-           <height>128</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>150</width>
-           <height>128</height>
-          </size>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_5">
-         <property name="geometry">
-          <rect>
-           <x>200</x>
-           <y>260</y>
-           <width>171</width>
-           <height>18</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Signals after windowing</string>
-         </property>
-        </widget>
-        <widget class="QGraphicsView" name="graphicsView_5">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>290</y>
-           <width>260</width>
-           <height>128</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>260</width>
-           <height>128</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>260</width>
-           <height>128</height>
-          </size>
-         </property>
-        </widget>
-        <widget class="QGraphicsView" name="graphicsView_6">
-         <property name="geometry">
-          <rect>
-           <x>280</x>
-           <y>290</y>
-           <width>260</width>
-           <height>128</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>260</width>
-           <height>128</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>260</width>
-           <height>128</height>
-          </size>
-         </property>
-        </widget>
-        <widget class="QGraphicsView" name="graphicsView_7">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>440</y>
-           <width>260</width>
-           <height>128</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>260</width>
-           <height>128</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>260</width>
-           <height>128</height>
-          </size>
-         </property>
-        </widget>
-        <widget class="QGraphicsView" name="graphicsView_8">
-         <property name="geometry">
-          <rect>
-           <x>280</x>
-           <y>440</y>
-           <width>260</width>
-           <height>128</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>260</width>
-           <height>128</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>260</width>
-           <height>128</height>
-          </size>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton">
-         <property name="geometry">
-          <rect>
-           <x>50</x>
-           <y>160</y>
-           <width>123</width>
-           <height>29</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>&amp;Windowing</string>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="Correlation">
-        <attribute name="title">
-         <string>Correlation</string>
-        </attribute>
-        <widget class="QComboBox" name="comboBox_3">
-         <property name="geometry">
-          <rect>
-           <x>80</x>
-           <y>30</y>
-           <width>400</width>
-           <height>30</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>400</width>
+           <width>560</width>
            <height>0</height>
           </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>400</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <item>
-          <property name="text">
-           <string>GCC General Cross Corelation (unfiltered)</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>ML Maximum Likelihood</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>PHAT weighting function</string>
-          </property>
-         </item>
-        </widget>
-        <widget class="QGraphicsView" name="graphicsView_9">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>220</y>
-           <width>512</width>
-           <height>300</height>
-          </rect>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>512</width>
-           <height>300</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>512</width>
-           <height>300</height>
-          </size>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="pushButton_2">
-         <property name="geometry">
-          <rect>
-           <x>80</x>
-           <y>80</y>
-           <width>181</width>
-           <height>27</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Run &amp;Cross-Correlation</string>
-         </property>
-        </widget>
-        <widget class="QTabWidget" name="tabWidget_2">
-         <property name="geometry">
-          <rect>
-           <x>90</x>
-           <y>120</y>
-           <width>321</width>
-           <height>41</height>
-          </rect>
          </property>
          <property name="currentIndex">
           <number>0</number>
          </property>
-         <widget class="QWidget" name="tab">
+         <widget class="QWidget" name="Input">
           <attribute name="title">
-           <string>1 - 2</string>
+           <string>Input</string>
           </attribute>
+          <widget class="QComboBox" name="comboBox_2">
+           <property name="geometry">
+            <rect>
+             <x>150</x>
+             <y>140</y>
+             <width>121</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <item>
+            <property name="text">
+             <string>48 ksps</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>24 ksps</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>12 ksps</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>6 ksps</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>3 ksps</string>
+            </property>
+           </item>
+          </widget>
+          <widget class="QLabel" name="label_6">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>150</y>
+             <width>121</width>
+             <height>20</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Sampling rate</string>
+           </property>
+          </widget>
+          <widget class="QRadioButton" name="radioButton_1">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>30</y>
+             <width>271</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Single event processing</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+           <property name="autoExclusive">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QRadioButton" name="radioButton_2">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>60</y>
+             <width>271</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Continuous signal processing</string>
+           </property>
+           <property name="autoExclusive">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_7">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>280</y>
+             <width>221</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>TODO: Save triggered signals
+ and load saved signals</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_12">
+           <property name="geometry">
+            <rect>
+             <x>40</x>
+             <y>240</y>
+             <width>181</width>
+             <height>27</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Save views as graphic</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_13">
+           <property name="geometry">
+            <rect>
+             <x>270</x>
+             <y>240</y>
+             <width>201</width>
+             <height>27</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Save as text coefficient</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_14">
+           <property name="geometry">
+            <rect>
+             <x>270</x>
+             <y>280</y>
+             <width>201</width>
+             <height>27</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Load coefficient from file</string>
+           </property>
+          </widget>
          </widget>
-         <widget class="QWidget" name="tab_3">
+         <widget class="QWidget" name="Windowing">
+          <property name="toolTip">
+           <string>Windowing</string>
+          </property>
           <attribute name="title">
-           <string>1 - 3</string>
+           <string>Windowing</string>
           </attribute>
+          <widget class="QLabel" name="label">
+           <property name="geometry">
+            <rect>
+             <x>60</x>
+             <y>70</y>
+             <width>111</width>
+             <height>16</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Window type</string>
+           </property>
+          </widget>
+          <widget class="QComboBox" name="comboBox">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>110</y>
+             <width>201</width>
+             <height>25</height>
+            </rect>
+           </property>
+           <property name="maxVisibleItems">
+            <number>10</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>Rectangular</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Triangular</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Blackman</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Hamming</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Gauss</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Nuttall</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Blackman-Harris</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Blackman-Nuttall</string>
+            </property>
+           </item>
+          </widget>
+          <widget class="QGraphicsView" name="graphicsViewWindow">
+           <property name="geometry">
+            <rect>
+             <x>260</x>
+             <y>70</y>
+             <width>150</width>
+             <height>128</height>
+            </rect>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>128</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>128</height>
+            </size>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_5">
+           <property name="geometry">
+            <rect>
+             <x>200</x>
+             <y>260</y>
+             <width>171</width>
+             <height>18</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Signals after windowing</string>
+           </property>
+          </widget>
+          <widget class="QGraphicsView" name="graphicsView_5">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>290</y>
+             <width>260</width>
+             <height>128</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>260</width>
+             <height>128</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>260</width>
+             <height>128</height>
+            </size>
+           </property>
+          </widget>
+          <widget class="QGraphicsView" name="graphicsView_6">
+           <property name="geometry">
+            <rect>
+             <x>280</x>
+             <y>290</y>
+             <width>260</width>
+             <height>128</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>260</width>
+             <height>128</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>260</width>
+             <height>128</height>
+            </size>
+           </property>
+          </widget>
+          <widget class="QGraphicsView" name="graphicsView_7">
+           <property name="geometry">
+            <rect>
+             <x>10</x>
+             <y>440</y>
+             <width>260</width>
+             <height>128</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>260</width>
+             <height>128</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>260</width>
+             <height>128</height>
+            </size>
+           </property>
+          </widget>
+          <widget class="QGraphicsView" name="graphicsView_8">
+           <property name="geometry">
+            <rect>
+             <x>280</x>
+             <y>440</y>
+             <width>260</width>
+             <height>128</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>260</width>
+             <height>128</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>260</width>
+             <height>128</height>
+            </size>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton">
+           <property name="geometry">
+            <rect>
+             <x>50</x>
+             <y>160</y>
+             <width>123</width>
+             <height>29</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>&amp;Windowing</string>
+           </property>
+          </widget>
          </widget>
-         <widget class="QWidget" name="tab_4">
+         <widget class="QWidget" name="Correlation">
           <attribute name="title">
-           <string>1 - 4</string>
+           <string>Correlation</string>
           </attribute>
+          <widget class="QComboBox" name="comboBox_3">
+           <property name="geometry">
+            <rect>
+             <x>80</x>
+             <y>30</y>
+             <width>400</width>
+             <height>30</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>400</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>400</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <item>
+            <property name="text">
+             <string>GCC General Cross Corelation (unfiltered)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>ML Maximum Likelihood</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>PHAT weighting function</string>
+            </property>
+           </item>
+          </widget>
+          <widget class="QGraphicsView" name="graphicsView_9">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>230</y>
+             <width>512</width>
+             <height>300</height>
+            </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>512</width>
+             <height>300</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>512</width>
+             <height>300</height>
+            </size>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="geometry">
+            <rect>
+             <x>80</x>
+             <y>80</y>
+             <width>181</width>
+             <height>27</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Run &amp;Cross-Correlation</string>
+           </property>
+          </widget>
+          <widget class="QTabWidget" name="tabWidget_2">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>120</y>
+             <width>321</width>
+             <height>81</height>
+            </rect>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="tab">
+            <attribute name="title">
+             <string>1 - 2</string>
+            </attribute>
+            <widget class="QComboBox" name="comboBox_4">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>10</y>
+               <width>101</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <item>
+              <property name="text">
+               <string>Blue</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Red</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Green</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Black</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Cyan</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Magenta</string>
+              </property>
+             </item>
+            </widget>
+            <widget class="QPushButton" name="pushButton_11">
+             <property name="geometry">
+              <rect>
+               <x>190</x>
+               <y>10</y>
+               <width>112</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="tab_3">
+            <attribute name="title">
+             <string>1 - 3</string>
+            </attribute>
+            <widget class="QComboBox" name="comboBox_5">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>10</y>
+               <width>101</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <item>
+              <property name="text">
+               <string>Blue</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Red</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Green</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Black</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Cyan</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Magenta</string>
+              </property>
+             </item>
+            </widget>
+            <widget class="QPushButton" name="pushButton_10">
+             <property name="geometry">
+              <rect>
+               <x>190</x>
+               <y>10</y>
+               <width>112</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="tab_4">
+            <attribute name="title">
+             <string>1 - 4</string>
+            </attribute>
+            <widget class="QComboBox" name="comboBox_6">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>10</y>
+               <width>101</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <item>
+              <property name="text">
+               <string>Blue</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Red</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Green</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Black</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Cyan</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Magenta</string>
+              </property>
+             </item>
+            </widget>
+            <widget class="QPushButton" name="pushButton_9">
+             <property name="geometry">
+              <rect>
+               <x>190</x>
+               <y>10</y>
+               <width>112</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="tab_5">
+            <attribute name="title">
+             <string>2 - 3</string>
+            </attribute>
+            <widget class="QComboBox" name="comboBox_7">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>10</y>
+               <width>101</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <item>
+              <property name="text">
+               <string>Blue</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Red</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Green</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Black</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Cyan</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Magenta</string>
+              </property>
+             </item>
+            </widget>
+            <widget class="QPushButton" name="pushButton_8">
+             <property name="geometry">
+              <rect>
+               <x>190</x>
+               <y>10</y>
+               <width>112</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="tab_6">
+            <attribute name="title">
+             <string>2 - 4</string>
+            </attribute>
+            <widget class="QComboBox" name="comboBox_8">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>10</y>
+               <width>101</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <item>
+              <property name="text">
+               <string>Blue</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Red</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Green</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Black</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Cyan</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Magenta</string>
+              </property>
+             </item>
+            </widget>
+            <widget class="QPushButton" name="pushButton_7">
+             <property name="geometry">
+              <rect>
+               <x>190</x>
+               <y>10</y>
+               <width>112</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="tab_7">
+            <attribute name="title">
+             <string>3 - 4</string>
+            </attribute>
+            <widget class="QComboBox" name="comboBox_9">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>10</y>
+               <width>101</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <item>
+              <property name="text">
+               <string>Blue</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Red</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Green</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Black</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Cyan</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Magenta</string>
+              </property>
+             </item>
+            </widget>
+            <widget class="QPushButton" name="pushButton_6">
+             <property name="geometry">
+              <rect>
+               <x>190</x>
+               <y>10</y>
+               <width>112</width>
+               <height>27</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>Add</string>
+             </property>
+            </widget>
+           </widget>
+          </widget>
+          <widget class="QLabel" name="label_8">
+           <property name="geometry">
+            <rect>
+             <x>180</x>
+             <y>210</y>
+             <width>171</width>
+             <height>18</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Cross-Correlation view</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_3">
+           <property name="geometry">
+            <rect>
+             <x>390</x>
+             <y>150</y>
+             <width>112</width>
+             <height>27</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Clear all</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_4">
+           <property name="geometry">
+            <rect>
+             <x>40</x>
+             <y>550</y>
+             <width>191</width>
+             <height>27</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Save view as graphic</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="pushButton_5">
+           <property name="geometry">
+            <rect>
+             <x>310</x>
+             <y>550</y>
+             <width>191</width>
+             <height>27</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Save as text coefficient</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_9">
+           <property name="geometry">
+            <rect>
+             <x>200</x>
+             <y>530</y>
+             <width>151</width>
+             <height>18</height>
+            </rect>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="text">
+            <string>TODO: save results</string>
+           </property>
+          </widget>
          </widget>
-         <widget class="QWidget" name="tab_5">
+         <widget class="QWidget" name="tab_2">
           <attribute name="title">
-           <string>2 - 3</string>
-          </attribute>
-         </widget>
-         <widget class="QWidget" name="tab_6">
-          <attribute name="title">
-           <string>2 - 4</string>
-          </attribute>
-         </widget>
-         <widget class="QWidget" name="tab_7">
-          <attribute name="title">
-           <string>3 - 4</string>
+           <string>TDOA</string>
           </attribute>
          </widget>
         </widget>
-        <widget class="QLabel" name="label_8">
-         <property name="geometry">
-          <rect>
-           <x>180</x>
-           <y>190</y>
-           <width>171</width>
-           <height>18</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Cross-Correlation View</string>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="tab_2">
-        <attribute name="title">
-         <string>TDOA</string>
-        </attribute>
-       </widget>
-      </widget>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_3"/>
+       </item>
+      </layout>
      </item>
     </layout>
    </item>
