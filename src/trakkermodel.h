@@ -64,7 +64,7 @@ private:
     int    correlationType           ;
     int    connectionState           ;
     int    stateOfHandling           ;  // 0 - initial; 1 - started ; 2 - stopped ?
-    float  windowedSignals   [512][4];
+    double windowedSignals   [512][4];
     float  correlatedSignals [512]   ;
     int    samplingFreq              ; // initial 44000
 
@@ -76,6 +76,7 @@ private:
     QList<QByteArray> m_data         ;
     QVector<short> m_parsedData      ;
     QVector<short> m_triggeredData   ;
+    //QVector<double> m_
 
 signals:
     void sigDrawLine(int selectedWindow, int x1, int y1, int x2, int y2);

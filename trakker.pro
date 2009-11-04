@@ -4,6 +4,7 @@
 QT += network
 TARGET = trakker
 TEMPLATE = app
+
 SOURCES += main.cpp \
     trakkercontroller.cpp \
     src/trakkermodel.cpp \
@@ -14,4 +15,5 @@ HEADERS += trakkercontroller.h \
 FORMS += centralwidget.ui
 LIBS += -lfftw3 \
     -lm
+
 RESOURCES += src/application.qrc

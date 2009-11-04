@@ -24,7 +24,6 @@
 #include <fftw3.h>
 #include <math.h>
 
-
 #include <QFile>
 #include <QString>
 #include <QByteArray>
@@ -37,7 +36,7 @@ static const int windowedPlotWidth    = 252;
 static const int inputPlotWidth       = 512;
 static const int bufferSize           = 512;
 
-static const float rectangularWindow [512] = {
+static const double rectangularWindow [512] = {
 0.000001, 0.000001, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000,
 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000,
 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000,
@@ -103,7 +102,7 @@ static const float rectangularWindow [512] = {
 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000,
 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 0.000001, 0.000001};
 
-static const float triangularWindow [512] ={
+static const double triangularWindow [512] ={
 0.003906, 0.007812, 0.011719, 0.015625, 0.019531, 0.023438, 0.027344, 0.031250,
 0.035156, 0.039062, 0.042969, 0.046875, 0.050781, 0.054688, 0.058594, 0.062500,
 0.066406, 0.070312, 0.074219, 0.078125, 0.082031, 0.085938, 0.089844, 0.093750,
@@ -169,7 +168,7 @@ static const float triangularWindow [512] ={
 0.062500, 0.058594, 0.054688, 0.050781, 0.046875, 0.042969, 0.039062, 0.035156,
 0.031250, 0.027344, 0.023438, 0.019531, 0.015625, 0.011719, 0.007812, 0.003906};
 
-static const float blackmanWindow [512] = {
+static const double blackmanWindow [512] = {
 0.000001, 0.000014, 0.000054, 0.000123, 0.000218, 0.000341, 0.000491, 0.000669,
 0.000874, 0.001107, 0.001368, 0.001657, 0.001975, 0.002321, 0.002695, 0.003099,
 0.003532, 0.003994, 0.004486, 0.005008, 0.005560, 0.006143, 0.006757, 0.007403,
@@ -235,7 +234,7 @@ static const float blackmanWindow [512] = {
 0.003099, 0.002695, 0.002321, 0.001975, 0.001657, 0.001368, 0.001107, 0.000874,
 0.000669, 0.000491, 0.000341, 0.000218, 0.000123, 0.000054, 0.000014, 0.000001};
 
-static const float hammingWindow [512] = {
+static const double hammingWindow [512] = {
 0.080000, 0.080035, 0.080139, 0.080313, 0.080556, 0.080869, 0.081251, 0.081703,
 0.082224, 0.082814, 0.083473, 0.084201, 0.084998, 0.085864, 0.086799, 0.087802,
 0.088873, 0.090013, 0.091221, 0.092496, 0.093839, 0.095250, 0.096728, 0.098273,
@@ -301,7 +300,7 @@ static const float hammingWindow [512] = {
 0.087802, 0.086799, 0.085864, 0.084998, 0.084201, 0.083473, 0.082814, 0.082224,
 0.081703, 0.081251, 0.080869, 0.080556, 0.080313, 0.080139, 0.080035, 0.080000};
 
-static const float gaussWindow [512] = {
+static const double gaussWindow [512] = {
 0.043937, 0.045023, 0.046131, 0.047262, 0.048416, 0.049594, 0.050795, 0.052021,
 0.053271, 0.054545, 0.055845, 0.057171, 0.058522, 0.059900, 0.061304, 0.062735,
 0.064193, 0.065679, 0.067192, 0.068734, 0.070305, 0.071905, 0.073534, 0.075193,
@@ -367,7 +366,7 @@ static const float gaussWindow [512] = {
 0.062735, 0.061304, 0.059900, 0.058522, 0.057171, 0.055845, 0.054545, 0.053271,
 0.052021, 0.050795, 0.049594, 0.048416, 0.047262, 0.046131, 0.045023, 0.043937};
 
-static const float nuttallWindow [512] = {
+static const double nuttallWindow [512] = {
 0.000000, 0.000002, 0.000007, 0.000016, 0.000029, 0.000046, 0.000066, 0.000090,
 0.000119, 0.000151, 0.000188, 0.000230, 0.000276, 0.000327, 0.000383, 0.000445,
 0.000513, 0.000586, 0.000665, 0.000752, 0.000845, 0.000945, 0.001053, 0.001169,
@@ -433,7 +432,7 @@ static const float nuttallWindow [512] = {
 0.000445, 0.000383, 0.000327, 0.000276, 0.000230, 0.000188, 0.000151, 0.000119,
 0.000090, 0.000066, 0.000046, 0.000029, 0.000016, 0.000007, 0.000002, 0.000000};
 
-static const float blackmanNuttallWindow [512] = {
+static const double blackmanNuttallWindow [512] = {
 0.000363, 0.000366, 0.000375, 0.000389, 0.000410, 0.000436, 0.000469, 0.000508,
 0.000553, 0.000604, 0.000662, 0.000727, 0.000799, 0.000878, 0.000965, 0.001059,
 0.001161, 0.001271, 0.001390, 0.001518, 0.001656, 0.001802, 0.001959, 0.002126,
@@ -499,7 +498,7 @@ static const float blackmanNuttallWindow [512] = {
 0.001059, 0.000965, 0.000878, 0.000799, 0.000727, 0.000662, 0.000604, 0.000553,
 0.000508, 0.000469, 0.000436, 0.000410, 0.000389, 0.000375, 0.000366, 0.000363};
 
-static const float blackmanHarrisWindow [512] = {
+static const double blackmanHarrisWindow [512] = {
 0.000060, 0.000062, 0.000069, 0.000079, 0.000094, 0.000114, 0.000138, 0.000167,
 0.000200, 0.000238, 0.000282, 0.000330, 0.000384, 0.000444, 0.000509, 0.000581,
 0.000659, 0.000744, 0.000835, 0.000935, 0.001041, 0.001156, 0.001279, 0.001411,
@@ -574,6 +573,53 @@ QByteArray czop(const QByteArray & str){  // this function chop all characters f
             ret += c;
     }
     return ret;
+}
+
+QVector<double> correlation(double* p_sigA, double* p_sigB, int size){ // sigA and sigB must have the same size
+
+    QVector<double> out;
+    double tmp ;
+
+    int          n = bufferSize  ;
+    int delayLimit = 500         ;   // approx for 512 x 48000 x 1m distance
+    int delay                    ;
+    int        i = 0 ,     j = 0 ,    k = 0 , m = 0;
+    double meanA = 0 , meanB = 0 ;
+    double    sA = 0 ,    sB = 0 , sTmp = 0 ;
+    double         normalize = 0 ;
+
+    for( i=0 ; i<n ; i++){
+        meanA += p_sigA[i];
+        meanB += p_sigB[i];
+    }
+    meanA = meanA/n;    // rescale mean value
+    meanB = meanB/n;    // of both signals
+
+    for ( i=0 ; i<n ; i++){
+        sA += (p_sigA[i]-meanA) * (p_sigA[i]-meanA);
+        sB += (p_sigB[i]-meanB) * (p_sigB[i]-meanB);
+    }
+
+    normalize = sqrt(sA*sB);
+
+    for( delay = 0, k = 0 ; delay < delayLimit; delay++, k++){
+        sTmp = 0 ;
+        tmp  = 0 ;
+        for(m=0 ; m<n ; m++){
+            j = m + delay;
+            if ((j < 0) || (j>= n))
+                continue;
+            else
+                sTmp += (p_sigA[m] - meanA) * (p_sigB[m] - meanB);
+        }
+        tmp = sTmp/normalize;
+        out.append(tmp);
+        qDebug() << out.at(delay);
+    }
+
+    normalize = 0 ;
+    return out;
+
 }
 
 trakkermodel::trakkermodel(){
@@ -728,14 +774,23 @@ void trakkermodel::stopTransfer(){ // this function should stop capturing data
 
 void trakkermodel::runCorrelation(){  // if all signals have to be processed ? or better (int int) choose 3 signals to process CrossCorrelation?
 
-
     emit sigDrawLine(9,0,0,0,0); // clear screen
+    int i = 0;
+    QVector<double> corrOut ;
+
+    for( i=0 ; i<bufferSize ; i++){
+        windowedSignals[i][0] = sin(i/8     );
+        windowedSignals[i][0] = sin(i/8 + 1 );
+    }
+
+    corrOut = correlation(&windowedSignals[0][0], &windowedSignals[0][1], 512);
+
+//    for( i=0 ; i<250 ; i++){
+//        qDebug() << corrOut.at(i);
+//    }
 
     fftw_complex *ff1, *ff2;  // made regarding to fftw3.pdf p.9
     fftw_plan fftplan;
-    double normFactor = 1.0/bufferSize ;
-    int i = 0;
-
 
     ff1     = (fftw_complex *) fftw_malloc(sizeof(fftw_complex)*bufferSize) ;
     ff2     = (fftw_complex *) fftw_malloc(sizeof(fftw_complex)*bufferSize) ;
@@ -750,13 +805,14 @@ void trakkermodel::runCorrelation(){  // if all signals have to be processed ? o
 
     fftw_destroy_plan(fftplan);
 
-    for (i = 0 ; i < bufferSize ; i++)
-        ff2[i] *= normFactor ;
+    //for (i = 0 ; i < bufferSize ; i++)
+        //ff2[i] *= normFactor ;
 
 
-
-    for(int i = 0 ; i < correlationPlotWidth/2  ; i++){ // draw result
-        emit sigDrawLine(9,2*i  ,creal(ff2[2*i]) , 2*i+1, creal( ff2[2*i+1]));
+    for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
+        //emit sigDrawLine(9,2*i  ,creal(ff2[2*i]) , 2*i+1, creal( ff2[2*i+1]));
+        //qDebug() << i ;
+        emit sigDrawLine(9, i , 512*corrOut.at(i) , i+1 , 512*corrOut.at(i+1) );
     }
 }
 
