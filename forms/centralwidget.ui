@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1123</width>
+    <width>1131</width>
     <height>728</height>
    </rect>
   </property>
@@ -253,7 +253,7 @@
         </size>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="Input">
         <attribute name="title">
@@ -464,9 +464,9 @@
         <widget class="QLabel" name="label_5">
          <property name="geometry">
           <rect>
-           <x>160</x>
+           <x>200</x>
            <y>260</y>
-           <width>201</width>
+           <width>171</width>
            <height>18</height>
           </rect>
          </property>
@@ -572,7 +572,7 @@
           </rect>
          </property>
          <property name="text">
-          <string>Windowing</string>
+          <string>&amp;Windowing</string>
          </property>
         </widget>
        </widget>
@@ -584,7 +584,7 @@
          <property name="geometry">
           <rect>
            <x>80</x>
-           <y>70</y>
+           <y>30</y>
            <width>400</width>
            <height>30</height>
           </rect>
@@ -621,7 +621,7 @@
          <property name="geometry">
           <rect>
            <x>20</x>
-           <y>160</y>
+           <y>220</y>
            <width>512</width>
            <height>300</height>
           </rect>
@@ -637,6 +637,75 @@
            <width>512</width>
            <height>300</height>
           </size>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="geometry">
+          <rect>
+           <x>80</x>
+           <y>80</y>
+           <width>181</width>
+           <height>27</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Run &amp;Cross-Correlation</string>
+         </property>
+        </widget>
+        <widget class="QTabWidget" name="tabWidget_2">
+         <property name="geometry">
+          <rect>
+           <x>90</x>
+           <y>120</y>
+           <width>321</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="QWidget" name="tab">
+          <attribute name="title">
+           <string>1 - 2</string>
+          </attribute>
+         </widget>
+         <widget class="QWidget" name="tab_3">
+          <attribute name="title">
+           <string>1 - 3</string>
+          </attribute>
+         </widget>
+         <widget class="QWidget" name="tab_4">
+          <attribute name="title">
+           <string>1 - 4</string>
+          </attribute>
+         </widget>
+         <widget class="QWidget" name="tab_5">
+          <attribute name="title">
+           <string>2 - 3</string>
+          </attribute>
+         </widget>
+         <widget class="QWidget" name="tab_6">
+          <attribute name="title">
+           <string>2 - 4</string>
+          </attribute>
+         </widget>
+         <widget class="QWidget" name="tab_7">
+          <attribute name="title">
+           <string>3 - 4</string>
+          </attribute>
+         </widget>
+        </widget>
+        <widget class="QLabel" name="label_8">
+         <property name="geometry">
+          <rect>
+           <x>180</x>
+           <y>190</y>
+           <width>171</width>
+           <height>18</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Cross-Correlation View</string>
          </property>
         </widget>
        </widget>

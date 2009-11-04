@@ -36,7 +36,7 @@ static const int windowedPlotWidth    = 252;
 static const int inputPlotWidth       = 512;
 static const int bufferSize           = 512;
 
-static const double rectangularWindow [512] = {
+static const float rectangularWindow [512] = {
 0.000001, 0.000001, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000,
 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000,
 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000,
@@ -102,7 +102,7 @@ static const double rectangularWindow [512] = {
 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000,
 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 1.000000, 0.000001, 0.000001};
 
-static const double triangularWindow [512] ={
+static const float triangularWindow [512] ={
 0.003906, 0.007812, 0.011719, 0.015625, 0.019531, 0.023438, 0.027344, 0.031250,
 0.035156, 0.039062, 0.042969, 0.046875, 0.050781, 0.054688, 0.058594, 0.062500,
 0.066406, 0.070312, 0.074219, 0.078125, 0.082031, 0.085938, 0.089844, 0.093750,
@@ -168,7 +168,7 @@ static const double triangularWindow [512] ={
 0.062500, 0.058594, 0.054688, 0.050781, 0.046875, 0.042969, 0.039062, 0.035156,
 0.031250, 0.027344, 0.023438, 0.019531, 0.015625, 0.011719, 0.007812, 0.003906};
 
-static const double blackmanWindow [512] = {
+static const float blackmanWindow [512] = {
 0.000001, 0.000014, 0.000054, 0.000123, 0.000218, 0.000341, 0.000491, 0.000669,
 0.000874, 0.001107, 0.001368, 0.001657, 0.001975, 0.002321, 0.002695, 0.003099,
 0.003532, 0.003994, 0.004486, 0.005008, 0.005560, 0.006143, 0.006757, 0.007403,
@@ -234,7 +234,7 @@ static const double blackmanWindow [512] = {
 0.003099, 0.002695, 0.002321, 0.001975, 0.001657, 0.001368, 0.001107, 0.000874,
 0.000669, 0.000491, 0.000341, 0.000218, 0.000123, 0.000054, 0.000014, 0.000001};
 
-static const double hammingWindow [512] = {
+static const float hammingWindow [512] = {
 0.080000, 0.080035, 0.080139, 0.080313, 0.080556, 0.080869, 0.081251, 0.081703,
 0.082224, 0.082814, 0.083473, 0.084201, 0.084998, 0.085864, 0.086799, 0.087802,
 0.088873, 0.090013, 0.091221, 0.092496, 0.093839, 0.095250, 0.096728, 0.098273,
@@ -300,7 +300,7 @@ static const double hammingWindow [512] = {
 0.087802, 0.086799, 0.085864, 0.084998, 0.084201, 0.083473, 0.082814, 0.082224,
 0.081703, 0.081251, 0.080869, 0.080556, 0.080313, 0.080139, 0.080035, 0.080000};
 
-static const double gaussWindow [512] = {
+static const float gaussWindow [512] = {
 0.043937, 0.045023, 0.046131, 0.047262, 0.048416, 0.049594, 0.050795, 0.052021,
 0.053271, 0.054545, 0.055845, 0.057171, 0.058522, 0.059900, 0.061304, 0.062735,
 0.064193, 0.065679, 0.067192, 0.068734, 0.070305, 0.071905, 0.073534, 0.075193,
@@ -366,7 +366,7 @@ static const double gaussWindow [512] = {
 0.062735, 0.061304, 0.059900, 0.058522, 0.057171, 0.055845, 0.054545, 0.053271,
 0.052021, 0.050795, 0.049594, 0.048416, 0.047262, 0.046131, 0.045023, 0.043937};
 
-static const double nuttallWindow [512] = {
+static const float nuttallWindow [512] = {
 0.000000, 0.000002, 0.000007, 0.000016, 0.000029, 0.000046, 0.000066, 0.000090,
 0.000119, 0.000151, 0.000188, 0.000230, 0.000276, 0.000327, 0.000383, 0.000445,
 0.000513, 0.000586, 0.000665, 0.000752, 0.000845, 0.000945, 0.001053, 0.001169,
@@ -432,7 +432,7 @@ static const double nuttallWindow [512] = {
 0.000445, 0.000383, 0.000327, 0.000276, 0.000230, 0.000188, 0.000151, 0.000119,
 0.000090, 0.000066, 0.000046, 0.000029, 0.000016, 0.000007, 0.000002, 0.000000};
 
-static const double blackmanNuttallWindow [512] = {
+static const float blackmanNuttallWindow [512] = {
 0.000363, 0.000366, 0.000375, 0.000389, 0.000410, 0.000436, 0.000469, 0.000508,
 0.000553, 0.000604, 0.000662, 0.000727, 0.000799, 0.000878, 0.000965, 0.001059,
 0.001161, 0.001271, 0.001390, 0.001518, 0.001656, 0.001802, 0.001959, 0.002126,
@@ -498,7 +498,7 @@ static const double blackmanNuttallWindow [512] = {
 0.001059, 0.000965, 0.000878, 0.000799, 0.000727, 0.000662, 0.000604, 0.000553,
 0.000508, 0.000469, 0.000436, 0.000410, 0.000389, 0.000375, 0.000366, 0.000363};
 
-static const double blackmanHarrisWindow [512] = {
+static const float blackmanHarrisWindow [512] = {
 0.000060, 0.000062, 0.000069, 0.000079, 0.000094, 0.000114, 0.000138, 0.000167,
 0.000200, 0.000238, 0.000282, 0.000330, 0.000384, 0.000444, 0.000509, 0.000581,
 0.000659, 0.000744, 0.000835, 0.000935, 0.001041, 0.001156, 0.001279, 0.001411,
@@ -614,7 +614,7 @@ QVector<double> correlation(double* p_sigA, double* p_sigB, int size){ // sigA a
         }
         tmp = sTmp/normalize;
         out.append(tmp);
-        qDebug() << out.at(delay);
+        //qDebug() << out.at(delay);
     }
 
     normalize = 0 ;
@@ -623,6 +623,7 @@ QVector<double> correlation(double* p_sigA, double* p_sigB, int size){ // sigA a
 }
 
 trakkermodel::trakkermodel(){
+    chosenSignals       = 0            ; // default draw correlation of signals (0) 1-2 ; (1) 1-3; (2) 1-4; (3) 2-3; (4) 2-4; (5) 3-4
     connectionState     = 0            ;
     continousCapturing  = FALSE        ;
     continousCaptureReq = FALSE        ;
@@ -633,7 +634,8 @@ trakkermodel::trakkermodel(){
     windowType          = 0            ;
     samplingFreq        = 44000        ;
 
-    inputData.resize(4*2*bufferSize)  ;
+    inputData.resize(4*2*bufferSize)   ;
+    m_windowShape.resize(bufferSize)   ;
 
     q_pSocket = new QTcpSocket(this);
 
@@ -659,6 +661,28 @@ void trakkermodel::displayInput(){
         emit sigDrawLine(2, i, m_triggeredData[bufferSize+bufferSize+i]/8, i+1,            m_triggeredData[bufferSize+bufferSize+i+1]/8 );
         emit sigDrawLine(3, i, m_triggeredData[bufferSize+bufferSize+bufferSize+i]/8, i+1, m_triggeredData[bufferSize+bufferSize+bufferSize+i+1]/8 );
     }
+}
+
+void trakkermodel::displayCorrelation(){
+    switch(this->chosenSignals){
+        qDebug() << chosenSignals ;
+        case(0):
+                for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
+                    emit sigDrawLine(9, i , 512*corr12.at(i) , i+1 , 512*corr12.at(i+1) );
+                }
+                break;
+
+        case(1):
+                break;
+
+
+         default:
+                break;
+
+
+    }
+
+
 }
 
 void trakkermodel::handleInputData( ){ // handle data from ethernet
@@ -776,18 +800,14 @@ void trakkermodel::runCorrelation(){  // if all signals have to be processed ? o
 
     emit sigDrawLine(9,0,0,0,0); // clear screen
     int i = 0;
-    QVector<double> corrOut ;
+    //QVector<double> corrOut ;
 
-    for( i=0 ; i<bufferSize ; i++){
-        windowedSignals[i][0] = sin(i/8     );
-        windowedSignals[i][0] = sin(i/8 + 1 );
-    }
-
-    corrOut = correlation(&windowedSignals[0][0], &windowedSignals[0][1], 512);
-
-//    for( i=0 ; i<250 ; i++){
-//        qDebug() << corrOut.at(i);
+//    for( i=0 ; i<bufferSize ; i++){
+//        windowedSignals[i][0] = sin(i/8     );
+//        windowedSignals[i][0] = sin(i/8 + 1 );
 //    }
+
+    corr12 = correlation(&windowedSignals[0][0], &windowedSignals[0][1], 512);
 
     fftw_complex *ff1, *ff2;  // made regarding to fftw3.pdf p.9
     fftw_plan fftplan;
@@ -805,15 +825,17 @@ void trakkermodel::runCorrelation(){  // if all signals have to be processed ? o
 
     fftw_destroy_plan(fftplan);
 
+    displayCorrelation();
+
     //for (i = 0 ; i < bufferSize ; i++)
         //ff2[i] *= normFactor ;
 
 
-    for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
-        //emit sigDrawLine(9,2*i  ,creal(ff2[2*i]) , 2*i+1, creal( ff2[2*i+1]));
-        //qDebug() << i ;
-        emit sigDrawLine(9, i , 512*corrOut.at(i) , i+1 , 512*corrOut.at(i+1) );
-    }
+//    for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
+//        //emit sigDrawLine(9,2*i  ,creal(ff2[2*i]) , 2*i+1, creal( ff2[2*i+1]));
+//        //qDebug() << i ;
+//        emit sigDrawLine(9, i , 512*corrOut.at(i) , i+1 , 512*corrOut.at(i+1) );
+//    }
 }
 
 void trakkermodel::runWindowing(){
@@ -821,73 +843,73 @@ void trakkermodel::runWindowing(){
     {
         case 7:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = blackmanHarrisWindow[i] * m_triggeredData[i               ];
-                this->windowedSignals[i][1] = blackmanHarrisWindow[i] * m_triggeredData[i + bufferSize  ];
-                this->windowedSignals[i][2] = blackmanHarrisWindow[i] * m_triggeredData[i + bufferSize*2];
-                this->windowedSignals[i][3] = blackmanHarrisWindow[i] * m_triggeredData[i + bufferSize*3];
+                this->windowedSignals[i][0] = 512 + 0.5 * blackmanHarrisWindow[i] * m_triggeredData[i               ]; // m_triggeredData contain 10 valid bits
+                this->windowedSignals[i][1] = 512 + 0.5 * blackmanHarrisWindow[i] * m_triggeredData[i + bufferSize  ]; // so 1024 values
+                this->windowedSignals[i][2] = 512 + 0.5 * blackmanHarrisWindow[i] * m_triggeredData[i + bufferSize*2]; // relative level '0' is
+                this->windowedSignals[i][3] = 512 + 0.5 * blackmanHarrisWindow[i] * m_triggeredData[i + bufferSize*3];
             }
             break;
 
         case 6:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = blackmanNuttallWindow[i] * m_triggeredData[i               ];
-                this->windowedSignals[i][1] = blackmanNuttallWindow[i] * m_triggeredData[i + bufferSize  ];
-                this->windowedSignals[i][2] = blackmanNuttallWindow[i] * m_triggeredData[i + bufferSize*2];
-                this->windowedSignals[i][3] = blackmanNuttallWindow[i] * m_triggeredData[i + bufferSize*3];
+                this->windowedSignals[i][0] = 512 + 0.5 * blackmanNuttallWindow[i] * m_triggeredData[i               ];
+                this->windowedSignals[i][1] = 512 + 0.5 * blackmanNuttallWindow[i] * m_triggeredData[i + bufferSize  ];
+                this->windowedSignals[i][2] = 512 + 0.5 * blackmanNuttallWindow[i] * m_triggeredData[i + bufferSize*2];
+                this->windowedSignals[i][3] = 512 + 0.5 * blackmanNuttallWindow[i] * m_triggeredData[i + bufferSize*3];
             }
             break;
 
         case 5:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = nuttallWindow[i] * m_triggeredData[i               ];
-                this->windowedSignals[i][1] = nuttallWindow[i] * m_triggeredData[i + bufferSize  ];
-                this->windowedSignals[i][2] = nuttallWindow[i] * m_triggeredData[i + bufferSize*2];
-                this->windowedSignals[i][3] = nuttallWindow[i] * m_triggeredData[i + bufferSize*3];
+                this->windowedSignals[i][0] = 512 + 0.5 * nuttallWindow[i] * m_triggeredData[i               ];
+                this->windowedSignals[i][1] = 512 + 0.5 * nuttallWindow[i] * m_triggeredData[i + bufferSize  ];
+                this->windowedSignals[i][2] = 512 + 0.5 * nuttallWindow[i] * m_triggeredData[i + bufferSize*2];
+                this->windowedSignals[i][3] = 512 + 0.5 * nuttallWindow[i] * m_triggeredData[i + bufferSize*3];
             }
             break;
 
         case 4:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = gaussWindow[i] * m_triggeredData[i                ];
-                this->windowedSignals[i][1] = gaussWindow[i] * m_triggeredData[i + bufferSize   ];
-                this->windowedSignals[i][2] = gaussWindow[i] * m_triggeredData[i + bufferSize*2 ];
-                this->windowedSignals[i][3] = gaussWindow[i] * m_triggeredData[i + bufferSize*3 ];
+                this->windowedSignals[i][0] = 512 + 0.5 * gaussWindow[i] * m_triggeredData[i                ];
+                this->windowedSignals[i][1] = 512 + 0.5 * gaussWindow[i] * m_triggeredData[i + bufferSize   ];
+                this->windowedSignals[i][2] = 512 + 0.5 * gaussWindow[i] * m_triggeredData[i + bufferSize*2 ];
+                this->windowedSignals[i][3] = 512 + 0.5 * gaussWindow[i] * m_triggeredData[i + bufferSize*3 ];
             }
             break;
 
         case 3:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = hammingWindow[i] * m_triggeredData[i                ];
-                this->windowedSignals[i][1] = hammingWindow[i] * m_triggeredData[i + bufferSize   ];
-                this->windowedSignals[i][2] = hammingWindow[i] * m_triggeredData[i + bufferSize*2 ];
-                this->windowedSignals[i][3] = hammingWindow[i] * m_triggeredData[i + bufferSize*3 ];
+                this->windowedSignals[i][0] = 512 + 0.5 * hammingWindow[i] * m_triggeredData[i                ];
+                this->windowedSignals[i][1] = 512 + 0.5 * hammingWindow[i] * m_triggeredData[i + bufferSize   ];
+                this->windowedSignals[i][2] = 512 + 0.5 * hammingWindow[i] * m_triggeredData[i + bufferSize*2 ];
+                this->windowedSignals[i][3] = 512 + 0.5 * hammingWindow[i] * m_triggeredData[i + bufferSize*3 ];
             }
             break;
 
         case 2:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = blackmanWindow[i] * m_triggeredData[i                ];
-                this->windowedSignals[i][1] = blackmanWindow[i] * m_triggeredData[i + bufferSize   ];
-                this->windowedSignals[i][2] = blackmanWindow[i] * m_triggeredData[i + bufferSize*2 ];
-                this->windowedSignals[i][3] = blackmanWindow[i] * m_triggeredData[i + bufferSize*3 ];
+                this->windowedSignals[i][0] = 512 + 0.5 * blackmanWindow[i] * m_triggeredData[i                ];
+                this->windowedSignals[i][1] = 512 + 0.5 * blackmanWindow[i] * m_triggeredData[i + bufferSize   ];
+                this->windowedSignals[i][2] = 512 + 0.5 * blackmanWindow[i] * m_triggeredData[i + bufferSize*2 ];
+                this->windowedSignals[i][3] = 512 + 0.5 * blackmanWindow[i] * m_triggeredData[i + bufferSize*3 ];
             }
             break;
 
         case 1:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = triangularWindow[i] * m_triggeredData[i                ];
-                this->windowedSignals[i][1] = triangularWindow[i] * m_triggeredData[i + bufferSize   ];
-                this->windowedSignals[i][2] = triangularWindow[i] * m_triggeredData[i + bufferSize*2 ];
-                this->windowedSignals[i][3] = triangularWindow[i] * m_triggeredData[i + bufferSize*3 ];
+                this->windowedSignals[i][0] = 512 + 0.5 * triangularWindow[i] * m_triggeredData[i                ];
+                this->windowedSignals[i][1] = 512 + 0.5 * triangularWindow[i] * m_triggeredData[i + bufferSize   ];
+                this->windowedSignals[i][2] = 512 + 0.5 * triangularWindow[i] * m_triggeredData[i + bufferSize*2 ];
+                this->windowedSignals[i][3] = 512 + 0.5 * triangularWindow[i] * m_triggeredData[i + bufferSize*3 ];
             }
             break;
 
         case 0:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = rectangularWindow[i] * m_triggeredData[i                ];
-                this->windowedSignals[i][1] = rectangularWindow[i] * m_triggeredData[i + bufferSize   ];
-                this->windowedSignals[i][2] = rectangularWindow[i] * m_triggeredData[i + bufferSize*2 ];
-                this->windowedSignals[i][3] = rectangularWindow[i] * m_triggeredData[i + bufferSize*3 ];
+                this->windowedSignals[i][0] = 512 + 0.5 * rectangularWindow[i] * m_triggeredData[i                ];
+                this->windowedSignals[i][1] = 512 + 0.5 * rectangularWindow[i] * m_triggeredData[i + bufferSize   ];
+                this->windowedSignals[i][2] = 512 + 0.5 * rectangularWindow[i] * m_triggeredData[i + bufferSize*2 ];
+                this->windowedSignals[i][3] = 512 + 0.5 * rectangularWindow[i] * m_triggeredData[i + bufferSize*3 ];
             }
             break;
 
@@ -901,12 +923,19 @@ void trakkermodel::runWindowing(){
     emit sigDrawLine(7,0,0,0,0); //clear windowedSignal plot area ;
     emit sigDrawLine(8,0,0,0,0); //clear windowedSignal plot area ;
 
+    // emit sigDrawLine(5,0,64,250,64);  todo make a frame around window
+
     for(int i = 0 ; i < windowedPlotWidth -1 ; i++){
         emit sigDrawLine(5,i  ,127- this->windowedSignals[2*i][0]/8 , i+1 ,127- windowedSignals[2*i + 2][0]/8);
         emit sigDrawLine(6,i  ,127- this->windowedSignals[2*i][1]/8 , i+1 ,127- windowedSignals[2*i + 2][1]/8);
         emit sigDrawLine(7,i  ,127- this->windowedSignals[2*i][2]/8 , i+1 ,127- windowedSignals[2*i + 2][2]/8);
         emit sigDrawLine(8,i  ,127- this->windowedSignals[2*i][3]/8 , i+1 ,127- windowedSignals[2*i + 2][3]/8);
     }
+}
+
+void trakkermodel::setSignals(int whichSig){
+    this->chosenSignals = whichSig ;
+    displayCorrelation();
 }
 
 void trakkermodel::setStatus(QString text, int sec){

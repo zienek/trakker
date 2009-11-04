@@ -49,19 +49,37 @@ public slots:
     void setDisconnection();
     void setStatus(QString, int);
     void tcpError( QAbstractSocket::SocketError socketError ) ;
-    void readTcp();
+    void readTcp();   
+    void setSignals(int);
+
+
+//    void load() {
+//        QString fileName  = QFileDialog::getOpenFileName) :
+//        QDataStream stream ;
+//        QFile f ( fileName ) ;
+//        stream.setDevice(&f) ;
+//        if ( f.open(QIODevice::ReadOnly){
+//           QVariant a ;
+//       }
+//        stream >> a ;
+//        QByteArray ar = a.toByteArray();
+
+
+
 
 
 private:
-    void   handleInputData()  ;        // from Ethernet
-    void   displayInput()     ;
-    void   clearDisplay()     ;
+    void   handleInputData()    ;        // from Ethernet
+    void   displayInput()       ;
+    void   displayCorrelation() ;
+    void   clearDisplay()       ;
 
 
     bool   continousCapturing        ;
     bool   continousCaptureReq       ;
     int    windowType                ;
     int    correlationType           ;
+    int    chosenSignals             ;  // to draw proper correlation in drawCorrelationPlot(int)
     int    connectionState           ;
     int    stateOfHandling           ;  // 0 - initial; 1 - started ; 2 - stopped ?
     double windowedSignals   [512][4];
@@ -76,7 +94,11 @@ private:
     QList<QByteArray> m_data         ;
     QVector<short> m_parsedData      ;
     QVector<short> m_triggeredData   ;
-    //QVector<double> m_
+    QVector<double> m_windowShape    ;
+
+    QVector<double> corr12            ;  // jak rozłożyć sobie dane z korelacji
+    //QVector<short> corr12            ;
+
 
 signals:
     void sigDrawLine(int selectedWindow, int x1, int y1, int x2, int y2);

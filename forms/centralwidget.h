@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'centralwidget.ui'
 **
-** Created: Wed Oct 28 02:32:14 2009
+** Created: Wed Nov 4 02:27:51 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -75,6 +75,15 @@ public:
     QWidget *Correlation;
     QComboBox *comboBox_3;
     QGraphicsView *graphicsView_9;
+    QPushButton *pushButton_2;
+    QTabWidget *tabWidget_2;
+    QWidget *tab;
+    QWidget *tab_3;
+    QWidget *tab_4;
+    QWidget *tab_5;
+    QWidget *tab_6;
+    QWidget *tab_7;
+    QLabel *label_8;
     QWidget *tab_2;
     QVBoxLayout *verticalLayout_3;
 
@@ -82,7 +91,7 @@ public:
     {
         if (centralWidget->objectName().isEmpty())
             centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
-        centralWidget->resize(1123, 728);
+        centralWidget->resize(1131, 728);
         horizontalLayout_2 = new QHBoxLayout(centralWidget);
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         horizontalLayout = new QHBoxLayout();
@@ -249,7 +258,7 @@ public:
         graphicsViewWindow->setMaximumSize(QSize(150, 128));
         label_5 = new QLabel(Windowing);
         label_5->setObjectName(QString::fromUtf8("label_5"));
-        label_5->setGeometry(QRect(160, 260, 201, 18));
+        label_5->setGeometry(QRect(200, 260, 171, 18));
         graphicsView_5 = new QGraphicsView(Windowing);
         graphicsView_5->setObjectName(QString::fromUtf8("graphicsView_5"));
         graphicsView_5->setGeometry(QRect(10, 290, 260, 128));
@@ -278,14 +287,41 @@ public:
         Correlation->setObjectName(QString::fromUtf8("Correlation"));
         comboBox_3 = new QComboBox(Correlation);
         comboBox_3->setObjectName(QString::fromUtf8("comboBox_3"));
-        comboBox_3->setGeometry(QRect(80, 70, 400, 30));
+        comboBox_3->setGeometry(QRect(80, 30, 400, 30));
         comboBox_3->setMinimumSize(QSize(400, 0));
         comboBox_3->setMaximumSize(QSize(400, 16777215));
         graphicsView_9 = new QGraphicsView(Correlation);
         graphicsView_9->setObjectName(QString::fromUtf8("graphicsView_9"));
-        graphicsView_9->setGeometry(QRect(20, 160, 512, 300));
+        graphicsView_9->setGeometry(QRect(20, 280, 512, 300));
         graphicsView_9->setMinimumSize(QSize(512, 300));
         graphicsView_9->setMaximumSize(QSize(512, 300));
+        pushButton_2 = new QPushButton(Correlation);
+        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+        pushButton_2->setGeometry(QRect(80, 80, 181, 27));
+        tabWidget_2 = new QTabWidget(Correlation);
+        tabWidget_2->setObjectName(QString::fromUtf8("tabWidget_2"));
+        tabWidget_2->setGeometry(QRect(90, 150, 321, 41));
+        tab = new QWidget();
+        tab->setObjectName(QString::fromUtf8("tab"));
+        tabWidget_2->addTab(tab, QString());
+        tab_3 = new QWidget();
+        tab_3->setObjectName(QString::fromUtf8("tab_3"));
+        tabWidget_2->addTab(tab_3, QString());
+        tab_4 = new QWidget();
+        tab_4->setObjectName(QString::fromUtf8("tab_4"));
+        tabWidget_2->addTab(tab_4, QString());
+        tab_5 = new QWidget();
+        tab_5->setObjectName(QString::fromUtf8("tab_5"));
+        tabWidget_2->addTab(tab_5, QString());
+        tab_6 = new QWidget();
+        tab_6->setObjectName(QString::fromUtf8("tab_6"));
+        tabWidget_2->addTab(tab_6, QString());
+        tab_7 = new QWidget();
+        tab_7->setObjectName(QString::fromUtf8("tab_7"));
+        tabWidget_2->addTab(tab_7, QString());
+        label_8 = new QLabel(Correlation);
+        label_8->setObjectName(QString::fromUtf8("label_8"));
+        label_8->setGeometry(QRect(200, 250, 171, 18));
         tabWidget->addTab(Correlation, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
@@ -305,6 +341,7 @@ public:
         retranslateUi(centralWidget);
 
         tabWidget->setCurrentIndex(0);
+        tabWidget_2->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(centralWidget);
@@ -350,7 +387,7 @@ public:
          << QApplication::translate("centralWidget", "Blackman-Nuttall", 0, QApplication::UnicodeUTF8)
         );
         label_5->setText(QApplication::translate("centralWidget", "Signals after windowing", 0, QApplication::UnicodeUTF8));
-        pushButton->setText(QApplication::translate("centralWidget", "Windowing", 0, QApplication::UnicodeUTF8));
+        pushButton->setText(QApplication::translate("centralWidget", "&Windowing", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(Windowing), QApplication::translate("centralWidget", "Windowing", 0, QApplication::UnicodeUTF8));
         comboBox_3->clear();
         comboBox_3->insertItems(0, QStringList()
@@ -358,6 +395,14 @@ public:
          << QApplication::translate("centralWidget", "ML Maximum Likelihood", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("centralWidget", "PHAT weighting function", 0, QApplication::UnicodeUTF8)
         );
+        pushButton_2->setText(QApplication::translate("centralWidget", "Run &Cross-Correlation", 0, QApplication::UnicodeUTF8));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab), QApplication::translate("centralWidget", "1 - 2", 0, QApplication::UnicodeUTF8));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_3), QApplication::translate("centralWidget", "1 - 3", 0, QApplication::UnicodeUTF8));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_4), QApplication::translate("centralWidget", "1 - 4", 0, QApplication::UnicodeUTF8));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_5), QApplication::translate("centralWidget", "2 - 3", 0, QApplication::UnicodeUTF8));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_6), QApplication::translate("centralWidget", "2 - 4", 0, QApplication::UnicodeUTF8));
+        tabWidget_2->setTabText(tabWidget_2->indexOf(tab_7), QApplication::translate("centralWidget", "3 - 4", 0, QApplication::UnicodeUTF8));
+        label_8->setText(QApplication::translate("centralWidget", "Cross-Correlation View", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(Correlation), QApplication::translate("centralWidget", "Correlation", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("centralWidget", "TDOA", 0, QApplication::UnicodeUTF8));
         Q_UNUSED(centralWidget);

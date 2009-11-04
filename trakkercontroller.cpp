@@ -41,19 +41,32 @@ trakkercontroller * trakkercontroller::instance() {
 
 void trakkercontroller::connectMua() {  // here connect all neccesary items
     assert ( m_pWindow && m_pModel ) ;
-    QObject::connect( m_pModel ,  SIGNAL(sigDrawLine(int, int, int, int, int)), m_pWindow, SLOT(drawLine(int, int, int, int, int))) ;
+
+    //drawing
+    QObject::connect( m_pModel , SIGNAL(sigDrawLine(int, int, int, int, int)), m_pWindow, SLOT(drawLine(int, int, int, int, int))) ;
+    QObject::connect( m_pModel , SIGNAL(sigSetStatus(QString, int)) , m_pWindow , SLOT(setStatus(QString, int)));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->tabWidget_2, SIGNAL(currentChanged(int)), m_pModel, SLOT(setSignals(int)));
+
+    //windowing
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->comboBox, SIGNAL(highlighted(int)), m_pModel, SLOT(setWindowing(int))) ;
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->comboBox, SIGNAL(currentIndexChanged(int)), m_pModel, SLOT(setWindowing(int))) ;
+    QObject::connect( m_pWindow, SIGNAL(sigWindow()) , m_pModel, SLOT(runWindowing()));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton, SIGNAL(pressed()) ,m_pModel, SLOT(runWindowing()));
+
+    //capture
     QObject::connect( m_pWindow, SIGNAL(sigStartTransfer()), m_pModel, SLOT(startTransfer()));
     QObject::connect( m_pWindow, SIGNAL(sigStopTransfer()), m_pModel, SLOT(stopTransfer()));
-    QObject::connect( m_pWindow, SIGNAL(sigWindow()) , m_pModel, SLOT(runWindowing()));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->radioButton_1, SIGNAL(toggled(bool)),m_pModel, SLOT(setContinousCapturing(bool)));
+
+    //correlation
     QObject::connect( m_pWindow, SIGNAL(sigCorrelation()) , m_pModel, SLOT(runCorrelation()));
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_2, SIGNAL(pressed()) ,m_pModel, SLOT(runCorrelation()));
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->comboBox_3, SIGNAL(highlighted(int)), m_pModel, SLOT(setCorrelation(int)));
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->comboBox_3, SIGNAL(currentIndexChanged(int)), m_pModel, SLOT(setCorrelation(int)));
-    QObject::connect( m_pModel , SIGNAL(sigSetStatus(QString, int)) , m_pWindow , SLOT(setStatus(QString, int)));
+
+
+    //network connection
     QObject::connect( m_pWindow, SIGNAL(sigConnection()), m_pModel , SLOT(setConnection()));
     QObject::connect( m_pWindow, SIGNAL(sigDisconnect()), m_pModel , SLOT(setDisconnection()));
-    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->radioButton_1, SIGNAL(toggled(bool)),m_pModel, SLOT(setContinousCapturing(bool)));
-    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton, SIGNAL(pressed()) ,m_pModel, SLOT(runWindowing()));
 
 }
