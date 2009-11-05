@@ -608,9 +608,9 @@ QVector<double> correlation(double* p_sigA, double* p_sigB, int size){ // sigA a
         for(m=0 ; m<n ; m++){
             j = m + delay;
             if ((j < 0) || (j>= n))
-                continue;
+                sTmp += (p_sigA[m] - meanA) * (p_sigB[j%n] - meanB); //continue;
             else
-                sTmp += (p_sigA[m] - meanA) * (p_sigB[m] - meanB);
+                sTmp += (p_sigA[m] - meanA) * (p_sigB[j] - meanB);
         }
         tmp = sTmp/normalize;
         out.append(tmp);
@@ -634,6 +634,7 @@ trakkermodel::trakkermodel(){
     windowType          = 0            ;
     samplingFreq        = 44000        ;
     b_correlationDone   = FALSE        ;
+    dataSlot            = 0            ;
 
     corrColor.resize(6);
     corrColor.fill('b');
@@ -728,10 +729,10 @@ void trakkermodel::clearCorrView(){
 void trakkermodel::displayInput(){
 
     for (int i = 0 ; i< inputPlotWidth -1 ; i++){
-        emit sigDrawLine(0, i, m_triggeredData[i]/8, i+1,                                  m_triggeredData[i+1]/8 );
-        emit sigDrawLine(1, i, m_triggeredData[bufferSize+i]/8, i+1,                       m_triggeredData[bufferSize+i+1]/8 );
-        emit sigDrawLine(2, i, m_triggeredData[bufferSize+bufferSize+i]/8, i+1,            m_triggeredData[bufferSize+bufferSize+i+1]/8 );
-        emit sigDrawLine(3, i, m_triggeredData[bufferSize+bufferSize+bufferSize+i]/8, i+1, m_triggeredData[bufferSize+bufferSize+bufferSize+i+1]/8 );
+        emit sigDrawLine(0, i, m_triggeredData[i]/*[dataSlot]*//8, i+1,                                  m_triggeredData[i+1]/*[dataSlot]*//8 );
+        emit sigDrawLine(1, i, m_triggeredData[bufferSize+i]/*[dataSlot]*//8, i+1,                       m_triggeredData[bufferSize+i+1]/*[dataSlot]*//8 );
+        emit sigDrawLine(2, i, m_triggeredData[bufferSize+bufferSize+i]/*[dataSlot]*//8, i+1,            m_triggeredData[bufferSize+bufferSize+i+1]/*[dataSlot]*//8 );
+        emit sigDrawLine(3, i, m_triggeredData[bufferSize+bufferSize+bufferSize+i]/*[dataSlot]*//8, i+1, m_triggeredData[bufferSize+bufferSize+bufferSize+i+1]/*[dataSlot]*//8 );
     }
 }
 
@@ -781,13 +782,13 @@ void trakkermodel::displayCorrelation(){
         setStatus("Calculate CrossCorrelation first",4000);
 }
 
-void trakkermodel::handleInputData( ){ // handle data from ethernet
+void trakkermodel::handleInputData(bool doIt){ // handle data from ethernet
 
     if ( connectionState < 1 ){ // not connected or failed
         emit sigSetStatus("Connect to server via Ethernet before capturing data",4000);
 
     }else{
-        if(connectionState == 1){ // is connected
+        if((connectionState == 1)&&(doIt)){ // is connected, and user want it
             QByteArray command("",4);
             if ( -1 == q_pSocket->write(command))
                 qDebug() << "error " ;
@@ -797,6 +798,7 @@ void trakkermodel::handleInputData( ){ // handle data from ethernet
             else
                 continousCapturing = 0;
         }
+
     }
 }
 
@@ -893,12 +895,12 @@ void trakkermodel::setCorrelation(int type){
 void trakkermodel::startTransfer(){ // this function should transfer data trough ethernet
     continousCapturing = continousCaptureReq ;
     setWindowing(windowType);
-    handleInputData();
+    handleInputData(TRUE);
 }
 
 void trakkermodel::stopTransfer(){ // this function should stop capturing data
     continousCapturing = 0 ;
-    handleInputData();
+    handleInputData(FALSE);
 }
 
 void trakkermodel::runCorrelation(){  // if all signals have to be processed ? or better (int int) choose 3 signals to process CrossCorrelation?
@@ -995,73 +997,73 @@ void trakkermodel::runWindowing(){
     {
         case 7:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + blackmanHarrisWindow[i] * (m_triggeredData[i               ]-512); // m_triggeredData contain 10 valid bits
-                this->windowedSignals[i][1] = 512 + blackmanHarrisWindow[i] * (m_triggeredData[i + bufferSize  ]-512); // so 1024 values
-                this->windowedSignals[i][2] = 512 + blackmanHarrisWindow[i] * (m_triggeredData[i + bufferSize*2]-512); // relative level '0' is
-                this->windowedSignals[i][3] = 512 + blackmanHarrisWindow[i] * (m_triggeredData[i + bufferSize*3]-512);
+                this->windowedSignals[i][0] = 512 + blackmanHarrisWindow[i] * (m_triggeredData[i               ]/*[dataSlot]*/-512); // m_triggeredData contain 10 valid bits
+                this->windowedSignals[i][1] = 512 + blackmanHarrisWindow[i] * (m_triggeredData[i + bufferSize  ]/*[dataSlot]*/-512); // so 1024 values
+                this->windowedSignals[i][2] = 512 + blackmanHarrisWindow[i] * (m_triggeredData[i + bufferSize*2]/*[dataSlot]*/-512); // relative level '0' is
+                this->windowedSignals[i][3] = 512 + blackmanHarrisWindow[i] * (m_triggeredData[i + bufferSize*3]/*[dataSlot]*/-512);
             }
             break;
 
         case 6:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + blackmanNuttallWindow[i] * (m_triggeredData[i               ]-512);
-                this->windowedSignals[i][1] = 512 + blackmanNuttallWindow[i] * (m_triggeredData[i + bufferSize  ]-512);
-                this->windowedSignals[i][2] = 512 + blackmanNuttallWindow[i] * (m_triggeredData[i + bufferSize*2]-512);
-                this->windowedSignals[i][3] = 512 + blackmanNuttallWindow[i] * (m_triggeredData[i + bufferSize*3]-512);
+                this->windowedSignals[i][0] = 512 + blackmanNuttallWindow[i] * (m_triggeredData[i               ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][1] = 512 + blackmanNuttallWindow[i] * (m_triggeredData[i + bufferSize  ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][2] = 512 + blackmanNuttallWindow[i] * (m_triggeredData[i + bufferSize*2]/*[dataSlot]*/-512);
+                this->windowedSignals[i][3] = 512 + blackmanNuttallWindow[i] * (m_triggeredData[i + bufferSize*3]/*[dataSlot]*/-512);
             }
             break;
 
         case 5:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + nuttallWindow[i] * (m_triggeredData[i               ]-512);
-                this->windowedSignals[i][1] = 512 + nuttallWindow[i] * (m_triggeredData[i + bufferSize  ]-512);
-                this->windowedSignals[i][2] = 512 + nuttallWindow[i] * (m_triggeredData[i + bufferSize*2]-512);
-                this->windowedSignals[i][3] = 512 + nuttallWindow[i] * (m_triggeredData[i + bufferSize*3]-512);
+                this->windowedSignals[i][0] = 512 + nuttallWindow[i] * (m_triggeredData[i               ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][1] = 512 + nuttallWindow[i] * (m_triggeredData[i + bufferSize  ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][2] = 512 + nuttallWindow[i] * (m_triggeredData[i + bufferSize*2]/*[dataSlot]*/-512);
+                this->windowedSignals[i][3] = 512 + nuttallWindow[i] * (m_triggeredData[i + bufferSize*3]/*[dataSlot]*/-512);
             }
             break;
 
         case 4:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 +  gaussWindow[i] * (m_triggeredData[i                ]-512);
-                this->windowedSignals[i][1] = 512 + gaussWindow[i] * (m_triggeredData[i + bufferSize   ]-512);
-                this->windowedSignals[i][2] = 512 + gaussWindow[i] * (m_triggeredData[i + bufferSize*2 ]-512);
-                this->windowedSignals[i][3] = 512 + gaussWindow[i] * (m_triggeredData[i + bufferSize*3 ]-512);
+                this->windowedSignals[i][0] = 512 +  gaussWindow[i] * (m_triggeredData[i                ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][1] = 512 + gaussWindow[i] * (m_triggeredData[i + bufferSize   ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][2] = 512 + gaussWindow[i] * (m_triggeredData[i + bufferSize*2 ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][3] = 512 + gaussWindow[i] * (m_triggeredData[i + bufferSize*3 ]/*[dataSlot]*/-512);
             }
             break;
 
         case 3:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + hammingWindow[i] * (m_triggeredData[i                ]-512);
-                this->windowedSignals[i][1] = 512 + hammingWindow[i] * (m_triggeredData[i + bufferSize   ]-512);
-                this->windowedSignals[i][2] = 512 + hammingWindow[i] * (m_triggeredData[i + bufferSize*2 ]-512);
-                this->windowedSignals[i][3] = 512 + hammingWindow[i] * (m_triggeredData[i + bufferSize*3 ]-512);
+                this->windowedSignals[i][0] = 512 + hammingWindow[i] * (m_triggeredData[i                ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][1] = 512 + hammingWindow[i] * (m_triggeredData[i + bufferSize   ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][2] = 512 + hammingWindow[i] * (m_triggeredData[i + bufferSize*2 ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][3] = 512 + hammingWindow[i] * (m_triggeredData[i + bufferSize*3 ]/*[dataSlot]*/-512);
             }
             break;
 
         case 2:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + blackmanWindow[i] * (m_triggeredData[i                ]-512);
-                this->windowedSignals[i][1] = 512 + blackmanWindow[i] * (m_triggeredData[i + bufferSize   ]-512);
-                this->windowedSignals[i][2] = 512 + blackmanWindow[i] * (m_triggeredData[i + bufferSize*2 ]-512);
-                this->windowedSignals[i][3] = 512 + blackmanWindow[i] * (m_triggeredData[i + bufferSize*3 ]-512);
+                this->windowedSignals[i][0] = 512 + blackmanWindow[i] * (m_triggeredData[i                ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][1] = 512 + blackmanWindow[i] * (m_triggeredData[i + bufferSize   ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][2] = 512 + blackmanWindow[i] * (m_triggeredData[i + bufferSize*2 ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][3] = 512 + blackmanWindow[i] * (m_triggeredData[i + bufferSize*3 ]/*[dataSlot]*/-512);
             }
             break;
 
         case 1:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + triangularWindow[i] *( m_triggeredData[i                ]-512);
-                this->windowedSignals[i][1] = 512 + triangularWindow[i] * (m_triggeredData[i + bufferSize   ]-512);
-                this->windowedSignals[i][2] = 512 + triangularWindow[i] * (m_triggeredData[i + bufferSize*2 ]-512);
-                this->windowedSignals[i][3] = 512 + triangularWindow[i] * (m_triggeredData[i + bufferSize*3 ]-512);
+                this->windowedSignals[i][0] = 512 + triangularWindow[i] *( m_triggeredData[i                ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][1] = 512 + triangularWindow[i] * (m_triggeredData[i + bufferSize   ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][2] = 512 + triangularWindow[i] * (m_triggeredData[i + bufferSize*2 ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][3] = 512 + triangularWindow[i] * (m_triggeredData[i + bufferSize*3 ]/*[dataSlot]*/-512);
             }
             break;
 
         case 0:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + rectangularWindow[i] * (m_triggeredData[i                ]-512);
-                this->windowedSignals[i][1] = 512 + rectangularWindow[i] * (m_triggeredData[i + bufferSize   ]-512);
-                this->windowedSignals[i][2] = 512 + rectangularWindow[i] * (m_triggeredData[i + bufferSize*2 ]-512);
-                this->windowedSignals[i][3] = 512 + rectangularWindow[i] * (m_triggeredData[i + bufferSize*3 ]-512);
+                this->windowedSignals[i][0] = 512 + rectangularWindow[i] * (m_triggeredData[i                ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][1] = 512 + rectangularWindow[i] * (m_triggeredData[i + bufferSize   ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][2] = 512 + rectangularWindow[i] * (m_triggeredData[i + bufferSize*2 ]/*[dataSlot]*/-512);
+                this->windowedSignals[i][3] = 512 + rectangularWindow[i] * (m_triggeredData[i + bufferSize*3 ]/*[dataSlot]*/-512);
             }
             break;
 
@@ -1139,8 +1141,8 @@ void trakkermodel::setConnection(){
 
 void trakkermodel::setDisconnection(){
     q_pSocket->disconnectFromHost();
-    if(q_pSocket->disconnected())
-        connectionState = 0 ;
+    //if(q_pSocket->disconnected())
+    connectionState = 0 ;
 }
 
 void trakkermodel::tcpError( QAbstractSocket::SocketError socketError ) {
@@ -1148,7 +1150,7 @@ void trakkermodel::tcpError( QAbstractSocket::SocketError socketError ) {
 }
 
 void trakkermodel::setContinousCapturing(bool flag){   //TODO continous capturing
-    this->continousCaptureReq  = flag;
+    this->continousCaptureReq  = !flag;
 }
 
 void trakkermodel::readTcp(){
@@ -1158,14 +1160,13 @@ void trakkermodel::readTcp(){
             unsigned char one =m_tcpBuffer.at(i);
             unsigned char two = m_tcpBuffer.at(i+1) ;
             m_parsedData.push_back( (short)((int)two)*256 + (int)one );
-            //m_parsedData.push_back( (short)(512+ 512*((float)(sin(i/10))) ));
-            qDebug() << (short)two << "   " << (int)one ;
         }
     }else{ //if 'a' has odd elements
         for ( int i = 0 ; i < m_tcpBuffer.size() - 1 ; i+=2 ) {
             char one =m_tcpBuffer.at(i);
             char two = m_tcpBuffer.at(i+1) ;
             m_parsedData.push_back( (short)((int)two)*256 + (int)one );
+            qDebug() << " m_parsedData has odd elements";
             
         }
 
@@ -1173,15 +1174,16 @@ void trakkermodel::readTcp(){
 
     if ( (4*bufferSize) < m_parsedData.size() ){ // if there is enough elements to fill the m_triggeredData data set - Just do it.
 
-        m_triggeredData = m_parsedData;
-        m_triggeredData.remove(2048 , m_parsedData.size()-2048  ) ;
+        //dataSlot = (dataSlot+1)%3;
+        m_triggeredData/*[dataSlot]*/ = m_parsedData;
+        m_triggeredData/*[dataSlot]*/.remove(2048 , m_parsedData.size()-2048  ) ;
         m_parsedData.remove(0, 2048);// erase elements rewritten to m_triggeredData
-
 
         clearDisplay();
         displayInput();
         if (TRUE==continousCapturing)     // after each full data set ask kindly for next one
-            handleInputData();
+            handleInputData(TRUE);
+
     }
 
 }

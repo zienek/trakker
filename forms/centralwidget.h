@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'centralwidget.ui'
 **
-** Created: Wed Nov 4 16:06:48 2009
+** Created: Thu Nov 5 22:03:01 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -135,8 +135,8 @@ public:
         sizePolicy.setVerticalStretch(0);
         sizePolicy.setHeightForWidth(graphicsView_1->sizePolicy().hasHeightForWidth());
         graphicsView_1->setSizePolicy(sizePolicy);
-        graphicsView_1->setMinimumSize(QSize(520, 128));
-        graphicsView_1->setMaximumSize(QSize(520, 128));
+        graphicsView_1->setMinimumSize(QSize(519, 134));
+        graphicsView_1->setMaximumSize(QSize(520, 134));
 
         verticalLayout->addWidget(graphicsView_1);
 
@@ -154,8 +154,8 @@ public:
         graphicsView_2->setObjectName(QString::fromUtf8("graphicsView_2"));
         sizePolicy.setHeightForWidth(graphicsView_2->sizePolicy().hasHeightForWidth());
         graphicsView_2->setSizePolicy(sizePolicy);
-        graphicsView_2->setMinimumSize(QSize(520, 128));
-        graphicsView_2->setMaximumSize(QSize(520, 128));
+        graphicsView_2->setMinimumSize(QSize(520, 134));
+        graphicsView_2->setMaximumSize(QSize(520, 134));
 
         verticalLayout->addWidget(graphicsView_2);
 
@@ -173,8 +173,8 @@ public:
         graphicsView_3->setObjectName(QString::fromUtf8("graphicsView_3"));
         sizePolicy.setHeightForWidth(graphicsView_3->sizePolicy().hasHeightForWidth());
         graphicsView_3->setSizePolicy(sizePolicy);
-        graphicsView_3->setMinimumSize(QSize(520, 128));
-        graphicsView_3->setMaximumSize(QSize(520, 128));
+        graphicsView_3->setMinimumSize(QSize(520, 134));
+        graphicsView_3->setMaximumSize(QSize(520, 134));
 
         verticalLayout->addWidget(graphicsView_3);
 
@@ -192,8 +192,8 @@ public:
         graphicsView_4->setObjectName(QString::fromUtf8("graphicsView_4"));
         sizePolicy.setHeightForWidth(graphicsView_4->sizePolicy().hasHeightForWidth());
         graphicsView_4->setSizePolicy(sizePolicy);
-        graphicsView_4->setMinimumSize(QSize(520, 128));
-        graphicsView_4->setMaximumSize(QSize(520, 128));
+        graphicsView_4->setMinimumSize(QSize(520, 134));
+        graphicsView_4->setMaximumSize(QSize(520, 134));
 
         verticalLayout->addWidget(graphicsView_4);
 
@@ -421,7 +421,7 @@ public:
 
         retranslateUi(centralWidget);
 
-        tabWidget->setCurrentIndex(0);
+        tabWidget->setCurrentIndex(1);
         tabWidget_2->setCurrentIndex(0);
 
 

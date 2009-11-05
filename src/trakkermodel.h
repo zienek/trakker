@@ -78,7 +78,7 @@ public slots:
 
 
 private:
-    void   handleInputData()    ;        // from Ethernet
+    void   handleInputData(bool);        // from Ethernet
     void   displayInput()       ;
     void   clearDisplay()       ;
 
@@ -94,6 +94,7 @@ private:
     double windowedSignals   [512][4];
     float  correlatedSignals [512]   ;
     int    samplingFreq              ; // initial 44000
+    int    dataSlot                  ;
 
     QByteArray   inputData           ;
     QString      tcpServerAddress    ;   // initially 192.168.1.5 set inside constructor

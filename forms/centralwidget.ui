@@ -42,14 +42,14 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>520</width>
-           <height>128</height>
+           <width>519</width>
+           <height>134</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>520</width>
-           <height>128</height>
+           <height>134</height>
           </size>
          </property>
         </widget>
@@ -76,13 +76,13 @@
          <property name="minimumSize">
           <size>
            <width>520</width>
-           <height>128</height>
+           <height>134</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>520</width>
-           <height>128</height>
+           <height>134</height>
           </size>
          </property>
         </widget>
@@ -109,13 +109,13 @@
          <property name="minimumSize">
           <size>
            <width>520</width>
-           <height>128</height>
+           <height>134</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>520</width>
-           <height>128</height>
+           <height>134</height>
           </size>
          </property>
         </widget>
@@ -142,13 +142,13 @@
          <property name="minimumSize">
           <size>
            <width>520</width>
-           <height>128</height>
+           <height>134</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
            <width>520</width>
-           <height>128</height>
+           <height>134</height>
           </size>
          </property>
         </widget>
@@ -255,7 +255,7 @@
           </size>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>1</number>
          </property>
          <widget class="QWidget" name="Input">
           <attribute name="title">
