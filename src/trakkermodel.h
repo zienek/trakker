@@ -39,22 +39,27 @@ public:
 
 public slots:
 
+    void appendCorrToView(int);
+    void clearCorrView();
     void displayCorrelation() ;
-    void setWindowing(int);
-    void setCorrelation(int);
-    void setContinousCapturing(bool);
-    void startTransfer();
-    void stopTransfer();
-    void runWindowing();
+    void loadInput();
+    void readTcp();
     void runCorrelation();
+    void runWindowing();
     void setConnection();
     void setDisconnection();
     void setStatus(QString, int);
-    void tcpError( QAbstractSocket::SocketError socketError ) ;
-    void readTcp();   
+    void setContinousCapturing(bool);
+    void setCorrelation(int);
+    void setWindowing(int);
+    void saveCorrToBmp();
+    void saveCorrToTxt();
+    void saveInputToBmp();
+    void saveInputToTxt();
     void setSignals(int);
-    void appendCorrToView(int);
-    void clearCorrView();
+    void startTransfer();
+    void stopTransfer();
+    void tcpError( QAbstractSocket::SocketError socketError ) ;
 
 
 //    void load() {

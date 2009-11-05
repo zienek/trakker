@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'centralwidget.ui'
 **
-** Created: Wed Nov 4 14:13:37 2009
+** Created: Wed Nov 4 16:06:48 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -63,6 +63,10 @@ public:
     QRadioButton *radioButton_1;
     QRadioButton *radioButton_2;
     QLabel *label_7;
+    QPushButton *pushButton_12;
+    QPushButton *pushButton_13;
+    QPushButton *pushButton_14;
+    QPushButton *pushButton_15;
     QWidget *Windowing;
     QLabel *label;
     QComboBox *comboBox;
@@ -240,10 +244,10 @@ public:
         Input->setObjectName(QString::fromUtf8("Input"));
         comboBox_2 = new QComboBox(Input);
         comboBox_2->setObjectName(QString::fromUtf8("comboBox_2"));
-        comboBox_2->setGeometry(QRect(160, 130, 121, 30));
+        comboBox_2->setGeometry(QRect(150, 140, 121, 30));
         label_6 = new QLabel(Input);
         label_6->setObjectName(QString::fromUtf8("label_6"));
-        label_6->setGeometry(QRect(20, 140, 121, 20));
+        label_6->setGeometry(QRect(20, 150, 121, 20));
         radioButton_1 = new QRadioButton(Input);
         radioButton_1->setObjectName(QString::fromUtf8("radioButton_1"));
         radioButton_1->setEnabled(true);
@@ -256,7 +260,19 @@ public:
         radioButton_2->setAutoExclusive(true);
         label_7 = new QLabel(Input);
         label_7->setObjectName(QString::fromUtf8("label_7"));
-        label_7->setGeometry(QRect(20, 180, 251, 71));
+        label_7->setGeometry(QRect(30, 280, 221, 41));
+        pushButton_12 = new QPushButton(Input);
+        pushButton_12->setObjectName(QString::fromUtf8("pushButton_12"));
+        pushButton_12->setGeometry(QRect(40, 240, 181, 27));
+        pushButton_13 = new QPushButton(Input);
+        pushButton_13->setObjectName(QString::fromUtf8("pushButton_13"));
+        pushButton_13->setGeometry(QRect(270, 240, 201, 27));
+        pushButton_14 = new QPushButton(Input);
+        pushButton_14->setObjectName(QString::fromUtf8("pushButton_14"));
+        pushButton_14->setGeometry(QRect(270, 280, 201, 27));
+        pushButton_15 = new QPushButton(Input);
+        pushButton_15->setObjectName(QString::fromUtf8("pushButton_15"));
+        pushButton_15->setGeometry(QRect(300, 140, 112, 27));
         tabWidget->addTab(Input, QString());
         Windowing = new QWidget();
         Windowing->setObjectName(QString::fromUtf8("Windowing"));
@@ -405,7 +421,7 @@ public:
 
         retranslateUi(centralWidget);
 
-        tabWidget->setCurrentIndex(2);
+        tabWidget->setCurrentIndex(0);
         tabWidget_2->setCurrentIndex(0);
 
 
@@ -435,6 +451,10 @@ public:
         radioButton_2->setText(QApplication::translate("centralWidget", "Continuous signal processing", 0, QApplication::UnicodeUTF8));
         label_7->setText(QApplication::translate("centralWidget", "TODO: Save triggered signals\n"
 " and load saved signals", 0, QApplication::UnicodeUTF8));
+        pushButton_12->setText(QApplication::translate("centralWidget", "Save views as graphic", 0, QApplication::UnicodeUTF8));
+        pushButton_13->setText(QApplication::translate("centralWidget", "Save as text coefficient", 0, QApplication::UnicodeUTF8));
+        pushButton_14->setText(QApplication::translate("centralWidget", "Load coefficient from file", 0, QApplication::UnicodeUTF8));
+        pushButton_15->setText(QApplication::translate("centralWidget", "Submit", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(Input), QApplication::translate("centralWidget", "Input", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
         Windowing->setToolTip(QApplication::translate("centralWidget", "Windowing", 0, QApplication::UnicodeUTF8));

@@ -583,7 +583,7 @@ QVector<double> correlation(double* p_sigA, double* p_sigB, int size){ // sigA a
     int          n = bufferSize  ;
     int delayLimit = 500         ;   // approx for 512 x 48000 x 1m distance
     int delay                    ;
-    int        i = 0 ,     j = 0 ,    k = 0 , m = 0;
+    int        i = 0 ,     j = 0 , m = 0;
     double meanA = 0 , meanB = 0 ;
     double    sA = 0 ,    sB = 0 , sTmp = 0 ;
     double         normalize = 0 ;
@@ -602,7 +602,7 @@ QVector<double> correlation(double* p_sigA, double* p_sigB, int size){ // sigA a
 
     normalize = sqrt(sA*sB);
 
-    for( delay = 0, k = 0 ; delay < delayLimit; delay++, k++){
+    for( delay = 0 ; delay < delayLimit; delay++){
         sTmp = 0 ;
         tmp  = 0 ;
         for(m=0 ; m<n ; m++){
@@ -793,9 +793,15 @@ void trakkermodel::handleInputData( ){ // handle data from ethernet
                 qDebug() << "error " ;
 
             if(continousCaptureReq == 1)
+                continousCapturing = 1;
+            else
                 continousCapturing = 0;
         }
     }
+}
+
+void trakkermodel::loadInput(){
+    qDebug() << "TODO: load input samples from txt file dialog";
 }
 
 void trakkermodel::setWindowing(int window){   // type i.e. 0 rectangular; 1 triangular; 2 blackman; 3 hamming; 4 gauss; 5 nuttall; 6 blackman-hamming; 7 blackman-nuttall
@@ -898,7 +904,53 @@ void trakkermodel::stopTransfer(){ // this function should stop capturing data
 void trakkermodel::runCorrelation(){  // if all signals have to be processed ? or better (int int) choose 3 signals to process CrossCorrelation?
 
     emit sigDrawLine(9,0,0,0,0); // clear screen
-    int i = 0;
+
+    double tmp ;
+
+    int          n = bufferSize  ;
+    int delayLimit = 500         ;   // approx for 512 x 48000 x 1m distance
+    int delay                    ;
+    int        i = 0 ,     j = 0 , m = 0;
+    double meanA = 0 , meanB = 0 ;
+    double    sA = 0 ,    sB = 0 , sTmp = 0 ;
+    double         normalize = 0 ;
+
+    for( i=0 ; i<n ; i++){
+        meanA += windowedSignals[i][0];
+        meanB += windowedSignals[i][1];
+    }
+    meanA = meanA/n;    // rescale mean value
+    meanB = meanB/n;    // of both signals
+
+    for ( i=0 ; i<n ; i++){
+        sA += (windowedSignals[i][0]-meanA) * (windowedSignals[i][0]-meanA);
+        sB += (windowedSignals[i][1]-meanA) * (windowedSignals[i][1]-meanA);
+    }
+
+    normalize = sqrt(sA*sB);
+
+    corr12.clear();
+
+    for( delay = 0 ; delay < delayLimit; delay++){
+        sTmp = 0 ;
+        tmp  = 0 ;
+        for(m=0 ; m<n ; m++){
+            j = m + delay;
+            if ((j < 0) || (j>= n))
+                continue;
+            else
+                sTmp += (windowedSignals[m][0] - meanA) * (windowedSignals[m][1] - meanB);
+        }
+        tmp = sTmp/normalize;
+        corr12.append(tmp);
+    }
+
+    corr12.clear();
+    corr13.clear();
+    corr14.clear();
+    corr23.clear();
+    corr24.clear();
+    corr34.clear();
 
     corr12 = correlation(&windowedSignals[0][0], &windowedSignals[0][1], 512);
     corr13 = correlation(&windowedSignals[0][0], &windowedSignals[0][2], 512);
@@ -943,73 +995,73 @@ void trakkermodel::runWindowing(){
     {
         case 7:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + 0.5 * blackmanHarrisWindow[i] * m_triggeredData[i               ]; // m_triggeredData contain 10 valid bits
-                this->windowedSignals[i][1] = 512 + 0.5 * blackmanHarrisWindow[i] * m_triggeredData[i + bufferSize  ]; // so 1024 values
-                this->windowedSignals[i][2] = 512 + 0.5 * blackmanHarrisWindow[i] * m_triggeredData[i + bufferSize*2]; // relative level '0' is
-                this->windowedSignals[i][3] = 512 + 0.5 * blackmanHarrisWindow[i] * m_triggeredData[i + bufferSize*3];
+                this->windowedSignals[i][0] = 512 + blackmanHarrisWindow[i] * (m_triggeredData[i               ]-512); // m_triggeredData contain 10 valid bits
+                this->windowedSignals[i][1] = 512 + blackmanHarrisWindow[i] * (m_triggeredData[i + bufferSize  ]-512); // so 1024 values
+                this->windowedSignals[i][2] = 512 + blackmanHarrisWindow[i] * (m_triggeredData[i + bufferSize*2]-512); // relative level '0' is
+                this->windowedSignals[i][3] = 512 + blackmanHarrisWindow[i] * (m_triggeredData[i + bufferSize*3]-512);
             }
             break;
 
         case 6:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + 0.5 * blackmanNuttallWindow[i] * m_triggeredData[i               ];
-                this->windowedSignals[i][1] = 512 + 0.5 * blackmanNuttallWindow[i] * m_triggeredData[i + bufferSize  ];
-                this->windowedSignals[i][2] = 512 + 0.5 * blackmanNuttallWindow[i] * m_triggeredData[i + bufferSize*2];
-                this->windowedSignals[i][3] = 512 + 0.5 * blackmanNuttallWindow[i] * m_triggeredData[i + bufferSize*3];
+                this->windowedSignals[i][0] = 512 + blackmanNuttallWindow[i] * (m_triggeredData[i               ]-512);
+                this->windowedSignals[i][1] = 512 + blackmanNuttallWindow[i] * (m_triggeredData[i + bufferSize  ]-512);
+                this->windowedSignals[i][2] = 512 + blackmanNuttallWindow[i] * (m_triggeredData[i + bufferSize*2]-512);
+                this->windowedSignals[i][3] = 512 + blackmanNuttallWindow[i] * (m_triggeredData[i + bufferSize*3]-512);
             }
             break;
 
         case 5:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + 0.5 * nuttallWindow[i] * m_triggeredData[i               ];
-                this->windowedSignals[i][1] = 512 + 0.5 * nuttallWindow[i] * m_triggeredData[i + bufferSize  ];
-                this->windowedSignals[i][2] = 512 + 0.5 * nuttallWindow[i] * m_triggeredData[i + bufferSize*2];
-                this->windowedSignals[i][3] = 512 + 0.5 * nuttallWindow[i] * m_triggeredData[i + bufferSize*3];
+                this->windowedSignals[i][0] = 512 + nuttallWindow[i] * (m_triggeredData[i               ]-512);
+                this->windowedSignals[i][1] = 512 + nuttallWindow[i] * (m_triggeredData[i + bufferSize  ]-512);
+                this->windowedSignals[i][2] = 512 + nuttallWindow[i] * (m_triggeredData[i + bufferSize*2]-512);
+                this->windowedSignals[i][3] = 512 + nuttallWindow[i] * (m_triggeredData[i + bufferSize*3]-512);
             }
             break;
 
         case 4:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + 0.5 * gaussWindow[i] * m_triggeredData[i                ];
-                this->windowedSignals[i][1] = 512 + 0.5 * gaussWindow[i] * m_triggeredData[i + bufferSize   ];
-                this->windowedSignals[i][2] = 512 + 0.5 * gaussWindow[i] * m_triggeredData[i + bufferSize*2 ];
-                this->windowedSignals[i][3] = 512 + 0.5 * gaussWindow[i] * m_triggeredData[i + bufferSize*3 ];
+                this->windowedSignals[i][0] = 512 +  gaussWindow[i] * (m_triggeredData[i                ]-512);
+                this->windowedSignals[i][1] = 512 + gaussWindow[i] * (m_triggeredData[i + bufferSize   ]-512);
+                this->windowedSignals[i][2] = 512 + gaussWindow[i] * (m_triggeredData[i + bufferSize*2 ]-512);
+                this->windowedSignals[i][3] = 512 + gaussWindow[i] * (m_triggeredData[i + bufferSize*3 ]-512);
             }
             break;
 
         case 3:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + 0.5 * hammingWindow[i] * m_triggeredData[i                ];
-                this->windowedSignals[i][1] = 512 + 0.5 * hammingWindow[i] * m_triggeredData[i + bufferSize   ];
-                this->windowedSignals[i][2] = 512 + 0.5 * hammingWindow[i] * m_triggeredData[i + bufferSize*2 ];
-                this->windowedSignals[i][3] = 512 + 0.5 * hammingWindow[i] * m_triggeredData[i + bufferSize*3 ];
+                this->windowedSignals[i][0] = 512 + hammingWindow[i] * (m_triggeredData[i                ]-512);
+                this->windowedSignals[i][1] = 512 + hammingWindow[i] * (m_triggeredData[i + bufferSize   ]-512);
+                this->windowedSignals[i][2] = 512 + hammingWindow[i] * (m_triggeredData[i + bufferSize*2 ]-512);
+                this->windowedSignals[i][3] = 512 + hammingWindow[i] * (m_triggeredData[i + bufferSize*3 ]-512);
             }
             break;
 
         case 2:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + 0.5 * blackmanWindow[i] * m_triggeredData[i                ];
-                this->windowedSignals[i][1] = 512 + 0.5 * blackmanWindow[i] * m_triggeredData[i + bufferSize   ];
-                this->windowedSignals[i][2] = 512 + 0.5 * blackmanWindow[i] * m_triggeredData[i + bufferSize*2 ];
-                this->windowedSignals[i][3] = 512 + 0.5 * blackmanWindow[i] * m_triggeredData[i + bufferSize*3 ];
+                this->windowedSignals[i][0] = 512 + blackmanWindow[i] * (m_triggeredData[i                ]-512);
+                this->windowedSignals[i][1] = 512 + blackmanWindow[i] * (m_triggeredData[i + bufferSize   ]-512);
+                this->windowedSignals[i][2] = 512 + blackmanWindow[i] * (m_triggeredData[i + bufferSize*2 ]-512);
+                this->windowedSignals[i][3] = 512 + blackmanWindow[i] * (m_triggeredData[i + bufferSize*3 ]-512);
             }
             break;
 
         case 1:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + 0.5 * triangularWindow[i] * m_triggeredData[i                ];
-                this->windowedSignals[i][1] = 512 + 0.5 * triangularWindow[i] * m_triggeredData[i + bufferSize   ];
-                this->windowedSignals[i][2] = 512 + 0.5 * triangularWindow[i] * m_triggeredData[i + bufferSize*2 ];
-                this->windowedSignals[i][3] = 512 + 0.5 * triangularWindow[i] * m_triggeredData[i + bufferSize*3 ];
+                this->windowedSignals[i][0] = 512 + triangularWindow[i] *( m_triggeredData[i                ]-512);
+                this->windowedSignals[i][1] = 512 + triangularWindow[i] * (m_triggeredData[i + bufferSize   ]-512);
+                this->windowedSignals[i][2] = 512 + triangularWindow[i] * (m_triggeredData[i + bufferSize*2 ]-512);
+                this->windowedSignals[i][3] = 512 + triangularWindow[i] * (m_triggeredData[i + bufferSize*3 ]-512);
             }
             break;
 
         case 0:
             for(int i = 0 ; i < bufferSize ; ++i){
-                this->windowedSignals[i][0] = 512 + 0.5 * rectangularWindow[i] * m_triggeredData[i                ];
-                this->windowedSignals[i][1] = 512 + 0.5 * rectangularWindow[i] * m_triggeredData[i + bufferSize   ];
-                this->windowedSignals[i][2] = 512 + 0.5 * rectangularWindow[i] * m_triggeredData[i + bufferSize*2 ];
-                this->windowedSignals[i][3] = 512 + 0.5 * rectangularWindow[i] * m_triggeredData[i + bufferSize*3 ];
+                this->windowedSignals[i][0] = 512 + rectangularWindow[i] * (m_triggeredData[i                ]-512);
+                this->windowedSignals[i][1] = 512 + rectangularWindow[i] * (m_triggeredData[i + bufferSize   ]-512);
+                this->windowedSignals[i][2] = 512 + rectangularWindow[i] * (m_triggeredData[i + bufferSize*2 ]-512);
+                this->windowedSignals[i][3] = 512 + rectangularWindow[i] * (m_triggeredData[i + bufferSize*3 ]-512);
             }
             break;
 
@@ -1031,6 +1083,23 @@ void trakkermodel::runWindowing(){
         emit sigDrawLine(7,i  ,127- this->windowedSignals[2*i][2]/8 , i+1 ,127- windowedSignals[2*i + 2][2]/8);
         emit sigDrawLine(8,i  ,127- this->windowedSignals[2*i][3]/8 , i+1 ,127- windowedSignals[2*i + 2][3]/8);
     }
+}
+
+void trakkermodel::saveCorrToBmp(){
+    qDebug() << "TODO: save correlation coefficient  as bmp Dialog";
+}
+
+void trakkermodel::saveCorrToTxt(){
+    qDebug() << "TODO: save correlation coefficient as txt Dialog";
+}
+
+void trakkermodel::saveInputToBmp(){
+    qDebug() << "TODO: save input samples as bmp Dialog";
+}
+
+void trakkermodel::saveInputToTxt(){
+    qDebug() << "TODO: save input samples as txt Dialog";
+
 }
 
 void trakkermodel::setSignals(int whichSig){
@@ -1070,7 +1139,8 @@ void trakkermodel::setConnection(){
 
 void trakkermodel::setDisconnection(){
     q_pSocket->disconnectFromHost();
-    connectionState = 0 ;
+    if(q_pSocket->disconnected())
+        connectionState = 0 ;
 }
 
 void trakkermodel::tcpError( QAbstractSocket::SocketError socketError ) {
@@ -1085,15 +1155,18 @@ void trakkermodel::readTcp(){
     QByteArray m_tcpBuffer = q_pSocket->read(q_pSocket->bytesAvailable());
     if (m_tcpBuffer.size() % 2 == 0 ) { // if 'a' has even elements
         for ( int i = 0 ; i < m_tcpBuffer.size() - 1 ; i+=2 ) {
-            char one =m_tcpBuffer.at(i);
-            char two = m_tcpBuffer.at(i+1) ;
+            unsigned char one =m_tcpBuffer.at(i);
+            unsigned char two = m_tcpBuffer.at(i+1) ;
             m_parsedData.push_back( (short)((int)two)*256 + (int)one );
+            //m_parsedData.push_back( (short)(512+ 512*((float)(sin(i/10))) ));
+            qDebug() << (short)two << "   " << (int)one ;
         }
     }else{ //if 'a' has odd elements
         for ( int i = 0 ; i < m_tcpBuffer.size() - 1 ; i+=2 ) {
             char one =m_tcpBuffer.at(i);
             char two = m_tcpBuffer.at(i+1) ;
             m_parsedData.push_back( (short)((int)two)*256 + (int)one );
+            
         }
 
     }

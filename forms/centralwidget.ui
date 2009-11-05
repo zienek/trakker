@@ -400,6 +400,19 @@
             <string>Load coefficient from file</string>
            </property>
           </widget>
+          <widget class="QPushButton" name="pushButton_15">
+           <property name="geometry">
+            <rect>
+             <x>300</x>
+             <y>140</y>
+             <width>112</width>
+             <height>27</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Submit</string>
+           </property>
+          </widget>
          </widget>
          <widget class="QWidget" name="Windowing">
           <property name="toolTip">
