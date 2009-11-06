@@ -87,13 +87,17 @@ void trakkercontroller::connectMua() {  // here connect all neccesary items
     QObject::connect( m_pWindow, SIGNAL(sigDisconnect()), m_pModel , SLOT(setDisconnection()));
 
     //file operations
-    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_12, SIGNAL(pressed()), m_pModel, SLOT(saveInputToBmp()));
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_13, SIGNAL(pressed()), m_pModel, SLOT(saveInputToTxt()));
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_14, SIGNAL(pressed()), m_pModel, SLOT(loadInput()));
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_4, SIGNAL(pressed()), m_pModel, SLOT(saveCorrToBmp()));
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_5, SIGNAL(pressed()), m_pModel, SLOT(saveCorrToTxt()));
 
-
-
-
+    //QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_12, SIGNAL(pressed()), this, SLOT(printInput()));
 }
+
+/*void trakkercontroller::printInput(){
+    QObject *pointer;
+
+    pointer = (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->graphicsView_1;
+
+}*/

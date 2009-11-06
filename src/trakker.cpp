@@ -104,6 +104,10 @@ void trakker::createActions() // contains actions: About; About QT; Correlation;
     windowAct->setShortcut(tr("w"));
     windowAct->setShortcut(tr("W"));
     connect(windowAct,SIGNAL(triggered()),this,SLOT(windowSlot()));
+
+    printCorrAct = new QAction(tr("Print correlations plot"), this);
+
+    //connect( pCentralWidget->pushButton_12 , SIGNAL(pressed()), this, SLOT(printInput()));
 }
 
 void trakker::createMenus()
@@ -211,6 +215,12 @@ void trakker::drawLine(int which, int x1, int y1, int x2, int y2, char color)
         }
 
     }
+}
+
+void trakker::printInput(){
+
+    setStatus("!!", 4000);
+
 }
 
 void trakker::setStatus(QString text, int sec){

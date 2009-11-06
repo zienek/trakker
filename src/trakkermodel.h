@@ -119,6 +119,7 @@ private:
 signals:
     void sigDrawLine(int selectedWindow, int x1, int y1, int x2, int y2, char color = 'b');
     void sigSetStatus(QString text, int sec);
+    //void sigRequestForHandler();
 
 };
 

@@ -21,16 +21,3 @@ int main(int argc, char *argv[])
 
       return app.exec();
 }
-
-
-/*#include <QtGui/QApplication>
-#include "trakkercontroller.h"
-
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-    trakkercontroller w;
-    //w.show();
-    return a.exec();
-}
-*/

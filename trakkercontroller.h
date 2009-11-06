@@ -45,6 +45,9 @@ private:
     trakkercontroller(const trakkercontroller & rhs );
     trakkercontroller* operator=(const trakkercontroller & rhs );
 
+
+
+
 };
 
 #endif
