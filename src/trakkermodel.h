@@ -46,16 +46,17 @@ public slots:
     void readTcp();
     void runCorrelation();
     void runWindowing();
+    void saveCorrToBmp();
+    void saveCorrToTxt();
+    void saveInputToBmp();
+    void saveInputToTxt();
+    void setBitrate(int);
     void setConnection();
     void setDisconnection();
     void setStatus(QString, int);
     void setContinousCapturing(bool);
     void setCorrelation(int);
     void setWindowing(int);
-    void saveCorrToBmp();
-    void saveCorrToTxt();
-    void saveInputToBmp();
-    void saveInputToTxt();
     void setSignals(int);
     void startTransfer();
     void stopTransfer();
@@ -91,10 +92,11 @@ private:
     int    connectionState           ;
     bool   b_correlationDone         ;
     int    stateOfHandling           ;  // 0 - initial; 1 - started ; 2 - stopped ?
-    double windowedSignals   [512][4];
+    //double windowedSignals   [512][4];
     float  correlatedSignals [512]   ;
     int    samplingFreq              ; // initial 44000
     int    dataSlot                  ;
+    QByteArray command               ;
 
     QByteArray   inputData           ;
     QString      tcpServerAddress    ;   // initially 192.168.1.5 set inside constructor
@@ -103,6 +105,7 @@ private:
     QList<QByteArray> m_data         ;
     QVector<short> m_parsedData      ;
     QVector<short> m_triggeredData   ;
+    QVector<double>windowedSignals   ;
     QVector<double> m_windowShape    ;
 
     QVector<double> corr12           ;  // jak rozłożyć sobie dane z korelacji

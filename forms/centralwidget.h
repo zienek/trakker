@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'centralwidget.ui'
 **
-** Created: Thu Nov 5 22:03:01 2009
+** Created: Fri Nov 6 14:58:31 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -421,7 +421,7 @@ public:
 
         retranslateUi(centralWidget);
 
-        tabWidget->setCurrentIndex(1);
+        tabWidget->setCurrentIndex(0);
         tabWidget_2->setCurrentIndex(0);
 
 
@@ -441,9 +441,14 @@ public:
         comboBox_2->clear();
         comboBox_2->insertItems(0, QStringList()
          << QApplication::translate("centralWidget", "48 ksps", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "44.1 ksps ", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("centralWidget", "24 ksps", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "22.05 ksps", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("centralWidget", "12 ksps", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "10 ksps", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "8 ksps", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("centralWidget", "6 ksps", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("centralWidget", "4 ksps", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("centralWidget", "3 ksps", 0, QApplication::UnicodeUTF8)
         );
         label_6->setText(QApplication::translate("centralWidget", "Sampling rate", 0, QApplication::UnicodeUTF8));
