@@ -236,9 +236,12 @@ void trakkermodel::displayInput(){
 
 void trakkermodel::displayCorrelation(){
 
+    emit sigDrawLine(9,256,-250,256,250,'k');
+    emit sigDrawLine(9,  0,0,510,  0,'k'); // crosshair
+
     if (TRUE==b_correlationDone){
         for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
-            emit sigDrawLine(9, i , corr[chosenSignals].at(i) , i+1 , corr[chosenSignals].at(i+1) ,corrColor.at(chosenSignals) );
+            emit sigDrawLine(9, i ,fftResult[chosenSignals][i] , i+1 , fftResult[chosenSignals][i+1] ,corrColor.at(chosenSignals) );
         }
 
     }else
@@ -465,7 +468,7 @@ void trakkermodel::runCorrelation(){  // if all signals have to be processed ? o
 
     int i = 0; // counter
 
-    emit sigDrawLine(9,256,-250,256,250,'k');
+    //emit sigDrawLine(9,256,-250,256,250,'k');
     emit sigDrawLine(9,  0,0,510,  0,'k'); // crosshair
 
     for(i = 0 ; i < 10 ; i++){
@@ -474,16 +477,21 @@ void trakkermodel::runCorrelation(){  // if all signals have to be processed ? o
 
     b_correlationDone = TRUE ;
 
-    fftw_complex /**ff1,*/ *ff2;  // made regarding to fftw3.pdf p.9
+    fftw_complex *ff1, *ff2; //, *filter;  // made regarding to fftw3.pdf p.9
     fftw_plan fftplans[10];
     fftw_plan ifftplans[10];
 
+    fftw_complex fftBuffer[10][bufferSize];
 
-    //ff1     = (fftw_complex *) fftw_malloc(sizeof(fftw_complex)*bufferSize) ;
+    ff1     = (fftw_complex *) fftw_malloc(sizeof(fftw_complex)*bufferSize) ;
     ff2     = (fftw_complex *) fftw_malloc(sizeof(fftw_complex)*bufferSize) ;
 
+    //filter  = (fftw_complex *) fftw_malloc(sizeof(fftw_complex)*bufferSize) ;
+
+    fftw_complex filter [bufferSize];
 
     switch (correlationType){
+        //Plain Time Cross Correlation
         case 0:
             corr[0] = correlation(windowedSignals,  bufferSize, 0, 1);
             corr[1] = correlation(windowedSignals,  bufferSize, 0, 2);
@@ -492,96 +500,144 @@ void trakkermodel::runCorrelation(){  // if all signals have to be processed ? o
             corr[4] = correlation(windowedSignals,  bufferSize, 1, 3);
             corr[5] = correlation(windowedSignals,  bufferSize, 2, 3);
             for(i = 0 ; i < 6; i ++){
-                fftplans[i]  = fftw_plan_dft_r2c_1d(bufferSize, &corr[i][0], ff2, FFTW_ESTIMATE);
-                ifftplans[i] = fftw_plan_dft_c2r_1d(bufferSize, ff2, &corr[i][0], FFTW_ESTIMATE);
+                fftplans[i]  = fftw_plan_dft_r2c_1d(bufferSize, &corr[i][0], fftBuffer[i], FFTW_ESTIMATE);
+                ifftplans[i] = fftw_plan_dft_c2r_1d(bufferSize, fftBuffer[i], &corr[i][0], FFTW_ESTIMATE);
             }
 
-            for (int j = 0 ; j < 6 ; ++j){
-                fftw_execute(fftplans[j]);              // execute fft
-                fftw_execute(ifftplans[j]);             // execute ifft
-
-                fftw_destroy_plan( fftplans[j]);        // wash up dishes
-                fftw_destroy_plan(ifftplans[j]);
+            for(i = 0 ; i < bufferSize; i++){
+                filter[i] = 1;
             }
 
+
+            for (i = 0 ; i < 6 ; i++){
+                fftw_execute(fftplans[i]);              // execute fft
+                for(int j = 0 ; j < bufferSize; j++){
+                    fftBuffer[i][j] *= filter[j];
+                }
+
+                fftw_execute(ifftplans[i]);             // execute ifft
+
+                fftw_destroy_plan( fftplans[i]);        // wash up dishes
+                fftw_destroy_plan(ifftplans[i]);
+            }
 
             break;
+
+
+        // PHAT
         case 1:
-            corr[0] = correlation(windowedSignals,  bufferSize, 0, 1);
-            corr[1] = correlation(windowedSignals,  bufferSize, 0, 2);
-            corr[2] = correlation(windowedSignals,  bufferSize, 0, 3);
-            corr[3] = correlation(windowedSignals,  bufferSize, 1, 2);
-            corr[4] = correlation(windowedSignals,  bufferSize, 1, 3);
-            corr[5] = correlation(windowedSignals,  bufferSize, 2, 3);
-            for(i = 0 ; i < 6; i ++){
-                fftplans[i]  = fftw_plan_dft_r2c_1d(bufferSize, &corr[i][0], ff2, FFTW_ESTIMATE);
-                ifftplans[i] = fftw_plan_dft_c2r_1d(bufferSize, ff2, &corr[i][0], FFTW_ESTIMATE);
+            corr[0] = correlation(windowedSignals,  bufferSize, 0, 1); // corr(1-2)
+            corr[1] = correlation(windowedSignals,  bufferSize, 0, 2); // corr(1-3)
+            corr[2] = correlation(windowedSignals,  bufferSize, 0, 3); // corr(1-4)
+            corr[3] = correlation(windowedSignals,  bufferSize, 1, 2); // corr(2-3)
+            corr[4] = correlation(windowedSignals,  bufferSize, 1, 3); // corr(2-4)
+            corr[5] = correlation(windowedSignals,  bufferSize, 2, 3); // corr(3-4)
+            corr[6] = correlation(windowedSignals,  bufferSize, 0, 0); // corr(1-1)
+
+            for (i = 0 ; i < bufferSize; i ++){
+                filter[i] = corr[0][i];  // create filter
             }
 
-            for (int j = 0 ; j < 6 ; ++j){
-                fftw_execute(fftplans[j]);              // execute fft
-                fftw_execute(ifftplans[j]);             // execute ifft
+            for(i = 0 ; i < 7; i ++){
+                fftplans[i]  = fftw_plan_dft_1d(bufferSize, &filter[i], fftBuffer[i], FFTW_FORWARD, FFTW_ESTIMATE);
+                ifftplans[i] = fftw_plan_dft_1d(bufferSize, fftBuffer[i], ff1 ,FFTW_BACKWARD, FFTW_ESTIMATE);
+            }
+            
+            
+            for (i = 0 ; i < 7 ; i++){
+                fftw_execute(fftplans[i]);              // execute fft
+            }
 
-                fftw_destroy_plan( fftplans[j]);        // wash up dishes
-                fftw_destroy_plan(ifftplans[j]);
+            for (i = 0 ; i < bufferSize; i ++){
+                filter[i] = 1 / cabs(fftBuffer[0][i]);  // create filter
+            }
+
+            for ( i = 0 ; i < bufferSize; i++){
+                fftBuffer[0][i] *= filter[i] ;   // fft(corr(1-2)) * 1/ fft(corr(1-1))
+                //fftBuffer[1][i] = fftBuffer[1][i] / abs(creal(fftBuffer[1][i])) ;   // fft(corr(1-3)) * 1/ fft(corr(1-1))
+                //fftBuffer[2][i] = fftBuffer[2][i] / abs(creal(fftBuffer[2][i])) ;   // fft(corr(1-4)) * 1/ fft(corr(1-1))
+                //fftBuffer[3][i] = fftBuffer[3][i] / abs(creal(fftBuffer[3][i])) ;   // fft(corr(2-3)) * 1/ fft(corr(2-2))
+                //fftBuffer[4][i] = fftBuffer[4][i] / abs(creal(fftBuffer[4][i])) ;   // fft(corr(2-4)) * 1/ fft(corr(2-2))
+                //fftBuffer[5][i] = fftBuffer[4][i] / abs(creal(fftBuffer[5][i])) ;   // fft(corr(3-4)) * 1/ fft(corr(3-3))
+            }
+
+            for (i = 0 ; i < 6 ; i++){
+                fftw_execute(ifftplans[i]);             // execute ifft
+                fftw_destroy_plan( fftplans[i]);        // wash up dishes
+                fftw_destroy_plan(ifftplans[i]);        // wash up
+            }
+
+            for ( i = 0 ; i < bufferSize; i++){
+                corr[0][i] = creal(ff1[i]);
             }
 
 
             break;
+
+
         case 2:
+            corr[0] = correlation(windowedSignals,  bufferSize, 0, 1); // corr(1-2)
+            corr[1] = correlation(windowedSignals,  bufferSize, 0, 2); // corr(1-3)
+            corr[2] = correlation(windowedSignals,  bufferSize, 0, 3); // corr(1-4)
+            corr[3] = correlation(windowedSignals,  bufferSize, 1, 2); // corr(2-3)
+            corr[4] = correlation(windowedSignals,  bufferSize, 1, 3); // corr(2-4)
+            corr[5] = correlation(windowedSignals,  bufferSize, 2, 3); // corr(3-4)
+
+            for (i = 0 ; i < bufferSize-1; i ++){   // prepare input data
+                filter[i] = corr[0][i];
+            }
+
+            for(i = 0 ; i < 6; i ++){
+
+                fftplans[i]  = fftw_plan_dft_1d(bufferSize, &filter[0], fftBuffer[i],FFTW_FORWARD, FFTW_ESTIMATE);  // prepare plan
+                ifftplans[i] = fftw_plan_dft_1d(bufferSize, fftBuffer[i], &filter[0],FFTW_FORWARD, FFTW_ESTIMATE);
+            }
+
+            for (i = 0 ; i < 6 ; i++){
+                fftw_execute(fftplans[i]);              // execute fft
+            }
 
 
+            for (i = 0 ; i < bufferSize; i ++){
+                filter[i] = 1 / cabs(fftBuffer[0][(i+256)%512]);  // prepare filter
+            }
+
+            for (i = 0 ; i < bufferSize-1; i ++){
+                emit sigDrawLine(9, i ,creal(fftBuffer[0][i]) , i+1 , creal(fftBuffer[0][i+1]) ,'m' );
+            }
+
+            for ( i = 0 ; i < bufferSize; i++){
+                fftBuffer[0][i] = fftBuffer[0][i] * filter[i] ;   // fft(corr(1-2)) * 1/ fft(corr(1-1))
+                //fftBuffer[1][i] = fftBuffer[1][i] / abs(creal(fftBuffer[1][i])) ;   // fft(corr(1-3)) * 1/ fft(corr(1-1))
+                //fftBuffer[2][i] = fftBuffer[2][i] / abs(creal(fftBuffer[2][i])) ;   // fft(corr(1-4)) * 1/ fft(corr(1-1))
+                //fftBuffer[3][i] = fftBuffer[3][i] / abs(creal(fftBuffer[3][i])) ;   // fft(corr(2-3)) * 1/ fft(corr(2-2))
+                //fftBuffer[4][i] = fftBuffer[4][i] / abs(creal(fftBuffer[4][i])) ;   // fft(corr(2-4)) * 1/ fft(corr(2-2))
+                //fftBuffer[5][i] = fftBuffer[4][i] / abs(creal(fftBuffer[5][i])) ;   // fft(corr(3-4)) * 1/ fft(corr(3-3))
+            }
+
+            for (i = 0 ; i < 6 ; i++){
+                fftw_execute(ifftplans[i]);             // execute ifft
+                fftw_destroy_plan( fftplans[i]);        // wash up dishes
+                fftw_destroy_plan(ifftplans[i]);        // wash up
+            }
 
             break;
+
         case 3:
 
-
-
             break;
-        case 4:
 
-
-
-            break;
-        case 5:
-
-
-
-            break;
         default:
-
 
             break;
     }
 
-//    corr11 = correlation(windowedSignals, bufferSize, 0, 0);
-//    corr22 = correlation(windowedSignals, bufferSize, 1, 1);
-//    corr33 = correlation(windowedSignals, bufferSize, 2, 2);
-//    corr44 = correlation(windowedSignals, bufferSize, 3, 3);
+    for(i = 0 ; i < 6; i++){
+        for(int j = 0 ; j < bufferSize; j++){
+            fftResult[i][j] = corr[i][j];
+        }
+    }
 
-    // for each corr make fft and save in another place in memory
-
-//    for (int j = 0 ; j < 11; j++){
-//        for (int i = 0 ; i < bufferSize; ++i){
-//            ff1[i] = (double) windowedSignals[i][0];
-//        }
-//    }
-
-
-
-
-
-   // displayCorrelation();
-
-    //for (i = 0 ; i < bufferSize ; i++)
-        //ff2[i] *= normFactor ;
-
-
-//    for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
-//        //emit sigDrawLine(9,2*i  ,creal(ff2[2*i]) , 2*i+1, creal( ff2[2*i+1]));
-//        //qDebug() << i ;
-//        emit sigDrawLine(9, i , 512*corrOut.at(i) , i+1 , 512*corrOut.at(i+1) );
-//    }
 }
 
 void trakkermodel::runWindowing(){
