@@ -90,6 +90,12 @@ void trakker::createActions() // contains actions: About; About QT; Correlation;
     exitAct->setStatusTip(tr("Exit the application"));
     connect(exitAct, SIGNAL(triggered()), this, SLOT(close()));
 
+    redrawInputAct = new QAction(tr("&Refresh"), this);
+    redrawInputAct->setStatusTip(tr("Refresh Input Data"));
+    redrawInputAct->setShortcut(tr("r"));
+    connect(redrawInputAct,SIGNAL(triggered()),this,SLOT(refreshing()));
+
+
     startAct = new QAction(tr("Start"),this);                          // start receiving data from ethernet connection
     startAct->setStatusTip(tr("Start Gathering Input Data"));
     startAct->setShortcut(tr("s"));
@@ -134,6 +140,7 @@ void trakker::createToolBars()
     firstToolBar->addAction(disconnectionAct);
     firstToolBar->addAction(startAct);
     firstToolBar->addAction(stopAct);
+    firstToolBar->addAction(redrawInputAct);
     firstToolBar->addAction(windowAct);
     firstToolBar->addAction(correlationAct);
     firstToolBar->addAction(exitAct);
@@ -221,6 +228,10 @@ void trakker::printInput(){
 
     setStatus("!!", 4000);
 
+}
+
+void trakker::refreshing(){
+    emit sigRefresh();
 }
 
 void trakker::setStatus(QString text, int sec){

@@ -52,6 +52,12 @@
            <height>134</height>
           </size>
          </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
         </widget>
        </item>
        <item>
@@ -84,6 +90,12 @@
            <width>520</width>
            <height>134</height>
           </size>
+         </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
          </property>
         </widget>
        </item>
@@ -118,6 +130,12 @@
            <height>134</height>
           </size>
          </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
         </widget>
        </item>
        <item>
@@ -151,6 +169,12 @@
            <height>134</height>
           </size>
          </property>
+         <property name="verticalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOff</enum>
+         </property>
         </widget>
        </item>
       </layout>
@@ -158,9 +182,55 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QSlider" name="verticalSlider">
+        <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>10</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QSlider" name="verticalSlider">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>80</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>80</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>64</height>
+          </size>
+         </property>
+         <property name="maximum">
+          <number>512</number>
+         </property>
+         <property name="singleStep">
+          <number>8</number>
+         </property>
+         <property name="pageStep">
+          <number>32</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="invertedAppearance">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -178,46 +248,7 @@
         </spacer>
        </item>
        <item>
-        <spacer name="verticalSpacer_6">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_4">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
         <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_5">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
@@ -559,19 +590,19 @@
              <x>10</x>
              <y>290</y>
              <width>260</width>
-             <height>128</height>
+             <height>132</height>
             </rect>
            </property>
            <property name="minimumSize">
             <size>
              <width>260</width>
-             <height>128</height>
+             <height>132</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>260</width>
-             <height>128</height>
+             <height>132</height>
             </size>
            </property>
           </widget>
@@ -581,19 +612,19 @@
              <x>280</x>
              <y>290</y>
              <width>260</width>
-             <height>128</height>
+             <height>132</height>
             </rect>
            </property>
            <property name="minimumSize">
             <size>
              <width>260</width>
-             <height>128</height>
+             <height>132</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>260</width>
-             <height>128</height>
+             <height>132</height>
             </size>
            </property>
           </widget>
@@ -603,19 +634,19 @@
              <x>10</x>
              <y>440</y>
              <width>260</width>
-             <height>128</height>
+             <height>132</height>
             </rect>
            </property>
            <property name="minimumSize">
             <size>
              <width>260</width>
-             <height>128</height>
+             <height>132</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>260</width>
-             <height>128</height>
+             <height>132</height>
             </size>
            </property>
           </widget>
@@ -625,19 +656,19 @@
              <x>280</x>
              <y>440</y>
              <width>260</width>
-             <height>128</height>
+             <height>132</height>
             </rect>
            </property>
            <property name="minimumSize">
             <size>
              <width>260</width>
-             <height>128</height>
+             <height>132</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
              <width>260</width>
-             <height>128</height>
+             <height>132</height>
             </size>
            </property>
           </widget>

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'centralwidget.ui'
 **
-** Created: Fri Nov 6 14:58:31 2009
+** Created: Sat Nov 7 14:33:29 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -48,12 +48,10 @@ public:
     QLabel *label_4;
     QGraphicsView *graphicsView_4;
     QVBoxLayout *verticalLayout_2;
+    QSpacerItem *verticalSpacer_4;
     QSlider *verticalSlider;
     QSpacerItem *verticalSpacer_3;
-    QSpacerItem *verticalSpacer_6;
-    QSpacerItem *verticalSpacer_4;
     QSpacerItem *verticalSpacer_2;
-    QSpacerItem *verticalSpacer_5;
     QSpacerItem *verticalSpacer;
     QVBoxLayout *verticalLayout_3;
     QTabWidget *tabWidget;
@@ -137,6 +135,8 @@ public:
         graphicsView_1->setSizePolicy(sizePolicy);
         graphicsView_1->setMinimumSize(QSize(519, 134));
         graphicsView_1->setMaximumSize(QSize(520, 134));
+        graphicsView_1->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        graphicsView_1->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         verticalLayout->addWidget(graphicsView_1);
 
@@ -156,6 +156,8 @@ public:
         graphicsView_2->setSizePolicy(sizePolicy);
         graphicsView_2->setMinimumSize(QSize(520, 134));
         graphicsView_2->setMaximumSize(QSize(520, 134));
+        graphicsView_2->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        graphicsView_2->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         verticalLayout->addWidget(graphicsView_2);
 
@@ -175,6 +177,8 @@ public:
         graphicsView_3->setSizePolicy(sizePolicy);
         graphicsView_3->setMinimumSize(QSize(520, 134));
         graphicsView_3->setMaximumSize(QSize(520, 134));
+        graphicsView_3->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        graphicsView_3->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         verticalLayout->addWidget(graphicsView_3);
 
@@ -194,6 +198,8 @@ public:
         graphicsView_4->setSizePolicy(sizePolicy);
         graphicsView_4->setMinimumSize(QSize(520, 134));
         graphicsView_4->setMaximumSize(QSize(520, 134));
+        graphicsView_4->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        graphicsView_4->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         verticalLayout->addWidget(graphicsView_4);
 
@@ -202,9 +208,24 @@ public:
 
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        verticalSpacer_4 = new QSpacerItem(20, 10, QSizePolicy::Minimum, QSizePolicy::Fixed);
+
+        verticalLayout_2->addItem(verticalSpacer_4);
+
         verticalSlider = new QSlider(centralWidget);
         verticalSlider->setObjectName(QString::fromUtf8("verticalSlider"));
+        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(80);
+        sizePolicy1.setHeightForWidth(verticalSlider->sizePolicy().hasHeightForWidth());
+        verticalSlider->setSizePolicy(sizePolicy1);
+        verticalSlider->setMinimumSize(QSize(0, 80));
+        verticalSlider->setMaximumSize(QSize(16777215, 64));
+        verticalSlider->setMaximum(512);
+        verticalSlider->setSingleStep(8);
+        verticalSlider->setPageStep(32);
         verticalSlider->setOrientation(Qt::Vertical);
+        verticalSlider->setInvertedAppearance(true);
 
         verticalLayout_2->addWidget(verticalSlider);
 
@@ -212,21 +233,9 @@ public:
 
         verticalLayout_2->addItem(verticalSpacer_3);
 
-        verticalSpacer_6 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        verticalLayout_2->addItem(verticalSpacer_6);
-
-        verticalSpacer_4 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        verticalLayout_2->addItem(verticalSpacer_4);
-
         verticalSpacer_2 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout_2->addItem(verticalSpacer_2);
-
-        verticalSpacer_5 = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        verticalLayout_2->addItem(verticalSpacer_5);
 
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -295,24 +304,24 @@ public:
         label_5->setGeometry(QRect(200, 260, 171, 18));
         graphicsView_5 = new QGraphicsView(Windowing);
         graphicsView_5->setObjectName(QString::fromUtf8("graphicsView_5"));
-        graphicsView_5->setGeometry(QRect(10, 290, 260, 128));
-        graphicsView_5->setMinimumSize(QSize(260, 128));
-        graphicsView_5->setMaximumSize(QSize(260, 128));
+        graphicsView_5->setGeometry(QRect(10, 290, 260, 132));
+        graphicsView_5->setMinimumSize(QSize(260, 132));
+        graphicsView_5->setMaximumSize(QSize(260, 132));
         graphicsView_6 = new QGraphicsView(Windowing);
         graphicsView_6->setObjectName(QString::fromUtf8("graphicsView_6"));
-        graphicsView_6->setGeometry(QRect(280, 290, 260, 128));
-        graphicsView_6->setMinimumSize(QSize(260, 128));
-        graphicsView_6->setMaximumSize(QSize(260, 128));
+        graphicsView_6->setGeometry(QRect(280, 290, 260, 132));
+        graphicsView_6->setMinimumSize(QSize(260, 132));
+        graphicsView_6->setMaximumSize(QSize(260, 132));
         graphicsView_7 = new QGraphicsView(Windowing);
         graphicsView_7->setObjectName(QString::fromUtf8("graphicsView_7"));
-        graphicsView_7->setGeometry(QRect(10, 440, 260, 128));
-        graphicsView_7->setMinimumSize(QSize(260, 128));
-        graphicsView_7->setMaximumSize(QSize(260, 128));
+        graphicsView_7->setGeometry(QRect(10, 440, 260, 132));
+        graphicsView_7->setMinimumSize(QSize(260, 132));
+        graphicsView_7->setMaximumSize(QSize(260, 132));
         graphicsView_8 = new QGraphicsView(Windowing);
         graphicsView_8->setObjectName(QString::fromUtf8("graphicsView_8"));
-        graphicsView_8->setGeometry(QRect(280, 440, 260, 128));
-        graphicsView_8->setMinimumSize(QSize(260, 128));
-        graphicsView_8->setMaximumSize(QSize(260, 128));
+        graphicsView_8->setGeometry(QRect(280, 440, 260, 132));
+        graphicsView_8->setMinimumSize(QSize(260, 132));
+        graphicsView_8->setMaximumSize(QSize(260, 132));
         pushButton = new QPushButton(Windowing);
         pushButton->setObjectName(QString::fromUtf8("pushButton"));
         pushButton->setGeometry(QRect(50, 160, 123, 29));

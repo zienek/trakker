@@ -20,8 +20,6 @@
 #include "trakkermodel.h"
 #include "windows_512.h"
 
-//#include "math.h"
-
 #include <complex.h>
 #include <fftw3.h>
 #include <math.h>
@@ -57,7 +55,7 @@ QVector<double> correlation(const QVector<double> in, int size, int offset1, int
     double tmp ;
 
     int          n = size        ;
-    int delayLimit = 250         ;   // +/- 250 = approx for 512 x 48000 x 1m distance
+    int delayLimit = bufferSize/2;   // +/- 256 = for 512 x 48000 x 1m distance
     int delay                    ;
     int        i = 0 ,     j = 0 , m = 0;
     double meanA = 0 , meanB = 0 ;
@@ -111,17 +109,20 @@ QVector<double> correlation(const QVector<double> in, int size, int offset1, int
 trakkermodel::trakkermodel(){
     chosenSignals       = 0            ; // default draw correlation of signals (0) 1-2 ; (1) 1-3; (2) 1-4; (3) 2-3; (4) 2-4; (5) 3-4
     connectionState     = 0            ;
-    continousCapturing  = FALSE        ;
-    continousCaptureReq = FALSE        ;
+    continousCapturing  = false        ;
+    continousCaptureReq = false        ;
     correlationType     = 0            ;
     stateOfHandling     = 0            ;
     tcpServerAddress    = "192.168.1.5";
     tcpPort             = 40000        ;
     windowType          = 0            ;
     samplingFreq        = 44000        ;
-    b_correlationDone   = FALSE        ;
+    b_capturingPause    = false        ;
+    b_correlationDone   = false        ;
+    b_signalPresent     = false        ;
     dataSlot            = 0            ;
     command             = 0x00000000   ;
+    latchValue          = 0            ;  //between 0 and 1023 but precisely 512-1023
 
     corrColor.resize(6);
     corrColor.fill('b');
@@ -215,57 +216,31 @@ void trakkermodel::clearCorrView(){
 
 void trakkermodel::displayInput(){
 
+    sigDrawLine(0, 0, 0, 0, 128 ,'k');
+    sigDrawLine(1, 0, 0, 0, 128 ,'k');
+    sigDrawLine(2, 0, 0, 0, 128 ,'k');
+    sigDrawLine(3, 0, 0, 0, 128 ,'k');
+
     for (int i = 0 ; i< inputPlotWidth -1 ; i++){
         emit sigDrawLine(0, i, m_triggeredData[i]/*[dataSlot]*//8, i+1,                                  m_triggeredData[i+1]/*[dataSlot]*//8 );
+        if (m_triggeredData[i] < latchValue){
+            b_capturingPause = true;
+        }
         emit sigDrawLine(1, i, m_triggeredData[bufferSize+i]/*[dataSlot]*//8, i+1,                       m_triggeredData[bufferSize+i+1]/*[dataSlot]*//8 );
         emit sigDrawLine(2, i, m_triggeredData[bufferSize+bufferSize+i]/*[dataSlot]*//8, i+1,            m_triggeredData[bufferSize+bufferSize+i+1]/*[dataSlot]*//8 );
         emit sigDrawLine(3, i, m_triggeredData[bufferSize+bufferSize+bufferSize+i]/*[dataSlot]*//8, i+1, m_triggeredData[bufferSize+bufferSize+bufferSize+i+1]/*[dataSlot]*//8 );
     }
+    sigDrawLine(0, 0, latchValue/8, 512, latchValue/8,'r');
+
 }
 
 void trakkermodel::displayCorrelation(){
 
     if (TRUE==b_correlationDone){
-    switch(chosenSignals){
-        //qDebug() << chosenSignals ;
-        case(0):
-                for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
-                    emit sigDrawLine(9, i , 512*corr12.at(i) , i+1 , 512*corr12.at(i+1) ,corrColor.at(0) );
-                }
-                break;
+        for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
+            emit sigDrawLine(9, i , corr[chosenSignals].at(i) , i+1 , corr[chosenSignals].at(i+1) ,corrColor.at(chosenSignals) );
+        }
 
-        case(1):
-                for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
-                    emit sigDrawLine(9, i , 512*corr13.at(i) , i+1 , 512*corr13.at(i+1) ,corrColor.at(1) );
-                }
-                break;
-
-        case(2):
-                for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
-                    emit sigDrawLine(9, i , 512*corr14.at(i) , i+1 , 512*corr14.at(i+1) ,corrColor.at(2) );
-                }
-                break;
-        case(3):
-                for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
-                    emit sigDrawLine(9, i , 512*corr23.at(i) , i+1 , 512*corr23.at(i+1) ,corrColor.at(3) );
-                }
-                break;
-
-        case(4):
-                for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
-                    emit sigDrawLine(9, i , 512*corr24.at(i) , i+1 , 512*corr24.at(i+1) ,corrColor.at(4) );
-                }
-                break;
-
-        case(5):
-                for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
-                    emit sigDrawLine(9, i , 512*corr34.at(i) , i+1 , 512*corr34.at(i+1) ,corrColor.at(5) );
-                }
-                break;
-
-         default:
-                break;
-    }
     }else
         setStatus("Calculate CrossCorrelation first",4000);
 }
@@ -279,14 +254,11 @@ void trakkermodel::handleInputData(bool doIt){ // handle data from ethernet
         if((connectionState == 1)&&(doIt)){ // is connected, and user want it
             //QByteArray command("",4);
 
-
             if ( -1 == q_pSocket->write(command))
                 qDebug() << "error " ;
 
-
             command[0] = command[0]+1;
-
-            qDebug() << command;
+            //qDebug() << command;
 
             if(continousCaptureReq == 1)
                 continousCapturing = 1;
@@ -329,10 +301,20 @@ void trakkermodel::loadInput(){
             f.close();
 
             clearCorrView();
+            b_signalPresent = true ;
             displayInput();
         }
     clearCorrView();
     }
+}
+
+void trakkermodel::refreshInput(){
+    sigDrawLine(0, 0, 0, 0, 0 );
+    sigDrawLine(1, 0, 0, 0, 0 );
+    sigDrawLine(2, 0, 0, 0, 0 );
+    sigDrawLine(3, 0, 0, 0, 0 );
+
+    displayInput();
 }
 
 void trakkermodel::setBitrate(int number){ // command == 50 000 000 / bitrate
@@ -372,6 +354,12 @@ void trakkermodel::setBitrate(int number){ // command == 50 000 000 / bitrate
 
     }
 
+}
+
+void trakkermodel::setLatchValue(int val){
+    latchValue = val;
+    if( b_signalPresent)
+        refreshInput();
 }
 
 void trakkermodel::setWindowing(int window){   // type i.e. 0 rectangular; 1 triangular; 2 blackman; 3 hamming; 4 gauss; 5 nuttall; 6 blackman-hamming; 7 blackman-nuttall
@@ -463,49 +451,125 @@ void trakkermodel::setCorrelation(int type){
 void trakkermodel::startTransfer(){ // this function should transfer data trough ethernet
     continousCapturing = continousCaptureReq ;
     setWindowing(windowType);
+    b_capturingPause = false;
     handleInputData(TRUE);
 }
 
 void trakkermodel::stopTransfer(){ // this function should stop capturing data
     continousCapturing = 0 ;
+    b_capturingPause = true;
     handleInputData(FALSE);
 }
 
 void trakkermodel::runCorrelation(){  // if all signals have to be processed ? or better (int int) choose 3 signals to process CrossCorrelation?
 
-    //emit sigDrawLine(9,0,0,0,0); // clear screen
+    int i = 0; // counter
 
-    corr12.clear();
-    corr13.clear();
-    corr14.clear();
-    corr23.clear();
-    corr24.clear();
-    corr34.clear();
+    emit sigDrawLine(9,256,-250,256,250,'k');
+    emit sigDrawLine(9,  0,0,510,  0,'k'); // crosshair
 
-    corr12 = correlation(windowedSignals, bufferSize, 0, 1);
-    corr13 = correlation(windowedSignals, bufferSize, 0, 2);
-    corr14 = correlation(windowedSignals, bufferSize, 0, 3);
-    corr23 = correlation(windowedSignals, bufferSize, 1, 2);
-    corr24 = correlation(windowedSignals, bufferSize, 1, 3);
-    corr34 = correlation(windowedSignals, bufferSize, 2, 3);
+    for(i = 0 ; i < 10 ; i++){
+        corr[i].clear();
+    }
 
     b_correlationDone = TRUE ;
 
-    fftw_complex *ff1, *ff2;  // made regarding to fftw3.pdf p.9
-    fftw_plan fftplan;
+    fftw_complex /**ff1,*/ *ff2;  // made regarding to fftw3.pdf p.9
+    fftw_plan fftplans[10];
+    fftw_plan ifftplans[10];
 
-    ff1     = (fftw_complex *) fftw_malloc(sizeof(fftw_complex)*bufferSize) ;
+
+    //ff1     = (fftw_complex *) fftw_malloc(sizeof(fftw_complex)*bufferSize) ;
     ff2     = (fftw_complex *) fftw_malloc(sizeof(fftw_complex)*bufferSize) ;
 
-    for (int i = 0 ; i < bufferSize; ++i){
-        //ff1[i] = (double) windowedSignals[i][0];
+
+    switch (correlationType){
+        case 0:
+            corr[0] = correlation(windowedSignals,  bufferSize, 0, 1);
+            corr[1] = correlation(windowedSignals,  bufferSize, 0, 2);
+            corr[2] = correlation(windowedSignals,  bufferSize, 0, 3);
+            corr[3] = correlation(windowedSignals,  bufferSize, 1, 2);
+            corr[4] = correlation(windowedSignals,  bufferSize, 1, 3);
+            corr[5] = correlation(windowedSignals,  bufferSize, 2, 3);
+            for(i = 0 ; i < 6; i ++){
+                fftplans[i]  = fftw_plan_dft_r2c_1d(bufferSize, &corr[i][0], ff2, FFTW_ESTIMATE);
+                ifftplans[i] = fftw_plan_dft_c2r_1d(bufferSize, ff2, &corr[i][0], FFTW_ESTIMATE);
+            }
+
+            for (int j = 0 ; j < 6 ; ++j){
+                fftw_execute(fftplans[j]);              // execute fft
+                fftw_execute(ifftplans[j]);             // execute ifft
+
+                fftw_destroy_plan( fftplans[j]);        // wash up dishes
+                fftw_destroy_plan(ifftplans[j]);
+            }
+
+
+            break;
+        case 1:
+            corr[0] = correlation(windowedSignals,  bufferSize, 0, 1);
+            corr[1] = correlation(windowedSignals,  bufferSize, 0, 2);
+            corr[2] = correlation(windowedSignals,  bufferSize, 0, 3);
+            corr[3] = correlation(windowedSignals,  bufferSize, 1, 2);
+            corr[4] = correlation(windowedSignals,  bufferSize, 1, 3);
+            corr[5] = correlation(windowedSignals,  bufferSize, 2, 3);
+            for(i = 0 ; i < 6; i ++){
+                fftplans[i]  = fftw_plan_dft_r2c_1d(bufferSize, &corr[i][0], ff2, FFTW_ESTIMATE);
+                ifftplans[i] = fftw_plan_dft_c2r_1d(bufferSize, ff2, &corr[i][0], FFTW_ESTIMATE);
+            }
+
+            for (int j = 0 ; j < 6 ; ++j){
+                fftw_execute(fftplans[j]);              // execute fft
+                fftw_execute(ifftplans[j]);             // execute ifft
+
+                fftw_destroy_plan( fftplans[j]);        // wash up dishes
+                fftw_destroy_plan(ifftplans[j]);
+            }
+
+
+            break;
+        case 2:
+
+
+
+            break;
+        case 3:
+
+
+
+            break;
+        case 4:
+
+
+
+            break;
+        case 5:
+
+
+
+            break;
+        default:
+
+
+            break;
     }
 
-    fftplan = fftw_plan_dft_1d(bufferSize, ff1, ff2, FFTW_FORWARD, FFTW_ESTIMATE);
+//    corr11 = correlation(windowedSignals, bufferSize, 0, 0);
+//    corr22 = correlation(windowedSignals, bufferSize, 1, 1);
+//    corr33 = correlation(windowedSignals, bufferSize, 2, 2);
+//    corr44 = correlation(windowedSignals, bufferSize, 3, 3);
 
-    fftw_execute(fftplan);
+    // for each corr make fft and save in another place in memory
 
-    fftw_destroy_plan(fftplan);
+//    for (int j = 0 ; j < 11; j++){
+//        for (int i = 0 ; i < bufferSize; ++i){
+//            ff1[i] = (double) windowedSignals[i][0];
+//        }
+//    }
+
+
+
+
 
    // displayCorrelation();
 
@@ -640,12 +704,12 @@ void trakkermodel::saveCorrToTxt(){
         QFile f(fName);
         if (f.open(QIODevice::WriteOnly)){
             QDataStream out (&f);
-            out << corr12 ;
-            out << corr13 ;
-            out << corr14 ;
-            out << corr23 ;
-            out << corr24 ;
-            out << corr34 ;
+            out << corr[0] ;
+            out << corr[1] ;
+            out << corr[2] ;
+            out << corr[3] ;
+            out << corr[4] ;
+            out << corr[5] ;
         }
     }
 
@@ -739,32 +803,37 @@ void trakkermodel::setContinousCapturing(bool flag){   //TODO continous capturin
 
 void trakkermodel::readTcp(){
     QByteArray m_tcpBuffer = q_pSocket->read(q_pSocket->bytesAvailable());
-    if (m_tcpBuffer.size() % 2 == 0 ) { // if 'a' has even elements
-        for ( int i = 0 ; i < m_tcpBuffer.size() - 1 ; i+=2 ) {
-            unsigned char one =m_tcpBuffer.at(i);
-            unsigned char two = m_tcpBuffer.at(i+1) ;
-            m_parsedData.push_back( (short)((int)two)*256 + (int)one );
-        }
-    }else{ //if 'a' has odd elements
-        for ( int i = 0 ; i < m_tcpBuffer.size() - 1 ; i+=2 ) {
-            char one =m_tcpBuffer.at(i);
-            char two = m_tcpBuffer.at(i+1) ;
-            m_parsedData.push_back( (short)((int)two)*256 + (int)one );
-            qDebug() << " m_parsedData has odd elements";   
-        }
-    }
 
-    if ( (4*bufferSize) < m_parsedData.size() ){ // if there is enough elements to fill the m_triggeredData data set - Just do it.
+    if(b_capturingPause==false){
+        if (m_tcpBuffer.size() % 2 == 0 ) { // if 'a' has even elements
+            for ( int i = 0 ; i < m_tcpBuffer.size() - 1 ; i+=2 ) {
+                unsigned char one =m_tcpBuffer.at(i);
+                unsigned char two = m_tcpBuffer.at(i+1) ;
+                m_parsedData.push_back( (short)((int)two)*256 + (int)one );
+            }
+        }else{ //if 'a' has odd elements
+            for ( int i = 0 ; i < m_tcpBuffer.size() - 1 ; i+=2 ) {
+                char one = m_tcpBuffer.at(i);
+                char two = m_tcpBuffer.at(i+1) ;
+                m_parsedData.push_back( (short)((int)two)*256 + (int)one );
+                qDebug() << " m_parsedData has odd elements";
+            }
+        }
 
-        //dataSlot = (dataSlot+1)%3;
-        m_triggeredData/*[dataSlot]*/ = m_parsedData;
-        m_triggeredData/*[dataSlot]*/.remove(2048 , m_parsedData.size()-2048  ) ;
-        m_parsedData.remove(0, 2048);// erase elements rewritten to m_triggeredData
+        if ( (4*bufferSize) < m_parsedData.size() ){ // if there is enough elements to fill the m_triggeredData data set - Just do it.
+
+            //dataSlot = (dataSlot+1)%3;
+            m_triggeredData/*[dataSlot]*/ = m_parsedData;
+            m_triggeredData/*[dataSlot]*/.remove(2048 , m_parsedData.size()-2048  ) ;
+            m_parsedData.remove(0, 2048);// erase elements rewritten to m_triggeredData
 
         clearDisplay();
+        b_signalPresent = true ;
         displayInput();
         if (TRUE==continousCapturing)     // after each full data set ask kindly for next one
             handleInputData(TRUE);
+
+        }
     }
 }
 

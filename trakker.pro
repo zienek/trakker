@@ -11,7 +11,8 @@ SOURCES += main.cpp \
 HEADERS += trakkercontroller.h \
     src/trakkermodel.h \
     src/trakker.h \
-    src/windows_512.h
+    src/windows_512.h \
+    forms/centralwidget.h
 FORMS += centralwidget.ui
 LIBS += -lfftw3 \
     -lm

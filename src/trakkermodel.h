@@ -44,6 +44,7 @@ public slots:
     void displayCorrelation() ;
     void loadInput();
     void readTcp();
+    void refreshInput();
     void runCorrelation();
     void runWindowing();
     void saveCorrToBmp();
@@ -61,6 +62,8 @@ public slots:
     void startTransfer();
     void stopTransfer();
     void tcpError( QAbstractSocket::SocketError socketError ) ;
+
+    void setLatchValue(int);
 
 
 //    void load() {
@@ -90,12 +93,15 @@ private:
     int    correlationType           ;
     int    chosenSignals             ;  // to draw proper correlation in drawCorrelationPlot(int)
     int    connectionState           ;
+    bool   b_capturingPause          ;
     bool   b_correlationDone         ;
+    bool   b_signalPresent           ;
     int    stateOfHandling           ;  // 0 - initial; 1 - started ; 2 - stopped ?
     //double windowedSignals   [512][4];
     float  correlatedSignals [512]   ;
     int    samplingFreq              ; // initial 44000
     int    dataSlot                  ;
+    int    latchValue                ;
     QByteArray command               ;
 
     QByteArray   inputData           ;
@@ -108,12 +114,9 @@ private:
     QVector<double>windowedSignals   ;
     QVector<double> m_windowShape    ;
 
-    QVector<double> corr12           ;  // jak rozłożyć sobie dane z korelacji
-    QVector<double> corr13           ;  // todo czy da się to zrobić w bardziej naturalny sposób?
-    QVector<double> corr14           ;
-    QVector<double> corr23           ;
-    QVector<double> corr24           ;
-    QVector<double> corr34           ;
+    QVector<double> corr[10]         ;// (array position)signal1 - signal2;      (0)1-2; (1)1-3; (2)1-4; (3)2-3; (4)2-4; (5)3-4; (6)1-1; (7)2-2; (8)3-3; (9)4-4
+
+    double fftResult[10][512]        ;// to save fft results
 
     QVector<bool> corrVisible        ;  // to be sure, what is visible on corr view; (0)1-2 ; (1)1-3; (2)1-4; (3)2-3; (4)2-4; (5)3-4
     QVector<char> corrColor          ;  // color for each correlation plot

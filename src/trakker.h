@@ -66,6 +66,7 @@ private slots:
     void connection()   ;
     void disconnection();
     void printInput()   ;
+    void refreshing()   ;
 
 private:
     void createActions();
@@ -92,6 +93,7 @@ private:
 
     QAction *printInputAct  ;
     QAction *printCorrAct   ;
+    QAction *redrawInputAct ;
 
     QGraphicsScene *scena;
     QGraphicsView *grafika;
@@ -110,6 +112,7 @@ signals:
     void sigCorrelation();
     void sigConnection();
     void sigDisconnect();
+    void sigRefresh();
 
     //void sigHandlers(QVector<*QWidget>);
 
