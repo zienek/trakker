@@ -48,7 +48,7 @@ public:
     friend class trakkercontroller ;
     trakker();
     ~trakker();
-    void addText(QString);
+    //void addText(QString);
 
 public slots:
     void drawLine(int which, int, int, int, int, char);

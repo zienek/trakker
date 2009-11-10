@@ -40,13 +40,12 @@ public:
 public slots:
 
     void appendCorrToView(int);
-    void clearCorrView();
     void displayCorrelation() ;
     void loadInput();
-    void readTcp();
     void refreshInput();
     void runCorrelation();
     void runWindowing();
+    void runTdoa();
     void saveCorrToBmp();
     void saveCorrToTxt();
     void saveInputToBmp();
@@ -54,30 +53,21 @@ public slots:
     void setBitrate(int);
     void setConnection();
     void setDisconnection();
-    void setStatus(QString, int);
     void setContinousCapturing(bool);
     void setCorrelation(int);
     void setWindowing(int);
     void setSignals(int);
     void startTransfer();
     void stopTransfer();
-    void tcpError( QAbstractSocket::SocketError socketError ) ;
 
     void setLatchValue(int);
 
 
-//    void load() {
-//        QString fileName  = QFileDialog::getOpenFileName) :
-//        QDataStream stream ;
-//        QFile f ( fileName ) ;
-//        stream.setDevice(&f) ;
-//        if ( f.open(QIODevice::ReadOnly){
-//           QVariant a ;
-//       }
-//        stream >> a ;
-//        QByteArray ar = a.toByteArray();
-
-
+private slots:
+    void clearCorrView();
+    void readTcp();
+    void setStatus(QString, int);
+    void tcpError( QAbstractSocket::SocketError socketError ) ;
 
 
 

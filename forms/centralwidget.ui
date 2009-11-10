@@ -418,6 +418,9 @@
            </property>
           </widget>
           <widget class="QPushButton" name="pushButton_12">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="geometry">
             <rect>
              <x>40</x>
@@ -457,6 +460,9 @@
            </property>
           </widget>
           <widget class="QPushButton" name="pushButton_15">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="geometry">
             <rect>
              <x>300</x>
@@ -714,11 +720,6 @@
            <item>
             <property name="text">
              <string>GCC General Cross Corelation (unfiltered)</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>ML Maximum Likelihood</string>
             </property>
            </item>
            <item>
@@ -1150,6 +1151,9 @@
            </property>
           </widget>
           <widget class="QPushButton" name="pushButton_4">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="geometry">
             <rect>
              <x>40</x>
@@ -1196,6 +1200,81 @@
           <attribute name="title">
            <string>TDOA</string>
           </attribute>
+          <widget class="QPushButton" name="pushButton_16">
+           <property name="geometry">
+            <rect>
+             <x>30</x>
+             <y>40</y>
+             <width>141</width>
+             <height>27</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Measure TDOA</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_10">
+           <property name="geometry">
+            <rect>
+             <x>240</x>
+             <y>50</y>
+             <width>61</width>
+             <height>18</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Samples</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_11">
+           <property name="geometry">
+            <rect>
+             <x>350</x>
+             <y>30</y>
+             <width>59</width>
+             <height>18</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>run</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_12">
+           <property name="geometry">
+            <rect>
+             <x>350</x>
+             <y>60</y>
+             <width>59</width>
+             <height>18</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>tdoa</string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_13">
+           <property name="geometry">
+            <rect>
+             <x>350</x>
+             <y>90</y>
+             <width>59</width>
+             <height>18</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>first</string>
+           </property>
+          </widget>
+          <widget class="QGraphicsView" name="graphicsView">
+           <property name="geometry">
+            <rect>
+             <x>20</x>
+             <y>140</y>
+             <width>510</width>
+             <height>510</height>
+            </rect>
+           </property>
+          </widget>
          </widget>
         </widget>
        </item>

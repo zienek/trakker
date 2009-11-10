@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'centralwidget.ui'
 **
-** Created: Sat Nov 7 14:33:29 2009
+** Created: Tue Nov 10 20:04:59 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -104,6 +104,12 @@ public:
     QPushButton *pushButton_5;
     QLabel *label_9;
     QWidget *tab_2;
+    QPushButton *pushButton_16;
+    QLabel *label_10;
+    QLabel *label_11;
+    QLabel *label_12;
+    QLabel *label_13;
+    QGraphicsView *graphicsView;
 
     void setupUi(QWidget *centralWidget)
     {
@@ -272,6 +278,7 @@ public:
         label_7->setGeometry(QRect(30, 280, 221, 41));
         pushButton_12 = new QPushButton(Input);
         pushButton_12->setObjectName(QString::fromUtf8("pushButton_12"));
+        pushButton_12->setEnabled(false);
         pushButton_12->setGeometry(QRect(40, 240, 181, 27));
         pushButton_13 = new QPushButton(Input);
         pushButton_13->setObjectName(QString::fromUtf8("pushButton_13"));
@@ -281,6 +288,7 @@ public:
         pushButton_14->setGeometry(QRect(270, 280, 201, 27));
         pushButton_15 = new QPushButton(Input);
         pushButton_15->setObjectName(QString::fromUtf8("pushButton_15"));
+        pushButton_15->setEnabled(false);
         pushButton_15->setGeometry(QRect(300, 140, 112, 27));
         tabWidget->addTab(Input, QString());
         Windowing = new QWidget();
@@ -406,6 +414,7 @@ public:
         pushButton_3->setGeometry(QRect(390, 150, 112, 27));
         pushButton_4 = new QPushButton(Correlation);
         pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
+        pushButton_4->setEnabled(false);
         pushButton_4->setGeometry(QRect(40, 550, 191, 27));
         pushButton_5 = new QPushButton(Correlation);
         pushButton_5->setObjectName(QString::fromUtf8("pushButton_5"));
@@ -417,6 +426,24 @@ public:
         tabWidget->addTab(Correlation, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
+        pushButton_16 = new QPushButton(tab_2);
+        pushButton_16->setObjectName(QString::fromUtf8("pushButton_16"));
+        pushButton_16->setGeometry(QRect(30, 40, 141, 27));
+        label_10 = new QLabel(tab_2);
+        label_10->setObjectName(QString::fromUtf8("label_10"));
+        label_10->setGeometry(QRect(240, 50, 61, 18));
+        label_11 = new QLabel(tab_2);
+        label_11->setObjectName(QString::fromUtf8("label_11"));
+        label_11->setGeometry(QRect(350, 30, 59, 18));
+        label_12 = new QLabel(tab_2);
+        label_12->setObjectName(QString::fromUtf8("label_12"));
+        label_12->setGeometry(QRect(350, 60, 59, 18));
+        label_13 = new QLabel(tab_2);
+        label_13->setObjectName(QString::fromUtf8("label_13"));
+        label_13->setGeometry(QRect(350, 90, 59, 18));
+        graphicsView = new QGraphicsView(tab_2);
+        graphicsView->setObjectName(QString::fromUtf8("graphicsView"));
+        graphicsView->setGeometry(QRect(20, 140, 510, 510));
         tabWidget->addTab(tab_2, QString());
 
         verticalLayout_3->addWidget(tabWidget);
@@ -491,7 +518,6 @@ public:
         comboBox_3->clear();
         comboBox_3->insertItems(0, QStringList()
          << QApplication::translate("centralWidget", "GCC General Cross Corelation (unfiltered)", 0, QApplication::UnicodeUTF8)
-         << QApplication::translate("centralWidget", "ML Maximum Likelihood", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("centralWidget", "PHAT weighting function", 0, QApplication::UnicodeUTF8)
         );
         pushButton_2->setText(QApplication::translate("centralWidget", "Run &Cross-Correlation", 0, QApplication::UnicodeUTF8));
@@ -567,6 +593,11 @@ public:
         pushButton_5->setText(QApplication::translate("centralWidget", "Save as text coefficient", 0, QApplication::UnicodeUTF8));
         label_9->setText(QApplication::translate("centralWidget", "TODO: save results", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(Correlation), QApplication::translate("centralWidget", "Correlation", 0, QApplication::UnicodeUTF8));
+        pushButton_16->setText(QApplication::translate("centralWidget", "Measure TDOA", 0, QApplication::UnicodeUTF8));
+        label_10->setText(QApplication::translate("centralWidget", "Samples", 0, QApplication::UnicodeUTF8));
+        label_11->setText(QApplication::translate("centralWidget", "run", 0, QApplication::UnicodeUTF8));
+        label_12->setText(QApplication::translate("centralWidget", "tdoa", 0, QApplication::UnicodeUTF8));
+        label_13->setText(QApplication::translate("centralWidget", "first", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("centralWidget", "TDOA", 0, QApplication::UnicodeUTF8));
         Q_UNUSED(centralWidget);
     } // retranslateUi

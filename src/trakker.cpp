@@ -158,7 +158,7 @@ void trakker::createGraphics()
       pCentralWidget->setupUi( pWidget ) ;
       setCentralWidget(pWidget);
 
-      for (int i = 0 ; i < 10 ; ++i)  // 4 input signal + 1 window shape + 4 signals after windowing + correlation
+      for (int i = 0 ; i < 11 ; ++i)  // 4 input signal + 1 window shape + 4 signals after windowing + correlation
       {
           vector.push_back( new QGraphicsScene() );
       }
@@ -177,6 +177,8 @@ void trakker::createGraphics()
 
 
       pCentralWidget->graphicsView_9->setScene(vector[9]); // signals after correlation
+
+      pCentralWidget->graphicsView->setScene(vector[10]); // tdoa
 
 }
 

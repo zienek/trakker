@@ -96,7 +96,8 @@ void trakkercontroller::connectMua() {  // here connect all neccesary items
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->verticalSlider, SIGNAL(sliderMoved(int)), m_pModel, SLOT(setLatchValue(int)));
     QObject::connect( m_pWindow, SIGNAL(sigRefresh()), m_pModel , SLOT(refreshInput()));
 
-
+    //tdoa
+    QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_16, SIGNAL(pressed()), m_pModel, SLOT(runTdoa()));
 
     //QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_12, SIGNAL(pressed()), this, SLOT(printInput()));
 }
