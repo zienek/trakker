@@ -92,6 +92,7 @@ private:
     int    samplingFreq              ; // initial 44000
     int    dataSlot                  ;
     int    latchValue                ;
+    int    samplesPerMeter           ; // for 44000 there are 130 samples per meter
     QByteArray command               ;
 
     QByteArray   inputData           ;
@@ -103,6 +104,8 @@ private:
     QVector<short> m_triggeredData   ;
     QVector<double>windowedSignals   ;
     QVector<double> m_windowShape    ;
+    QVector<int>  m_delays           ;
+
 
     QVector<double> corr[10]         ;// (array position)signal1 - signal2;      (0)1-2; (1)1-3; (2)1-4; (3)2-3; (4)2-4; (5)3-4; (6)1-1; (7)2-2; (8)3-3; (9)4-4
 

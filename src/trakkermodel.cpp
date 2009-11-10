@@ -123,6 +123,7 @@ trakkermodel::trakkermodel(){
     dataSlot            = 0            ;
     command             = 0x00000000   ;
     latchValue          = 0            ;  //between 0 and 1023 but precisely 512-1023
+    samplesPerMeter     = 130          ;
 
     corrColor.resize(6);
     corrColor.fill('b');
@@ -133,6 +134,8 @@ trakkermodel::trakkermodel(){
     m_windowShape.resize(bufferSize)   ;
 
     q_pSocket = new QTcpSocket(this);
+
+    m_delays.resize(6);
 
     connect ( q_pSocket, SIGNAL(readyRead()), this,SLOT(readTcp()));
 }
@@ -325,6 +328,12 @@ void trakkermodel::runTdoa(){
     double max12    = 0, max13    = 0, max23    = 0  ;
     int    max12pos = 0, max13pos = 0, max23pos = 0  ;
 
+    float hyper_c = 0.5 ; // from hyperbola equation
+    float hyper_a;
+
+    float x = 0 , y = 0;
+    float y_old = 0;
+
     for ( i = 0 ; i < bufferSize ; i++){
         if (fftResult[0][i] > max12){
             max12 = fftResult[0][i];
@@ -339,24 +348,41 @@ void trakkermodel::runTdoa(){
             max23pos = i;
         }
     }
-//    QMessageBox *box = new QMessageBox;
-//    QString napis;
-//
-//    napis.append("max12 ") ;
-//    napis.append( QString::number(max12pos)) ;
-//    napis.append("  max13 ");
-//    napis.append( QString::number(max13pos));
-//    napis.append("   max23 ");
-//    napis.append(QString::number(max23pos)) ;
-//    box->setStandardButtons(QMessageBox::Ok);
-//    box->setText(napis);
-//
-//    box->show();
 
     sigDrawLine(10,-50,0,50,0,'k');
     sigDrawLine(10,-50,0,0,87,'k');
     sigDrawLine(10,0,87,50,0,'k');
+    m_delays[0] = (bufferSize/2 - max12pos);
+    m_delays[1] = bufferSize/2 - max13pos;
+    m_delays[2] = -1 ;
+    m_delays[3] = bufferSize/2 - max23pos;
 
+
+
+    QMessageBox *box = new QMessageBox;
+    QString napis;
+
+    napis.append("m_delay 12 ") ;
+    napis.append( QString::number(m_delays[0])) ;
+    napis.append("\nm_delay 13 ") ;
+    napis.append( QString::number(m_delays[1])) ;
+    napis.append("\nm_delay 23 ") ;
+    napis.append( QString::number(m_delays[3])) ;
+    box->setStandardButtons(QMessageBox::Ok);
+    box->setText(napis);
+    box->show();
+
+    hyper_a = (((float)m_delays[ 0 ] / 2)/samplesPerMeter); // in meter from center to hyperbolas czoło ;)
+
+
+    for (x = hyper_a ; x < 20; x = x+0.1){
+        y_old = y;
+        y = sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x*x)/(hyper_a*hyper_a) -1 ) )    );
+
+        sigDrawLine(10 , 10*x-1 , 10*y_old, 10*x,10* y , 'b');
+        sigDrawLine(10 , 10*x-1 , -10*y_old, 10*x, -10*y , 'b');
+
+    }
 
 
 
