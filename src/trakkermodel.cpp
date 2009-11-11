@@ -334,6 +334,13 @@ void trakkermodel::runTdoa(){
     float x = 0 , y = 0;
     float y_old = 0;
 
+    int hyp1x = -29;
+    int hyp1y =   0;
+    int hyp2x =  26;
+    int hyp2y =  44;
+    int hyp3x = -26;
+    int hyp3y =  44;
+
     for ( i = 0 ; i < bufferSize ; i++){
         if (fftResult[0][i] > max12){
             max12 = fftResult[0][i];
@@ -349,42 +356,159 @@ void trakkermodel::runTdoa(){
         }
     }
 
-    sigDrawLine(10,-50,0,50,0,'k');
-    sigDrawLine(10,-50,0,0,87,'k');
-    sigDrawLine(10,0,87,50,0,'k');
+    sigDrawLine(10,-50,-29,50,-29,'k');  // triangle
+    sigDrawLine(10,-50,-29,0,56,'k');
+    sigDrawLine(10,0,56,50,-29,'k');
+
     m_delays[0] = (bufferSize/2 - max12pos);
     m_delays[1] = bufferSize/2 - max13pos;
     m_delays[2] = -1 ;
     m_delays[3] = bufferSize/2 - max23pos;
 
+//    QMessageBox *box = new QMessageBox;
+//    QString napis;
+//
+//    napis.append("m_delay 12 ") ;
+//    napis.append( QString::number(m_delays[0])) ;
+//    napis.append("\nm_delay 13 ") ;
+//    napis.append( QString::number(m_delays[1])) ;
+//    napis.append("\nm_delay 23 ") ;
+//    napis.append( QString::number(m_delays[3])) ;
+//    box->setStandardButtons(QMessageBox::Ok);
+//    box->setText(napis);
+//    box->show();
 
+    int x_old ;
+    y_old = 0;
 
-    QMessageBox *box = new QMessageBox;
-    QString napis;
+    if ( (hyper_a = (((float)m_delays[ 0 ] / 2)/samplesPerMeter)) > 0 ){ // in meter from center to hyperbolas czoło ;)
+        for (x = hyper_a ; x < 20; x = x+0.1){
+            x_old = x;
+            y_old = y;
 
-    napis.append("m_delay 12 ") ;
-    napis.append( QString::number(m_delays[0])) ;
-    napis.append("\nm_delay 13 ") ;
-    napis.append( QString::number(m_delays[1])) ;
-    napis.append("\nm_delay 23 ") ;
-    napis.append( QString::number(m_delays[3])) ;
-    box->setStandardButtons(QMessageBox::Ok);
-    box->setText(napis);
-    box->show();
+            y = sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x*x)/(hyper_a*hyper_a) -1 ) )    );
+            sigDrawLine(10 , 10*x_old +hyp1x , 10*y_old+hyp1y, 10*x+hyp1x,  10*y+hyp1y , 'b');
+            sigDrawLine(10 , 10*x_old +hyp1x, -10*y_old+hyp1y, 10*x+hyp1x, -10*y+hyp1y , 'b');
+        }
 
-    hyper_a = (((float)m_delays[ 0 ] / 2)/samplesPerMeter); // in meter from center to hyperbolas czoło ;)
-
-
-    for (x = hyper_a ; x < 20; x = x+0.1){
-        y_old = y;
-        y = sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x*x)/(hyper_a*hyper_a) -1 ) )    );
-
-        sigDrawLine(10 , 10*x-1 , 10*y_old, 10*x,10* y , 'b');
-        sigDrawLine(10 , 10*x-1 , -10*y_old, 10*x, -10*y , 'b');
-
+    }
+    else{
+        for (x = hyper_a ; x > -20; x = x-0.1){
+            x_old = x;
+            y_old = y;
+            y = sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x*x)/(hyper_a*hyper_a) -1 ) )    );
+            sigDrawLine(10 , 10*x_old+hyp1x ,  10*y_old+hyp1y, 10*x+hyp1x,   10*y+hyp1y , 'b');
+            sigDrawLine(10 , 10*x_old+hyp1x , -10*y_old+hyp1y, 10*x+hyp1x, -10*y+hyp1y , 'b');
+        }
     }
 
 
+    float x1_t = 0, x2_t = 0;
+    float y1_t = 0, y2_t = 0;
+    float y1a_t = 0, y2a_t = 0;
+    float x1a_t = 0, x2a_t = 0;
+    float minusy;
+
+    hyper_a = (((float)m_delays[ 1 ] / 2)/samplesPerMeter); // in meter from center to hyperbolas czoło ;)
+
+    if ( hyper_a > 0 ){
+
+        for (x = hyper_a ; x < 10; x = x+0.1){
+            //y_old = y;
+            y = sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x*x)/(hyper_a*hyper_a) -1 ) )    );
+            minusy = -y ;
+
+            y1_t = y2_t;
+            y2_t = 0.866 *x -0.5  * y ;
+
+            y1a_t = y2a_t ;
+            y2a_t = 0.866 *x - 0.5 * minusy ;
+
+            x1_t = x2_t;
+            x2_t = -0.5   *x -0.866*y;
+
+            x1a_t = x2a_t ;
+            x2a_t = -0.5 *x - 0.866*minusy;
+
+            sigDrawLine(10 , 10*x1_t , 10*y1_t, 10*x2_t,10* y2_t , 'r');
+            sigDrawLine(10 , 10*x1a_t , 10*y1a_t, 10*x2a_t,10* y2a_t , 'r');
+
+        }
+    }else
+    {
+        for (x = hyper_a ; x > -10; x = x-0.1){
+            //y_old = y;
+            y = sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x*x)/(hyper_a*hyper_a) -1 ) )    );
+            minusy = -y ;
+
+            y1_t = y2_t;
+            y2_t = 0.866 *x -0.5  * y ;
+
+            y1a_t = y2a_t ;
+            y2a_t = 0.866 *x - 0.5 * minusy ;
+
+            x1_t = x2_t;
+            x2_t = -0.5   *x -0.866*y;
+
+            x1a_t = x2a_t ;
+            x2a_t = -0.5 *x - 0.866*minusy;
+
+            sigDrawLine(10 , 10*x1_t , 10*y1_t, 10*x2_t,10* y2_t , 'r');
+            sigDrawLine(10 , 10*x1a_t , 10*y1a_t, 10*x2a_t,10* y2a_t , 'r');
+
+        }
+    }
+
+    hyper_a = (((float)m_delays[ 3 ] / 2)/samplesPerMeter); // in meter from center to hyperbolas czoło ;)
+
+    if ( hyper_a > 0 ){
+
+        for (x = hyper_a ; x < 10; x = x+0.1){
+            //y_old = y;
+            y = sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x*x)/(hyper_a*hyper_a) -1 ) )    );
+            minusy = -y ;
+
+            y1_t = y2_t;
+            y2_t = -0.866 *x +0.5  * y ;
+
+            y1a_t = y2a_t ;
+            y2a_t = -0.866 *x + 0.5 * minusy ;
+
+            x1_t = x2_t;
+            x2_t = 0.5 *x +0.866*y;
+
+            x1a_t = x2a_t ;
+            x2a_t = 0.5 *x +0.866*minusy;
+
+            sigDrawLine(10 , 10*x1_t , 10*y1_t, 10*x2_t,10* y2_t , 'g');
+            sigDrawLine(10 , 10*x1a_t , 10*y1a_t, 10*x2a_t,10* y2a_t , 'g');
+
+        }
+    }else
+    {
+        for (x = hyper_a ; x > -10; x = x-0.1){
+            //y_old = y;
+            y = sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x*x)/(hyper_a*hyper_a) -1 ) )    );
+            minusy = -y ;
+
+
+            y1_t = y2_t;
+            y2_t = -0.866 *x +0.5  * y ;
+
+            y1a_t = y2a_t ;
+            y2a_t = -0.866 *x + 0.5 * minusy ;
+
+            x1_t = x2_t;
+            x2_t = 0.5 *x +0.866*y;
+
+            x1a_t = x2a_t ;
+            x2a_t = 0.5 *x +0.866*minusy;
+
+            sigDrawLine(10 , 10*x1_t , 10*y1_t, 10*x2_t,10* y2_t , 'g');
+            sigDrawLine(10 , 10*x1a_t , 10*y1a_t, 10*x2a_t,10* y2a_t , 'g');
+
+        }
+    }
 
 }
 

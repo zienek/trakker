@@ -43,7 +43,7 @@ void trakkercontroller::connectMua() {  // here connect all neccesary items
     assert ( m_pWindow && m_pModel ) ;
 
     //drawing
-    QObject::connect( m_pModel , SIGNAL(sigDrawLine(int, int, int, int, int, char)), m_pWindow, SLOT(drawLine(int, int, int, int, int, char))) ;
+    QObject::connect( m_pModel , SIGNAL(sigDrawLine(int, int, int, int, int, char,const QTransform & )), m_pWindow, SLOT(drawLine(int, int, int, int, int, char,const QTransform & ))) ;
     QObject::connect( m_pModel , SIGNAL(sigSetStatus(QString, int)) , m_pWindow , SLOT(setStatus(QString, int)));
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->tabWidget_2, SIGNAL(currentChanged(int)), m_pModel, SLOT(setSignals(int)));
     QObject::connect( (qobject_cast<trakker*>( m_pWindow))->pCentralWidget->pushButton_6, SIGNAL(pressed()), m_pModel, SLOT(displayCorrelation()));

@@ -51,7 +51,7 @@ public:
     //void addText(QString);
 
 public slots:
-    void drawLine(int which, int, int, int, int, char);
+    void drawLine(int which, int, int, int, int, char, const QTransform & = QTransform(1,0,0,1,0,0) );
     void setStatus(QString text, int sec);
 
 protected:

@@ -192,8 +192,12 @@ void trakker::disconnection(){
     statusBar()->showMessage(tr("Disconnecting"));
 }
 
-void trakker::drawLine(int which, int x1, int y1, int x2, int y2, char color)
+void trakker::drawLine(int which, int x1, int y1, int x2, int y2, char color, const QTransform & transform)
 {
+    if ( which == 10 ){
+//        if ( transform.m11() != 0 )
+            pCentralWidget->graphicsView->setTransform(transform) ;
+    }
     if ( (x1==0) and (x2==0) and (y1==0) and(y2==0) ) {  // command to add line [0,0][0,0] clears display
         emit vector[which]->clear();
     }else{
@@ -224,6 +228,7 @@ void trakker::drawLine(int which, int x1, int y1, int x2, int y2, char color)
         }
 
     }
+
 }
 
 void trakker::printInput(){

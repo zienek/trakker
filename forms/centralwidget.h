@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'centralwidget.ui'
 **
-** Created: Tue Nov 10 20:04:59 2009
+** Created: Wed Nov 11 15:21:04 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -443,7 +443,11 @@ public:
         label_13->setGeometry(QRect(350, 90, 59, 18));
         graphicsView = new QGraphicsView(tab_2);
         graphicsView->setObjectName(QString::fromUtf8("graphicsView"));
-        graphicsView->setGeometry(QRect(20, 140, 510, 510));
+        graphicsView->setGeometry(QRect(20, 140, 512, 512));
+        graphicsView->setMinimumSize(QSize(512, 512));
+        graphicsView->setMaximumSize(QSize(1024, 1024));
+        graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         tabWidget->addTab(tab_2, QString());
 
         verticalLayout_3->addWidget(tabWidget);

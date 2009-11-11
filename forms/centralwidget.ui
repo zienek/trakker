@@ -1270,9 +1270,27 @@
             <rect>
              <x>20</x>
              <y>140</y>
-             <width>510</width>
-             <height>510</height>
+             <width>512</width>
+             <height>512</height>
             </rect>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>512</width>
+             <height>512</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>1024</width>
+             <height>1024</height>
+            </size>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOn</enum>
+           </property>
+           <property name="horizontalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOn</enum>
            </property>
           </widget>
          </widget>

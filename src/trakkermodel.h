@@ -116,7 +116,7 @@ private:
 
 
 signals:
-    void sigDrawLine(int selectedWindow, int x1, int y1, int x2, int y2, char color = 'b');
+    void sigDrawLine(int selectedWindow, int x1, int y1, int x2, int y2, char color = 'b',const QTransform & = QTransform(1,0,0,1,0,0) );
     void sigSetStatus(QString text, int sec);
     //void sigRequestForHandler();
 
