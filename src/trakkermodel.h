@@ -75,6 +75,7 @@ private:
     void   handleInputData(bool);        // from Ethernet
     void   displayInput()       ;
     void   clearDisplay()       ;
+    void   drawHyper(float, float, int);
 
 
     bool   continousCapturing        ;

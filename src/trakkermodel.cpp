@@ -217,6 +217,116 @@ void trakkermodel::clearCorrView(){
      corrVisible.fill(FALSE,6);
 }
 
+void trakkermodel::drawHyper(float hyper_a, float hyper_c, int rotation ){
+
+
+    float x1t,x2t,y1t,y2t, x1tm, x2tm, y1tm, y2tm ;
+
+    int hyp1x =   0; // variables to translate proper hyperbolas
+    int hyp1y = -29;
+    float i;
+
+    QVector<float> x;
+    QVector<float> y1;
+    QVector<float> y2;
+    QVector<float> xShifted;
+
+    sigDrawLine(10,-50,-29,50,-29,'k');  // triangle
+    sigDrawLine(10,-50,-29,0 , 56,'k');
+    sigDrawLine(10,  0, 56,50,-29,'k');
+
+    sigDrawLine(10,  -2, 0,2,0,'k');
+    sigDrawLine(10,  0, -2,0,2,'k');
+
+
+
+    //calculation
+    if ( hyper_a  > 0 ){
+        for (i = 0 ; i < 300; i++){  // i and x are prescaled in meter so 'i' is iterated by 10cm
+            x.append(i/10 + hyper_a);
+            y1.append(   sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(   (x.at(i)*x.at(i))/(hyper_a*hyper_a) -1 ) )    ));
+            y2.append( - sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(   (x.at(i)*x.at(i))/(hyper_a*hyper_a) -1 ) )    ));
+        }
+    }else{
+        for (i = 0 ; i < 300; i = i++){
+            x.append(-i/10 + hyper_a);
+            y1.append(   sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x.at(i)*x.at(i))/(hyper_a*hyper_a) -1 ) )    ));
+            y2.append( - sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x.at(i)*x.at(i))/(hyper_a*hyper_a) -1 ) )    ));
+        }
+    }
+
+    for (i = 0 ; i < x.size() ; i++){
+        xShifted.append( x.at(i) + 10*hyper_a );
+    }
+
+
+
+    //drawing
+    switch (rotation){
+    case 0:
+
+            for (i = 0 ; i < xShifted.size() -1 ; i++){
+                sigDrawLine(10 , 10*xShifted.at(i) +hyp1x ,10* y1.at(i) +hyp1y, 10*xShifted.at(i+1)+hyp1x ,10*  y1.at(i+1)+hyp1y , 'b');
+                sigDrawLine(10 , 10*xShifted.at(i) +hyp1x ,10* y2.at(i) +hyp1y, 10*xShifted.at(i+1)+hyp1x ,10*  y2.at(i+1)+hyp1y , 'b');
+            }
+            break;
+
+    case 120:
+            x2t  = (10*xShifted.at(0)+hyp1x) * (-0.5) - (10*y1.at(0)+hyp1y)* 0.866 ;
+            x2tm = x2t;
+            y2t  = (10*xShifted.at(0)+hyp1x) * 0.866  + (10*y1.at(0)+hyp1y)*(-0.5) ;
+            y2tm = y2t;
+
+            for (i = 0 ; i < xShifted.size() -1 ; i++){
+                x1t  = x2t;
+                x1tm = x2tm;
+
+                x2t  = (10*xShifted.at(i+1)+hyp1x) * (-0.5) - (10*y1.at(i+1)+hyp1y)* 0.866 ;
+                x2tm = (10*xShifted.at(i+1)+hyp1x) * (-0.5) - (10*y2.at(i+1)+hyp1y)* 0.866 ;
+
+                y1t  = y2t;
+                y1tm = y2tm;
+
+                y2t  = (10*xShifted.at(i+1)+hyp1x) * 0.866  + (10*y1.at(i+1)+hyp1y)*(-0.5) ;
+                y2tm = (10*xShifted.at(i+1)+hyp1x) * 0.866  + (10*y2.at(i+1)+hyp1y)*(-0.5) ;
+                sigDrawLine(10, x1t  ,y1t  ,x2t  ,y2t  , 'r');
+                sigDrawLine(10, x1tm ,y1tm ,x2tm ,y2tm , 'r');
+            }
+            break;
+
+    case 240:
+            x2t  = (10*xShifted.at(0)+hyp1x) * (-0.5) + (10*y1.at(0)+hyp1y)*0.866 ;
+            x2tm = x2t;
+            y2t  = (10*xShifted.at(0)+hyp1x) *(-0.866)  + (10*y1.at(0)+hyp1y)*(-0.5) ;
+            y2tm = y2t;
+
+            for (i = 0 ; i < xShifted.size() -1 ; i++){
+                x1t  = x2t;
+                x1tm = x2tm;
+
+                x2t  = (10*xShifted.at(i+1)+hyp1x) * (-0.5) + (10*y1.at(i+1)+hyp1y)* 0.866 ;
+                x2tm = (10*xShifted.at(i+1)+hyp1x) * (-0.5) + (10*y2.at(i+1)+hyp1y)* 0.866 ;
+
+                y1t  = y2t;
+                y1tm = y2tm;
+
+                y2t  = (10*xShifted.at(i+1)+hyp1x)*(-0.866)  + (10*y1.at(i+1)+hyp1y)*(-0.5) ;
+                y2tm = (10*xShifted.at(i+1)+hyp1x)*(-0.866)  + (10*y2.at(i+1)+hyp1y)*(-0.5) ;
+                sigDrawLine(10, x1t  ,y1t  ,x2t  ,y2t  , 'g');
+                sigDrawLine(10, x1tm ,y1tm ,x2tm ,y2tm , 'g');
+            }
+            break;
+
+    default:
+            for (i = 0 ; i < x.size() ; i++){
+                sigDrawLine(10 , x.at(i) +hyp1x , y1.at(i) +hyp1y, x.at(i)+hyp1x,  y1.at(i)+hyp1y , 'm');
+                sigDrawLine(10 , x.at(i) +hyp1x , y2.at(i) +hyp1y, x.at(i)+hyp1x,  y2.at(i)+hyp1y , 'm');
+            }
+            break;
+    }
+
+}
+
 void trakkermodel::displayInput(){
 
     sigDrawLine(0, 0, 0, 0, 128 ,'k');
@@ -331,15 +441,7 @@ void trakkermodel::runTdoa(){
     float hyper_c = 0.5 ; // from hyperbola equation
     float hyper_a;
 
-    float x = 0 , y = 0;
-    float y_old = 0;
-
-    int hyp1x = -29;
-    int hyp1y =   0;
-    int hyp2x =  26;
-    int hyp2y =  44;
-    int hyp3x = -26;
-    int hyp3y =  44;
+    sigDrawLine(10,0,0,0,0,'b');
 
     for ( i = 0 ; i < bufferSize ; i++){
         if (fftResult[0][i] > max12){
@@ -356,60 +458,31 @@ void trakkermodel::runTdoa(){
         }
     }
 
-    sigDrawLine(10,-50,-29,50,-29,'k');  // triangle
-    sigDrawLine(10,-50,-29,0,56,'k');
-    sigDrawLine(10,0,56,50,-29,'k');
-
     m_delays[0] = (bufferSize/2 - max12pos);
     m_delays[1] = bufferSize/2 - max13pos;
     m_delays[2] = -1 ;
     m_delays[3] = bufferSize/2 - max23pos;
 
-//    QMessageBox *box = new QMessageBox;
-//    QString napis;
+    hyper_a = (((float)m_delays[ 0 ] / 2)/samplesPerMeter);
+
+    drawHyper(hyper_a, hyper_c, 0);
+
+    hyper_a = (((float)m_delays[ 1 ] / 2)/samplesPerMeter);
+
+    drawHyper(hyper_a, hyper_c, 120);
+
+    hyper_a = (((float)m_delays[ 3 ] / 2)/samplesPerMeter);
+
+    drawHyper(hyper_a, hyper_c, 240);
+
 //
-//    napis.append("m_delay 12 ") ;
-//    napis.append( QString::number(m_delays[0])) ;
-//    napis.append("\nm_delay 13 ") ;
-//    napis.append( QString::number(m_delays[1])) ;
-//    napis.append("\nm_delay 23 ") ;
-//    napis.append( QString::number(m_delays[3])) ;
-//    box->setStandardButtons(QMessageBox::Ok);
-//    box->setText(napis);
-//    box->show();
+//    float x1_t = 0, x2_t = 0;
+//    float y1_t = 0, y2_t = 0;
+//    float y1a_t = 0, y2a_t = 0;
+//    float x1a_t = 0, x2a_t = 0;
+//    float minusy;
 
-    int x_old ;
-    y_old = 0;
-
-    if ( (hyper_a = (((float)m_delays[ 0 ] / 2)/samplesPerMeter)) > 0 ){ // in meter from center to hyperbolas czoło ;)
-        for (x = hyper_a ; x < 20; x = x+0.1){
-            x_old = x;
-            y_old = y;
-
-            y = sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x*x)/(hyper_a*hyper_a) -1 ) )    );
-            sigDrawLine(10 , 10*x_old +hyp1x , 10*y_old+hyp1y, 10*x+hyp1x,  10*y+hyp1y , 'b');
-            sigDrawLine(10 , 10*x_old +hyp1x, -10*y_old+hyp1y, 10*x+hyp1x, -10*y+hyp1y , 'b');
-        }
-
-    }
-    else{
-        for (x = hyper_a ; x > -20; x = x-0.1){
-            x_old = x;
-            y_old = y;
-            y = sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x*x)/(hyper_a*hyper_a) -1 ) )    );
-            sigDrawLine(10 , 10*x_old+hyp1x ,  10*y_old+hyp1y, 10*x+hyp1x,   10*y+hyp1y , 'b');
-            sigDrawLine(10 , 10*x_old+hyp1x , -10*y_old+hyp1y, 10*x+hyp1x, -10*y+hyp1y , 'b');
-        }
-    }
-
-
-    float x1_t = 0, x2_t = 0;
-    float y1_t = 0, y2_t = 0;
-    float y1a_t = 0, y2a_t = 0;
-    float x1a_t = 0, x2a_t = 0;
-    float minusy;
-
-    hyper_a = (((float)m_delays[ 1 ] / 2)/samplesPerMeter); // in meter from center to hyperbolas czoło ;)
+/*    hyper_a = (((float)m_delays[ 1 ] / 2)/samplesPerMeter); // in meter from center to hyperbolas czoło ;)
 
     if ( hyper_a > 0 ){
 
@@ -459,56 +532,8 @@ void trakkermodel::runTdoa(){
         }
     }
 
-    hyper_a = (((float)m_delays[ 3 ] / 2)/samplesPerMeter); // in meter from center to hyperbolas czoło ;)
 
-    if ( hyper_a > 0 ){
-
-        for (x = hyper_a ; x < 10; x = x+0.1){
-            //y_old = y;
-            y = sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x*x)/(hyper_a*hyper_a) -1 ) )    );
-            minusy = -y ;
-
-            y1_t = y2_t;
-            y2_t = -0.866 *x +0.5  * y ;
-
-            y1a_t = y2a_t ;
-            y2a_t = -0.866 *x + 0.5 * minusy ;
-
-            x1_t = x2_t;
-            x2_t = 0.5 *x +0.866*y;
-
-            x1a_t = x2a_t ;
-            x2a_t = 0.5 *x +0.866*minusy;
-
-            sigDrawLine(10 , 10*x1_t , 10*y1_t, 10*x2_t,10* y2_t , 'g');
-            sigDrawLine(10 , 10*x1a_t , 10*y1a_t, 10*x2a_t,10* y2a_t , 'g');
-
-        }
-    }else
-    {
-        for (x = hyper_a ; x > -10; x = x-0.1){
-            //y_old = y;
-            y = sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x*x)/(hyper_a*hyper_a) -1 ) )    );
-            minusy = -y ;
-
-
-            y1_t = y2_t;
-            y2_t = -0.866 *x +0.5  * y ;
-
-            y1a_t = y2a_t ;
-            y2a_t = -0.866 *x + 0.5 * minusy ;
-
-            x1_t = x2_t;
-            x2_t = 0.5 *x +0.866*y;
-
-            x1a_t = x2a_t ;
-            x2a_t = 0.5 *x +0.866*minusy;
-
-            sigDrawLine(10 , 10*x1_t , 10*y1_t, 10*x2_t,10* y2_t , 'g');
-            sigDrawLine(10 , 10*x1a_t , 10*y1a_t, 10*x2a_t,10* y2a_t , 'g');
-
-        }
-    }
+*/
 
 }
 

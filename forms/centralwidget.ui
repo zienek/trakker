@@ -456,7 +456,7 @@
             </rect>
            </property>
            <property name="text">
-            <string>Load coefficient from file</string>
+            <string>&amp;Load coefficient from file</string>
            </property>
           </widget>
           <widget class="QPushButton" name="pushButton_15">
@@ -1210,66 +1210,14 @@
             </rect>
            </property>
            <property name="text">
-            <string>Measure TDOA</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_10">
-           <property name="geometry">
-            <rect>
-             <x>240</x>
-             <y>50</y>
-             <width>61</width>
-             <height>18</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>Samples</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_11">
-           <property name="geometry">
-            <rect>
-             <x>350</x>
-             <y>30</y>
-             <width>59</width>
-             <height>18</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>run</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_12">
-           <property name="geometry">
-            <rect>
-             <x>350</x>
-             <y>60</y>
-             <width>59</width>
-             <height>18</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>tdoa</string>
-           </property>
-          </widget>
-          <widget class="QLabel" name="label_13">
-           <property name="geometry">
-            <rect>
-             <x>350</x>
-             <y>90</y>
-             <width>59</width>
-             <height>18</height>
-            </rect>
-           </property>
-           <property name="text">
-            <string>first</string>
+            <string>Measure &amp;TDOA</string>
            </property>
           </widget>
           <widget class="QGraphicsView" name="graphicsView">
            <property name="geometry">
             <rect>
              <x>20</x>
-             <y>140</y>
+             <y>90</y>
              <width>512</width>
              <height>512</height>
             </rect>
