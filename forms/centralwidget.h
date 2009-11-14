@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading ui file 'centralwidget.ui'
 **
-** Created: Wed Nov 11 18:03:38 2009
+** Created: Fri Nov 13 16:01:50 2009
 **      by: Qt User Interface Compiler version 4.5.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -15,7 +15,9 @@
 #include <QtGui/QApplication>
 #include <QtGui/QButtonGroup>
 #include <QtGui/QComboBox>
+#include <QtGui/QFormLayout>
 #include <QtGui/QGraphicsView>
+#include <QtGui/QGridLayout>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QHeaderView>
 #include <QtGui/QLabel>
@@ -60,7 +62,6 @@ public:
     QLabel *label_6;
     QRadioButton *radioButton_1;
     QRadioButton *radioButton_2;
-    QLabel *label_7;
     QPushButton *pushButton_12;
     QPushButton *pushButton_13;
     QPushButton *pushButton_14;
@@ -76,8 +77,8 @@ public:
     QGraphicsView *graphicsView_8;
     QPushButton *pushButton;
     QWidget *Correlation;
+    QFormLayout *formLayout;
     QComboBox *comboBox_3;
-    QGraphicsView *graphicsView_9;
     QPushButton *pushButton_2;
     QTabWidget *tabWidget_2;
     QWidget *tab;
@@ -99,13 +100,18 @@ public:
     QComboBox *comboBox_9;
     QPushButton *pushButton_6;
     QLabel *label_8;
-    QPushButton *pushButton_3;
+    QGraphicsView *graphicsView_9;
     QPushButton *pushButton_4;
     QPushButton *pushButton_5;
-    QLabel *label_9;
+    QPushButton *pushButton_3;
     QWidget *tab_2;
+    QGridLayout *gridLayout;
     QPushButton *pushButton_16;
     QGraphicsView *graphicsView;
+    QLabel *label_7;
+    QLabel *label_9;
+    QLabel *label_10;
+    QLabel *label_11;
 
     void setupUi(QWidget *centralWidget)
     {
@@ -269,9 +275,6 @@ public:
         radioButton_2->setObjectName(QString::fromUtf8("radioButton_2"));
         radioButton_2->setGeometry(QRect(20, 60, 271, 23));
         radioButton_2->setAutoExclusive(true);
-        label_7 = new QLabel(Input);
-        label_7->setObjectName(QString::fromUtf8("label_7"));
-        label_7->setGeometry(QRect(30, 280, 221, 41));
         pushButton_12 = new QPushButton(Input);
         pushButton_12->setObjectName(QString::fromUtf8("pushButton_12"));
         pushButton_12->setEnabled(false);
@@ -332,22 +335,29 @@ public:
         tabWidget->addTab(Windowing, QString());
         Correlation = new QWidget();
         Correlation->setObjectName(QString::fromUtf8("Correlation"));
+        formLayout = new QFormLayout(Correlation);
+        formLayout->setObjectName(QString::fromUtf8("formLayout"));
         comboBox_3 = new QComboBox(Correlation);
         comboBox_3->setObjectName(QString::fromUtf8("comboBox_3"));
-        comboBox_3->setGeometry(QRect(80, 30, 400, 30));
         comboBox_3->setMinimumSize(QSize(400, 0));
         comboBox_3->setMaximumSize(QSize(400, 16777215));
-        graphicsView_9 = new QGraphicsView(Correlation);
-        graphicsView_9->setObjectName(QString::fromUtf8("graphicsView_9"));
-        graphicsView_9->setGeometry(QRect(20, 230, 512, 300));
-        graphicsView_9->setMinimumSize(QSize(512, 300));
-        graphicsView_9->setMaximumSize(QSize(512, 300));
+
+        formLayout->setWidget(0, QFormLayout::SpanningRole, comboBox_3);
+
         pushButton_2 = new QPushButton(Correlation);
         pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setGeometry(QRect(80, 80, 181, 27));
+
+        formLayout->setWidget(1, QFormLayout::LabelRole, pushButton_2);
+
         tabWidget_2 = new QTabWidget(Correlation);
         tabWidget_2->setObjectName(QString::fromUtf8("tabWidget_2"));
-        tabWidget_2->setGeometry(QRect(30, 120, 321, 81));
+        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy2.setHorizontalStretch(200);
+        sizePolicy2.setVerticalStretch(80);
+        sizePolicy2.setHeightForWidth(tabWidget_2->sizePolicy().hasHeightForWidth());
+        tabWidget_2->setSizePolicy(sizePolicy2);
+        tabWidget_2->setMinimumSize(QSize(350, 80));
+        tabWidget_2->setMaximumSize(QSize(350, 80));
         tab = new QWidget();
         tab->setObjectName(QString::fromUtf8("tab"));
         comboBox_4 = new QComboBox(tab);
@@ -402,36 +412,83 @@ public:
         pushButton_6->setObjectName(QString::fromUtf8("pushButton_6"));
         pushButton_6->setGeometry(QRect(190, 10, 112, 27));
         tabWidget_2->addTab(tab_7, QString());
+
+        formLayout->setWidget(2, QFormLayout::SpanningRole, tabWidget_2);
+
         label_8 = new QLabel(Correlation);
         label_8->setObjectName(QString::fromUtf8("label_8"));
-        label_8->setGeometry(QRect(180, 210, 171, 18));
-        pushButton_3 = new QPushButton(Correlation);
-        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
-        pushButton_3->setGeometry(QRect(390, 150, 112, 27));
+
+        formLayout->setWidget(4, QFormLayout::SpanningRole, label_8);
+
+        graphicsView_9 = new QGraphicsView(Correlation);
+        graphicsView_9->setObjectName(QString::fromUtf8("graphicsView_9"));
+        QSizePolicy sizePolicy3(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy3.setHorizontalStretch(1);
+        sizePolicy3.setVerticalStretch(1);
+        sizePolicy3.setHeightForWidth(graphicsView_9->sizePolicy().hasHeightForWidth());
+        graphicsView_9->setSizePolicy(sizePolicy3);
+        graphicsView_9->setMinimumSize(QSize(512, 300));
+        graphicsView_9->setMaximumSize(QSize(1024, 700));
+
+        formLayout->setWidget(5, QFormLayout::SpanningRole, graphicsView_9);
+
         pushButton_4 = new QPushButton(Correlation);
         pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
         pushButton_4->setEnabled(false);
-        pushButton_4->setGeometry(QRect(40, 550, 191, 27));
+
+        formLayout->setWidget(6, QFormLayout::LabelRole, pushButton_4);
+
         pushButton_5 = new QPushButton(Correlation);
         pushButton_5->setObjectName(QString::fromUtf8("pushButton_5"));
-        pushButton_5->setGeometry(QRect(310, 550, 191, 27));
-        label_9 = new QLabel(Correlation);
-        label_9->setObjectName(QString::fromUtf8("label_9"));
-        label_9->setGeometry(QRect(200, 530, 151, 18));
-        label_9->setFrameShape(QFrame::NoFrame);
+
+        formLayout->setWidget(6, QFormLayout::FieldRole, pushButton_5);
+
+        pushButton_3 = new QPushButton(Correlation);
+        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
+
+        formLayout->setWidget(1, QFormLayout::FieldRole, pushButton_3);
+
         tabWidget->addTab(Correlation, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
+        gridLayout = new QGridLayout(tab_2);
+        gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
         pushButton_16 = new QPushButton(tab_2);
         pushButton_16->setObjectName(QString::fromUtf8("pushButton_16"));
-        pushButton_16->setGeometry(QRect(30, 40, 141, 27));
+
+        gridLayout->addWidget(pushButton_16, 0, 0, 1, 1);
+
         graphicsView = new QGraphicsView(tab_2);
         graphicsView->setObjectName(QString::fromUtf8("graphicsView"));
-        graphicsView->setGeometry(QRect(20, 90, 512, 512));
+        sizePolicy3.setHeightForWidth(graphicsView->sizePolicy().hasHeightForWidth());
+        graphicsView->setSizePolicy(sizePolicy3);
         graphicsView->setMinimumSize(QSize(512, 512));
         graphicsView->setMaximumSize(QSize(1024, 1024));
         graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
+        gridLayout->addWidget(graphicsView, 6, 0, 1, 1);
+
+        label_7 = new QLabel(tab_2);
+        label_7->setObjectName(QString::fromUtf8("label_7"));
+
+        gridLayout->addWidget(label_7, 2, 0, 1, 1);
+
+        label_9 = new QLabel(tab_2);
+        label_9->setObjectName(QString::fromUtf8("label_9"));
+
+        gridLayout->addWidget(label_9, 3, 0, 1, 1);
+
+        label_10 = new QLabel(tab_2);
+        label_10->setObjectName(QString::fromUtf8("label_10"));
+
+        gridLayout->addWidget(label_10, 4, 0, 1, 1);
+
+        label_11 = new QLabel(tab_2);
+        label_11->setObjectName(QString::fromUtf8("label_11"));
+
+        gridLayout->addWidget(label_11, 5, 0, 1, 1);
+
         tabWidget->addTab(tab_2, QString());
 
         verticalLayout_3->addWidget(tabWidget);
@@ -478,8 +535,6 @@ public:
         label_6->setText(QApplication::translate("centralWidget", "Sampling rate", 0, QApplication::UnicodeUTF8));
         radioButton_1->setText(QApplication::translate("centralWidget", "Single event processing", 0, QApplication::UnicodeUTF8));
         radioButton_2->setText(QApplication::translate("centralWidget", "Continuous signal processing", 0, QApplication::UnicodeUTF8));
-        label_7->setText(QApplication::translate("centralWidget", "TODO: Save triggered signals\n"
-" and load saved signals", 0, QApplication::UnicodeUTF8));
         pushButton_12->setText(QApplication::translate("centralWidget", "Save views as graphic", 0, QApplication::UnicodeUTF8));
         pushButton_13->setText(QApplication::translate("centralWidget", "Save as text coefficient", 0, QApplication::UnicodeUTF8));
         pushButton_14->setText(QApplication::translate("centralWidget", "&Load coefficient from file", 0, QApplication::UnicodeUTF8));
@@ -576,12 +631,15 @@ public:
         pushButton_6->setText(QApplication::translate("centralWidget", "Add", 0, QApplication::UnicodeUTF8));
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_7), QApplication::translate("centralWidget", "3 - 4", 0, QApplication::UnicodeUTF8));
         label_8->setText(QApplication::translate("centralWidget", "Cross-Correlation view", 0, QApplication::UnicodeUTF8));
-        pushButton_3->setText(QApplication::translate("centralWidget", "Clear all", 0, QApplication::UnicodeUTF8));
         pushButton_4->setText(QApplication::translate("centralWidget", "Save view as graphic", 0, QApplication::UnicodeUTF8));
         pushButton_5->setText(QApplication::translate("centralWidget", "Save as text coefficient", 0, QApplication::UnicodeUTF8));
-        label_9->setText(QApplication::translate("centralWidget", "TODO: save results", 0, QApplication::UnicodeUTF8));
+        pushButton_3->setText(QApplication::translate("centralWidget", "Clear all", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(Correlation), QApplication::translate("centralWidget", "Correlation", 0, QApplication::UnicodeUTF8));
         pushButton_16->setText(QApplication::translate("centralWidget", "Measure &TDOA", 0, QApplication::UnicodeUTF8));
+        label_7->setText(QApplication::translate("centralWidget", "Delays:", 0, QApplication::UnicodeUTF8));
+        label_9->setText(QApplication::translate("centralWidget", "1-2 - blue ", 0, QApplication::UnicodeUTF8));
+        label_10->setText(QApplication::translate("centralWidget", "1-3 red", 0, QApplication::UnicodeUTF8));
+        label_11->setText(QApplication::translate("centralWidget", "2-3 green", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QApplication::translate("centralWidget", "TDOA", 0, QApplication::UnicodeUTF8));
         Q_UNUSED(centralWidget);
     } // retranslateUi

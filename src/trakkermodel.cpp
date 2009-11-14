@@ -62,13 +62,13 @@ QVector<double> correlation(const QVector<double> in, int size, int offset1, int
     double    sA = 0 ,    sB = 0 , sTmp = 0 ;
     double         normalize = 0 ;
 
-    QVector<double>x;//(p_sigA);
-    QVector<double>y;//(p_sigB);
+    QVector<double>x;
+    QVector<double>y;
     QVector<double> result;
 
     for(i = 0 ; i <bufferSize; i++){
-        x.push_back( in.at(i + offset1*size));
-        y.push_back( in.at(i + offset2*size));
+        x.push_back( in.at(i + offset1*size)); // filling up vectors
+        y.push_back( in.at(i + offset2*size)); // of input data
     }
 
     for( i=0 ; i<n ; i++){
@@ -91,19 +91,17 @@ QVector<double> correlation(const QVector<double> in, int size, int offset1, int
         sTmp = 0 ;
         for(m=0 ; m<n ; m++){
             j = m + delay;
-            if ((j < 0) || (j>= n))
+            if (j < 0)
                 continue;
-                //sTmp += (p_sigA[m] - meanA) * (p_sigB[j%n] - meanB); //continue;
+            else if (j>= n)
+                sTmp += (x[m] - meanA) * (y[j%n] - meanB);
             else
                 sTmp += (x[m] - meanA) * (y[j] - meanB);
         }
         tmp = sTmp/normalize;
         out.push_back(tmp);
-        //qDebug() << out.at(delay);
     }
-
     return out;
-
 }
 
 trakkermodel::trakkermodel(){
@@ -220,7 +218,7 @@ void trakkermodel::clearCorrView(){
 void trakkermodel::drawHyper(float hyper_a, float hyper_c, int rotation ){
 
 
-    float x1t,x2t,y1t,y2t, x1tm, x2tm, y1tm, y2tm ;
+    double x1t,x2t,y1t,y2t, x1tm, x2tm, y1tm, y2tm ;
 
     int hyp1x =   0; // variables to translate proper hyperbolas
     int hyp1y = -29;
@@ -242,17 +240,30 @@ void trakkermodel::drawHyper(float hyper_a, float hyper_c, int rotation ){
 
     //calculation
     if ( hyper_a  > 0 ){
-        for (i = 0 ; i < 300; i++){  // i and x are prescaled in meter so 'i' is iterated by 10cm
+        for (i = 0 ; i < 200; i++){  // i and x are prescaled in meter so 'i' is iterated by 10cm
             x.append(i/10 + hyper_a);
             y1.append(   sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(   (x.at(i)*x.at(i))/(hyper_a*hyper_a) -1 ) )    ));
             y2.append( - sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(   (x.at(i)*x.at(i))/(hyper_a*hyper_a) -1 ) )    ));
         }
     }else{
-        for (i = 0 ; i < 300; i = i++){
-            x.append(-i/10 + hyper_a);
-            y1.append(   sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x.at(i)*x.at(i))/(hyper_a*hyper_a) -1 ) )    ));
-            y2.append( - sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x.at(i)*x.at(i))/(hyper_a*hyper_a) -1 ) )    ));
+        if (hyper_a  < 0 ){
+            for (i = 0 ; i < 200; i = i++){
+                x.append(-i/10 + hyper_a);
+                y1.append(   sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x.at(i)*x.at(i))/(hyper_a*hyper_a) -1 ) )    ));
+                y2.append( - sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x.at(i)*x.at(i))/(hyper_a*hyper_a) -1 ) )    ));
+            }
+        }else{  // hyper_a = 0;
+            x.append(0);
+            x.append(0);
+
+            y1.append(0);
+            y1.append(-500);
+            y2.append(0);
+            y2.append(500);
+
+
         }
+
     }
 
     for (i = 0 ; i < x.size() ; i++){
@@ -266,8 +277,8 @@ void trakkermodel::drawHyper(float hyper_a, float hyper_c, int rotation ){
     case 0:
 
             for (i = 0 ; i < xShifted.size() -1 ; i++){
-                sigDrawLine(10 , 10*xShifted.at(i) +hyp1x ,10* y1.at(i) +hyp1y, 10*xShifted.at(i+1)+hyp1x ,10*  y1.at(i+1)+hyp1y , 'b');
-                sigDrawLine(10 , 10*xShifted.at(i) +hyp1x ,10* y2.at(i) +hyp1y, 10*xShifted.at(i+1)+hyp1x ,10*  y2.at(i+1)+hyp1y , 'b');
+                sigDrawLine(10 , -10*xShifted.at(i) +hyp1x ,10* y1.at(i) +hyp1y,- 10*xShifted.at(i+1)+hyp1x ,10*  y1.at(i+1)+hyp1y , 'b');
+                sigDrawLine(10 , -10*xShifted.at(i) +hyp1x ,10* y2.at(i) +hyp1y,- 10*xShifted.at(i+1)+hyp1x ,10*  y2.at(i+1)+hyp1y , 'b');
             }
             break;
 
@@ -295,23 +306,23 @@ void trakkermodel::drawHyper(float hyper_a, float hyper_c, int rotation ){
             break;
 
     case 240:
-            x2t  = (10*xShifted.at(0)+hyp1x) * (-0.5) + (10*y1.at(0)+hyp1y)*0.866 ;
+            x2t  = (-10*xShifted.at(0)+hyp1x) * (-0.5) + (10*y1.at(0)+hyp1y)*0.866 ;
             x2tm = x2t;
-            y2t  = (10*xShifted.at(0)+hyp1x) *(-0.866)  + (10*y1.at(0)+hyp1y)*(-0.5) ;
+            y2t  = (-10*xShifted.at(0)+hyp1x) *(-0.866)  + (10*y1.at(0)+hyp1y)*(-0.5) ;
             y2tm = y2t;
 
             for (i = 0 ; i < xShifted.size() -1 ; i++){
                 x1t  = x2t;
                 x1tm = x2tm;
 
-                x2t  = (10*xShifted.at(i+1)+hyp1x) * (-0.5) + (10*y1.at(i+1)+hyp1y)* 0.866 ;
-                x2tm = (10*xShifted.at(i+1)+hyp1x) * (-0.5) + (10*y2.at(i+1)+hyp1y)* 0.866 ;
+                x2t  = (-10*xShifted.at(i+1)+hyp1x) * (-0.5) + (10*y1.at(i+1)+hyp1y)* 0.866 ;
+                x2tm = (-10*xShifted.at(i+1)+hyp1x) * (-0.5) + (10*y2.at(i+1)+hyp1y)* 0.866 ;
 
                 y1t  = y2t;
                 y1tm = y2tm;
 
-                y2t  = (10*xShifted.at(i+1)+hyp1x)*(-0.866)  + (10*y1.at(i+1)+hyp1y)*(-0.5) ;
-                y2tm = (10*xShifted.at(i+1)+hyp1x)*(-0.866)  + (10*y2.at(i+1)+hyp1y)*(-0.5) ;
+                y2t  = (-10*xShifted.at(i+1)+hyp1x)*(-0.866)  + (10*y1.at(i+1)+hyp1y)*(-0.5) ;
+                y2tm = (-10*xShifted.at(i+1)+hyp1x)*(-0.866)  + (10*y2.at(i+1)+hyp1y)*(-0.5) ;
                 sigDrawLine(10, x1t  ,y1t  ,x2t  ,y2t  , 'g');
                 sigDrawLine(10, x1tm ,y1tm ,x2tm ,y2tm , 'g');
             }
@@ -349,12 +360,12 @@ void trakkermodel::displayInput(){
 
 void trakkermodel::displayCorrelation(){
 
-    emit sigDrawLine(9,256,-250,256,250,'k');
+    emit sigDrawLine(9,256,-600,256,250,'k');
     emit sigDrawLine(9,  0,0,510,  0,'k'); // crosshair
 
     if (TRUE==b_correlationDone){
-        for(int i = 0 ; i < correlationPlotWidth - 30 ; i++){ // draw result
-            emit sigDrawLine(9, i ,-fftResult[chosenSignals][i] , i+1 , -fftResult[chosenSignals][i+1] ,corrColor.at(chosenSignals) );
+        for(int i = 0 ; i < correlationPlotWidth - 1 ; i++){ // draw result
+            emit sigDrawLine(9, i ,-fftResult[chosenSignals][i]/5 , i+1 , -fftResult[chosenSignals][i+1]/5 ,corrColor.at(chosenSignals) );
         }
 
     }else
@@ -438,12 +449,18 @@ void trakkermodel::runTdoa(){
     double max12    = 0, max13    = 0, max23    = 0  ;
     int    max12pos = 0, max13pos = 0, max23pos = 0  ;
 
-    float hyper_c = 0.5 ; // from hyperbola equation
+    float hyper_c = 0.39; // from hyperbola equation
     float hyper_a;
 
     sigDrawLine(10,0,0,0,0,'b');
 
-    for ( i = 0 ; i < bufferSize ; i++){
+    if (correlationType == 2){
+        i = 100;
+    }else{
+        i = 1;
+    }
+
+    for ( i = 70 ; i < bufferSize -70 ; i++){
         if (fftResult[0][i] > max12){
             max12 = fftResult[0][i];
             max12pos = i;
@@ -475,65 +492,12 @@ void trakkermodel::runTdoa(){
 
     drawHyper(hyper_a, hyper_c, 240);
 
-//
-//    float x1_t = 0, x2_t = 0;
-//    float y1_t = 0, y2_t = 0;
-//    float y1a_t = 0, y2a_t = 0;
-//    float x1a_t = 0, x2a_t = 0;
-//    float minusy;
-
-/*    hyper_a = (((float)m_delays[ 1 ] / 2)/samplesPerMeter); // in meter from center to hyperbolas czoło ;)
-
-    if ( hyper_a > 0 ){
-
-        for (x = hyper_a ; x < 10; x = x+0.1){
-            //y_old = y;
-            y = sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x*x)/(hyper_a*hyper_a) -1 ) )    );
-            minusy = -y ;
-
-            y1_t = y2_t;
-            y2_t = 0.866 *x -0.5  * y ;
-
-            y1a_t = y2a_t ;
-            y2a_t = 0.866 *x - 0.5 * minusy ;
-
-            x1_t = x2_t;
-            x2_t = -0.5   *x -0.866*y;
-
-            x1a_t = x2a_t ;
-            x2a_t = -0.5 *x - 0.866*minusy;
-
-            sigDrawLine(10 , 10*x1_t , 10*y1_t, 10*x2_t,10* y2_t , 'r');
-            sigDrawLine(10 , 10*x1a_t , 10*y1a_t, 10*x2a_t,10* y2a_t , 'r');
-
-        }
-    }else
-    {
-        for (x = hyper_a ; x > -10; x = x-0.1){
-            //y_old = y;
-            y = sqrt(   abs( (hyper_c*hyper_c - hyper_a*hyper_a )*(  (x*x)/(hyper_a*hyper_a) -1 ) )    );
-            minusy = -y ;
-
-            y1_t = y2_t;
-            y2_t = 0.866 *x -0.5  * y ;
-
-            y1a_t = y2a_t ;
-            y2a_t = 0.866 *x - 0.5 * minusy ;
-
-            x1_t = x2_t;
-            x2_t = -0.5   *x -0.866*y;
-
-            x1a_t = x2a_t ;
-            x2a_t = -0.5 *x - 0.866*minusy;
-
-            sigDrawLine(10 , 10*x1_t , 10*y1_t, 10*x2_t,10* y2_t , 'r');
-            sigDrawLine(10 , 10*x1a_t , 10*y1a_t, 10*x2a_t,10* y2a_t , 'r');
-
-        }
-    }
+//    drawHyper(0.25, hyper_c, 0);
+//    drawHyper(0.25, hyper_c, 120);
+//    drawHyper(0.05, hyper_c, 240);
 
 
-*/
+
 
 }
 
@@ -919,8 +883,6 @@ void trakkermodel::runCorrelation(){  // if all signals have to be processed ? o
 
 
 
-
-
             // // for correlation of signals 3-4
             for (int j = 0 ; j < bufferSize; j ++){
                 filter[j] = corr[ 5 ][j];  // create input
@@ -1164,6 +1126,8 @@ void trakkermodel::setDisconnection(){
     q_pSocket->disconnectFromHost();
     //if(q_pSocket->disconnected())
     connectionState = 0 ;
+    m_parsedData.clear();
+    m_triggeredData.clear();
 }
 
 void trakkermodel::tcpError( QAbstractSocket::SocketError socketError ) {
